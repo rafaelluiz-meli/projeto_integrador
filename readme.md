@@ -5,6 +5,7 @@ Lorem ipsum
 ## Documentation
 
 [Documentation can be found here](/document)
+[Access our changelog clicking here](/document/changelog.md)
 
 
 ## Installation
