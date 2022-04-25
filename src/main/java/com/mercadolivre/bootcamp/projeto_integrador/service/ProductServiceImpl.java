@@ -17,6 +17,17 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
 
+    @Override
+    public Boolean availableStockQuantity(Integer orderProductQuantity) {
+        // TODO: 25/04/22 Verify BatchStock by product id and return quantity available;
+        return null;
+    }
+
+    @Override
+    public Boolean validateProductDueDate(String productId) {
+        return null;
+    }
+
     // METHOD TO CREATE PRODUCT
     @Override
     public Product create(NewProductDto newProductDto) {
@@ -32,6 +43,22 @@ public class ProductServiceImpl implements ProductService {
                                 .build();
 
         return productRepository.save(product);
+    }
+
+    // Method to update product
+
+    @Override
+    public Product update(Product receivedProduct) {
+
+        Product currentProduct = productRepository.findById(receivedProduct.getId()).orElseThrow(() -> new InvalidProductException(receivedProduct.getId()));
+
+        currentProduct.setProductName(receivedProduct.getProductName());
+        currentProduct.setCategory(receivedProduct.getCategory());
+        currentProduct.setVolume(receivedProduct.getVolume());
+        currentProduct.setMinimumTemperature(receivedProduct.getMinimumTemperature());
+        currentProduct.setMaxTemperature(receivedProduct.getMaxTemperature());
+
+        return productRepository.save(currentProduct);
     }
 
 

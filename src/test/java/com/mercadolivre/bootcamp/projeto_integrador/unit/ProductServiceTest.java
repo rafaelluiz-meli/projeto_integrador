@@ -147,4 +147,20 @@ public class ProductServiceTest {
         // Assert result
         assertThrows(InvalidProductException.class, () -> productService.delete(any()));
     }
+    
+    @Test
+    @DisplayName("it should update an existing product")
+    public void shouldUpdateExistingProduct() {
+        // Arrange tests
+        Product product         = Product.builder().id("1").productName("Test").build();
+        Product productResponse         = Product.builder().id("1").productName("Test2").build();
+
+        // Execute action
+        Mockito.when(productRepository.findById(any())).thenReturn(Optional.of(product));
+        Mockito.when(productRepository.save(any())).thenReturn(productResponse);
+        Product result = productService.update(productResponse);
+
+        // Assert result
+        assertEquals(productResponse, result);
+    }
 }
