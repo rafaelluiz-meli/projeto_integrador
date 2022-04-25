@@ -8,5 +8,4 @@ import java.util.List;
 
 @Repository
 public interface InBoundOrderRepository extends JpaRepository<InBoundOrder, Long> {
-    List<InBoundOrder> findAllByInBoundOrderNumber(Long inBoundOrderNumber);
 }
