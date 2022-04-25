@@ -29,6 +29,12 @@ public class BatchStockServiceImpl implements BatchStockService{
 
     @Override
     public BatchStock update(BatchStock batchStock) {
+        BatchStock updatedBatchStock = findById(batchStock.getBatchNumber());
+        updatedBatchStock.setCurrentQuantity(batchStock.getCurrentQuantity());
+        updatedBatchStock.setPrice(batchStock.getPrice());
+        updatedBatchStock.setDueDate(batchStock.getDueDate());
+        updatedBatchStock.setManufacturingDate(batchStock.getManufacturingDate());
+        updatedBatchStock.setManufacturingTime(batchStock.getManufacturingTime());
         return repository.save(batchStock);
     }
 
