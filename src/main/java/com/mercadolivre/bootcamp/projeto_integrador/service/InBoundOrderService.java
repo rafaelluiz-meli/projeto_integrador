@@ -8,4 +8,5 @@ public interface InBoundOrderService {
     List<InBoundOrder> read();
     InBoundOrder update(InBoundOrder inBoundOrder);
     void delete(Long inBoundOrderNumber);
+    InBoundOrder findById(Long inBoundOrderNumber);
 }

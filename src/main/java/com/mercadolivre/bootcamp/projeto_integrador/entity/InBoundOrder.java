@@ -13,7 +13,9 @@ public class InBoundOrder {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long inBoundOrderNumber;
     private LocalDate inBoundOrderDate;
-//    private List<Batchstock> batchStockList;
+    //Todo: List of BatchStock
+//    private List<BatchStock> batchStockList;
+    //Todo:
 //    @OneToOne
 //    @JoinColumn(name = "representative_id")
 //    private Representative representativeId;
