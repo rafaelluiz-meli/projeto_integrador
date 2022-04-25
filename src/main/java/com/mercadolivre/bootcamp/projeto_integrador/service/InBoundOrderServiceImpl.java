@@ -26,8 +26,9 @@ public class InBoundOrderServiceImpl implements InBoundOrderService{
     public InBoundOrder update(InBoundOrder inBoundOrder){
         InBoundOrder updateInBoundOrder = findById(inBoundOrder.getInBoundOrderNumber());
         updateInBoundOrder.setInBoundOrderDate(inBoundOrder.getInBoundOrderDate());
-        updateInBoundOrder.setBatchStockList(inBoundOrder.getBatchStockList());
-        updateInBoundOrder.setRepresentativeId(inBoundOrder.getRepresentativeId());
+        //Todo: finish implementation of commented lines below
+//        updateInBoundOrder.setBatchStockList(inBoundOrder.getBatchStockList());
+//        updateInBoundOrder.setRepresentativeId(inBoundOrder.getRepresentativeId());
         return repository.save(updateInBoundOrder);
     }
 
