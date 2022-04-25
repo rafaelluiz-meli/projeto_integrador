@@ -2,12 +2,15 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewSectionDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.SectionNotFound;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.SectionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +34,7 @@ public class SectionServiceImpl implements ISectionService {
 
     @Override
     public Section getSectionById(String sectionId) {
-        Section getSectionById = sectionRepository.getById(sectionId);
+        Section getSectionById = sectionRepository.findById(sectionId).orElseThrow(() -> new SectionNotFound("Id da secao não é valido", HttpStatus.NOT_FOUND, ZonedDateTime.now()));
         return getSectionById;
     }
 
@@ -49,34 +52,30 @@ public class SectionServiceImpl implements ISectionService {
             Section sectionUpdate = new Section();
 
             sectionUpdate.setCapacity(section.getCapacity());
-            sectionUpdate.setType(section.getType());
             sectionUpdate.setCategory(section.getCategory());
             sectionUpdate.setCapacity(section.getCapacity());
             sectionUpdate.setListInBoundOrder(section.getListInBoundOrder());
             sectionUpdate.setWarehouseId(section.getWarehouseId());
 
-            return sectionUpdate;
 
+            return sectionRepository.save(sectionUpdate);
         }
 
-        throw new RuntimeException("Id não encontrado");
+        throw new SectionNotFound("Id da secao não é valido", HttpStatus.NOT_FOUND, ZonedDateTime.now());
 
     }
 
     @Override
     public boolean isSectionValid(String sectionID) {
 
-        if (!sectionID.isBlank() || !sectionID.isEmpty()) {
+        if (!sectionID.isBlank() && !sectionID.isEmpty()) {
             Optional<Section> sectionOptional = sectionRepository.findById(sectionID);
 
             if (sectionOptional.isPresent()) {
                 return true;
             }
-
             return false;
-
         }
-
         return false;
     }
 
@@ -85,7 +84,7 @@ public class SectionServiceImpl implements ISectionService {
 
         Section getSection = getSectionById(sectionId);
 
-        if (getSection.getCapacity().compareTo(totalVolume) == 0) {
+        if (getSection.getCapacity().compareTo(totalVolume) == 0 || getSection.getCapacity().compareTo(totalVolume) < 0) {
             return false;
         }
 
