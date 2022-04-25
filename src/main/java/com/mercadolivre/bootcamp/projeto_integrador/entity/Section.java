@@ -1,14 +1,11 @@
 package com.mercadolivre.bootcamp.projeto_integrador.entity;
 
-import jdk.dynalink.linker.LinkerServices;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -16,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class Section {
 
     @Id
@@ -24,7 +22,9 @@ public class Section {
     private String type;
     private BigDecimal capacity;
     private float currentTemperature;
-    private List<inBoundOrder> listInBoundOrder;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<InBoundOrder> listInBoundOrder;
+    @Enumerated(EnumType.STRING)
     private Category category;
     private String warehouseId;
 
