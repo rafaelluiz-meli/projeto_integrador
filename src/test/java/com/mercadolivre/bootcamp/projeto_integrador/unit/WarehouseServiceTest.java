@@ -12,9 +12,13 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.swing.text.html.Option;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 
@@ -29,12 +33,31 @@ public class WarehouseServiceTest {
     //Arrange
     String warehouseId = "teste";
     Warehouse warehouse = Warehouse.builder().warehouseId(warehouseId).build();
+    public LinkedList<Warehouse> warehouseList = new LinkedList<>();
+
+
     final Optional<Warehouse> optionalWarehouse = Optional.of(warehouse);
+    final Optional<List<Warehouse>> optionalListWarehouse = Optional.of(warehouseList);
 
 
     @Test
-    void deveAcharWarehouse(){
+    void shouldFindWarehouseById(){
         //Arrange
+        WarehouseRepository wareHouseRepository = Mockito.mock(WarehouseRepository.class);
+        Warehouse warehouse = Warehouse.builder().warehouseId(warehouseId).build();
+        WarehouseServiceImpl warehouseService = new WarehouseServiceImpl(wareHouseRepository);
+        warehouseService.save(warehouse);
+        warehouseList.add(warehouse);
+
+        //Act
+        Mockito.when(wareHouseRepository.findAll()).thenReturn(warehouseList);
+        List<Warehouse> whList = warehouseService.findAll();
+
+        //Assert
+        assertNotNull(whList);
+    }
+
+    void shouldFindAllWarehouses(){
         WarehouseRepository wareHouseRepository = Mockito.mock(WarehouseRepository.class);
         Warehouse warehouse = Warehouse.builder().warehouseId(warehouseId).build();
         WarehouseServiceImpl warehouseService = new WarehouseServiceImpl(wareHouseRepository);
@@ -44,13 +67,9 @@ public class WarehouseServiceTest {
         Mockito.when(wareHouseRepository.findById(anyString())).thenReturn(optionalWarehouse);
         Warehouse wh = warehouseService.findById(warehouseId);
 
-        //Assert
-        assertEquals(wh.getWarehouseId(),"teste");
-
-
-
-
     }
 }
+
+
 
 
