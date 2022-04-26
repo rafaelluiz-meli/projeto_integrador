@@ -70,14 +70,19 @@ public class ProductServiceImpl implements ProductService {
         productRepository.delete(product);
     }
 
+    @Override
+    public Product findByProductId(String id) {
+        return productRepository.findById(id).orElseThrow(() -> new InvalidProductException(id));
+    }
+
     // METHODS TO FIND PRODUCT OR LIST OF PRODUCTS
     @Override
-    public Product find(String productName) {
-        return productRepository.findByProductName(productName).orElse(null);
+    public Product findByProductName(String productName) {
+        return productRepository.findByProductName(productName).orElseThrow(() -> new InvalidProductException(productName));
     }
 
     @Override
-    public List<Product> find(Category category) {
+    public List<Product> findAllByCategory(Category category) {
         return productRepository.findAllByCategory(category);
     }
 

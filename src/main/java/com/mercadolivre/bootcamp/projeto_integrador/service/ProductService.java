@@ -14,8 +14,9 @@ public interface ProductService {
     Product create(NewProductDto newProductDto);
     Product update (Product receivedProduct);
     void delete(String id);
-    Product find(String productName);
-    List<Product> find(Category category);
+    Product findByProductId(String id);
+    Product findByProductName(String productName);
+    List<Product> findAllByCategory(Category category);
     List<Product> findAll(String salesmanId);
     List<Product> findAll();
 }
