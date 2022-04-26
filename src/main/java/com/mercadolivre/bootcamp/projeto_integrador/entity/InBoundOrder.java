@@ -7,13 +7,15 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity @Getter @Setter
+@Data
+@Entity
 public class InBoundOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long inBoundOrderNumber;
     private LocalDate inBoundOrderDate;
     //Todo: List of BatchStock
+//    @OneToOne(cacade = CascadeType.ALL, fetch = FetchType.EAGER)
 //    private List<BatchStock> batchStockList;
     //Todo:
 //    @OneToOne

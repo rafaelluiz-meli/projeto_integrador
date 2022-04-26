@@ -1,45 +1,59 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
-import com.mercadolivre.bootcamp.projeto_integrador.entity.InBoundOrder;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.NewInBoundOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.InBoundOrderIdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.InBoundOrderRepository;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.InBoundOrder;
+import lombok.AllArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class InBoundOrderServiceImpl implements InBoundOrderService{
-    private InBoundOrderRepository repository;
+    private InBoundOrderRepository inBoundOrderrepository;
 
     @Override
-    public InBoundOrder create(InBoundOrder inBoundOrder){
+    public InBoundOrder addInBoundOrder(NewInBoundOrderDTO inBoundOrderDTO){
         //Todo: validation of section, warehouse and representative
-        return repository.save(inBoundOrder);
+        InBoundOrder savedInBoundOrderDTO = inBoundOrderrepository.save(NewInBoundOrderDTO.convert(inBoundOrderDTO));
+        return savedInBoundOrderDTO;
     }
 
     @Override
-    public List<InBoundOrder> read(){
-        return repository.findAll();
+    public List<InBoundOrder> getAllInBoundOrder(){
+        List<InBoundOrder> listInBoundOrder = inBoundOrderrepository.findAll();
+        return listInBoundOrder;
     }
 
     @Override
-    public InBoundOrder update(InBoundOrder inBoundOrder){
-        InBoundOrder updateInBoundOrder = findById(inBoundOrder.getInBoundOrderNumber());
-        updateInBoundOrder.setInBoundOrderDate(inBoundOrder.getInBoundOrderDate());
+    public InBoundOrder getInBoundOrderById(Long inBoundOrderNumber){
+        InBoundOrder getInBoundOrderById = inBoundOrderrepository.findById(inBoundOrderNumber).orElseThrow(() ->
+                new InBoundOrderIdNotFoundException(inBoundOrderNumber));
+        return getInBoundOrderById;
+    }
+
+    @Override
+    public InBoundOrder updateInBoundOrder(InBoundOrder inBoundOrder){
+        InBoundOrder getInBoundOrderById = inBoundOrderrepository.findById(inBoundOrder.getInBoundOrderNumber()).orElseThrow(() ->
+                new InBoundOrderIdNotFoundException(inBoundOrder.getInBoundOrderNumber()));
+
+        getInBoundOrderById.setInBoundOrderDate(inBoundOrder.getInBoundOrderDate());
         //Todo: finish implementation of commented lines below
-//        updateInBoundOrder.setBatchStockList(inBoundOrder.getBatchStockList());
-//        updateInBoundOrder.setRepresentativeId(inBoundOrder.getRepresentativeId());
-        return repository.save(updateInBoundOrder);
+//        getInBoundOrderById.setBatchStockList(inBoundOrder.getBatchStockList());
+//        getInBoundOrderById.setRepresentativeId(inBoundOrder.getRepresentativeId());
+        return inBoundOrderrepository.save(getInBoundOrderById);
     }
 
     @Override
-    public void delete(Long inBoundOrderNumber){
-        InBoundOrder inBoundOrder = findById(inBoundOrderNumber);
-        repository.delete(inBoundOrder);
-    }
-
-    @Override
-    public InBoundOrder findById(Long inBoundOrderNumber){
-        return repository.findById(inBoundOrderNumber).orElseThrow(() -> new InBoundOrderIdNotFoundException(inBoundOrderNumber));
+    public void deleteInBoundOrder(Long inBoundOrderNumber){
+        InBoundOrder inBoundOrder = getInBoundOrderById(inBoundOrderNumber);
+        inBoundOrderrepository.delete(inBoundOrder);
+        try {
+            inBoundOrderrepository.deleteById(inBoundOrderNumber);
+        } catch (EmptyResultDataAccessException e) {
+            new InBoundOrderIdNotFoundException(inBoundOrderNumber);
+        }
     }
 }
