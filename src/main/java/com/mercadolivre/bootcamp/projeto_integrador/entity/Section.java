@@ -7,25 +7,24 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Builder
-public class Product {
+public class Section {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
-    private String productName;
-    private BigDecimal volume;
-    private Float minimumTemperature;
-    private Float maxTemperature;
+    private String sectionId;
+    private BigDecimal capacity;
+    private float currentTemperature;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<InBoundOrder> listInBoundOrder;
     @Enumerated(EnumType.STRING)
     private Category category;
-    @ManyToOne
-    @JoinColumn(name = "salesman_id")
-    private Salesman salesman;
+    private String warehouseId;
 
 }

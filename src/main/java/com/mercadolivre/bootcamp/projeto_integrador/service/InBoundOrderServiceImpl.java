@@ -38,9 +38,8 @@ public class InBoundOrderServiceImpl implements InBoundOrderService{
                 new InBoundOrderIdNotFoundException(inBoundOrder.getInBoundOrderNumber()));
 
         updateInBoundOrderById.setInBoundOrderDate(inBoundOrder.getInBoundOrderDate());
-        //Todo: finish implementation of commented lines below
-//        getInBoundOrderById.setBatchStockList(inBoundOrder.getBatchStockList());
-//        getInBoundOrderById.setRepresentativeId(inBoundOrder.getRepresentativeId());
+        updateInBoundOrderById.setBatchStock(inBoundOrder.getBatchStock());
+        updateInBoundOrderById.setRepresentativeId(inBoundOrder.getRepresentativeId());
         return inBoundOrderrepository.save(updateInBoundOrderById);
     }
 

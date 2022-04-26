@@ -1,6 +1,9 @@
 package com.mercadolivre.bootcamp.projeto_integrador.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -14,11 +17,8 @@ public class InBoundOrder {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long inBoundOrderNumber;
     private LocalDate inBoundOrderDate;
-    //Todo: List of BatchStock
-//    @OneToOne(cacade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    private List<BatchStock> batchStockList;
-    //Todo:
-//    @OneToOne
-//    @JoinColumn(name = "representative_id")
-//    private Representative representativeId;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private BatchStock batchStock;
+    private String representativeId;
 }
+
