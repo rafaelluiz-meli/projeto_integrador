@@ -7,6 +7,6 @@ import java.time.ZonedDateTime;
 public class BatchStockIdNotFoundException extends BaseException{
 
     public BatchStockIdNotFoundException(Long id) {
-        super("The id " + id + " not found.", HttpStatus.NOT_FOUND, ZonedDateTime.now());
+        super("O id " + id + " não foi encontrado.", HttpStatus.NOT_FOUND, ZonedDateTime.now());
     }
 }
