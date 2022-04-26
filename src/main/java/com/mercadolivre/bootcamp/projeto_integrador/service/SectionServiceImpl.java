@@ -6,17 +6,15 @@ import com.mercadolivre.bootcamp.projeto_integrador.exception.SectionNotFound;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.SectionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class SectionServiceImpl implements ISectionService {
+public class SectionServiceImpl implements SectionService {
 
     private final SectionRepository sectionRepository;
 
@@ -35,7 +33,7 @@ public class SectionServiceImpl implements ISectionService {
     @Override
     public Section getSectionById(String sectionId) {
         Section getSectionById = sectionRepository.findById(sectionId).orElseThrow(() ->
-                new SectionNotFound("Id da secao não é valido", HttpStatus.NOT_FOUND, ZonedDateTime.now()));
+                new SectionNotFound(sectionId));
         return getSectionById;
     }
 
@@ -44,13 +42,13 @@ public class SectionServiceImpl implements ISectionService {
         try {
             sectionRepository.deleteById(sectionId);
         } catch (EmptyResultDataAccessException e) {
-            new SectionNotFound("Id da secao não foi encontrado!", HttpStatus.NOT_FOUND, ZonedDateTime.now());
+            new SectionNotFound(sectionId);
         }
     }
 
     @Override
     public Section updateSection(Section section) {
-        Section getSectionId = sectionRepository.findById(section.getSectionId()).orElseThrow(() -> new SectionNotFound("Id da secao não é valido", HttpStatus.NOT_FOUND, ZonedDateTime.now()));
+        Section getSectionId = sectionRepository.findById(section.getSectionId()).orElseThrow(() -> new SectionNotFound(section.getSectionId()));
 
         getSectionId.setCapacity(section.getCapacity());
         getSectionId.setCategory(section.getCategory());
@@ -72,7 +70,6 @@ public class SectionServiceImpl implements ISectionService {
             if (sectionOptional.isPresent()) {
                 return true;
             }
-            return false;
         }
         return false;
     }

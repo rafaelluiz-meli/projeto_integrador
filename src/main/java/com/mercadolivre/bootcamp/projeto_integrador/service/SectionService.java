@@ -6,7 +6,7 @@ import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface ISectionService {
+public interface SectionService {
 
     Section addSection(NewSectionDTO sectionDTO);
     List<Section> getAllSection();
