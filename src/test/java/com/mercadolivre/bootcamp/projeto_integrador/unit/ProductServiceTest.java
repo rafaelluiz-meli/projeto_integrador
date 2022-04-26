@@ -20,6 +20,7 @@ import static org.mockito.Mockito.doNothing;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,22 @@ public class ProductServiceTest {
     }
 
     @Test
+    @DisplayName("it should find a product by id")
+    public void shouldFindProductById() {
+        // Arrange tests
+        Product product = Product.builder()
+                                .id("Id")
+                                .build();
+
+        // Execute actions
+        Mockito.when(productRepository.findById(any())).thenReturn(Optional.of(product));
+        Product result = productService.findByProductId("Id");
+
+        // Assert result
+        assertEquals(product, result);
+    }
+
+    @Test
     @DisplayName("it should find a product by name")
     public void shouldFindProductByName() {
         // Arrange tests
@@ -65,8 +82,34 @@ public class ProductServiceTest {
     }
 
     @Test
+    @DisplayName("it should find all by product name")
+    public void shouldFindAllByProductName() {
+        // Arrange tests
+        Product product = Product.builder().build();
+        List<Product> productList = Arrays.asList(product, product);
+
+        // Execute action
+        Mockito.when(productRepository.findAllByProductName(any())).thenReturn(productList);
+        List<Product> resultList = productService.findAllByProductName("name");
+
+        // Assert result
+        assertEquals(productList, resultList);
+    }
+
+    @Test
+    @DisplayName("it should not throw error when trying to find products with invalid name")
+    public void shouldNotFindAllByProductName() {
+        //Arrange
+        List<Product> productList = Collections.emptyList();
+        Mockito.when(productRepository.findAllByProductName(any())).thenReturn(productList);
+
+        // Exec
+        assertThrows(InvalidProductException.class, () -> productService.findAllByProductName("Product"));
+    }
+
+    @Test
     @DisplayName("it should find a product by category")
-    public void shouldFindProductByCategory() {
+    public void shouldFindAllProductByCategory() {
         // Arrange tests
         Product product = Product.builder().category(any()).build();
         List<Product> productList = Arrays.asList(product, product);
@@ -80,6 +123,17 @@ public class ProductServiceTest {
     }
 
     @Test
+    @DisplayName("it should not throw error when trying to find products with invalid name")
+    public void shouldNotFindAllProductByCategory() {
+        //Arrange
+        List<Product> productList = Collections.emptyList();
+        Mockito.when(productRepository.findAllByCategory(any())).thenReturn(productList);
+
+        // Exec
+        assertThrows(InvalidProductException.class,() -> productService.findAllByCategory(Category.FRESH));
+    }
+
+    @Test
     @DisplayName("it should find a product list by salesman id")
     public void shouldFindProductListBySalesmanId() {
         // Arrange tests
@@ -88,10 +142,21 @@ public class ProductServiceTest {
 
         // Execute action
         Mockito.when(productRepository.findAllBySalesman_Id("any")).thenReturn(productList);
-        List<Product> resultList = productService.findAll(any());
+        List<Product> resultList = productService.findAllBySalesmanId(any());
 
         // Assert result
         assertEquals(resultList, productList);
+    }
+
+    @Test
+    @DisplayName("it should throw error when trying to find products with invalid salesmanid")
+    public void shouldNotFindAllBySalesmanId() {
+        //Arrange
+        List<Product> productList = Collections.emptyList();
+        Mockito.when(productRepository.findAllBySalesman_Id(any())).thenReturn(productList);
+
+        // Exec
+        assertThrows(InvalidProductException.class,() -> productService.findAllBySalesmanId("a"));
     }
 
     @Test
@@ -108,6 +173,17 @@ public class ProductServiceTest {
 
         // Assert result
         assertEquals(resultList, productList);
+    }
+
+    @Test
+    @DisplayName("it should throw error when productlist is empty")
+    public void shouldNotFindAllProductList() {
+        //Arrange
+        List<Product> productList = Collections.emptyList();
+        Mockito.when(productRepository.findAll()).thenReturn(productList);
+
+        // Exec
+        assertThrows(InvalidProductException.class,() -> productService.findAll());
     }
 
     @Test

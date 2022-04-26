@@ -97,7 +97,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAll(String salesmanId) {
+    public List<Product> findAllBySalesmanId(String salesmanId) {
         List<Product> productList = productRepository.findAllBySalesman_Id(salesmanId);
         if (productList.isEmpty()) throw new InvalidProductException(salesmanId);
         return productList;
