@@ -35,7 +35,7 @@ public class WarehouseServiceTest {
     Warehouse warehouse = Warehouse.builder().warehouseId(warehouseId).build();
     public LinkedList<Warehouse> warehouseList = new LinkedList<>();
 
-
+    //creating optionals
     final Optional<Warehouse> optionalWarehouse = Optional.of(warehouse);
     final Optional<List<Warehouse>> optionalListWarehouse = Optional.of(warehouseList);
 
@@ -60,6 +60,7 @@ public class WarehouseServiceTest {
 
     @Test
     void shouldFindWarehouseById(){
+        //Arrange
         WarehouseRepository wareHouseRepository = Mockito.mock(WarehouseRepository.class);
         Warehouse warehouse = Warehouse.builder().warehouseId(warehouseId).build();
         WarehouseServiceImpl warehouseService = new WarehouseServiceImpl(wareHouseRepository);
@@ -70,12 +71,14 @@ public class WarehouseServiceTest {
         Mockito.when(wareHouseRepository.findById(anyString())).thenReturn(optionalWarehouse);
         Warehouse wh = warehouseService.findById(warehouseId);
 
+        //assert
         assertEquals(wh.getWarehouseId(),warehouseId);
 
     }
 
     @Test
     void shouldValidWarehouse(){
+        //Arrange
         WarehouseRepository wareHouseRepository = Mockito.mock(WarehouseRepository.class);
         Warehouse warehouse = Warehouse.builder().warehouseId(warehouseId).build();
         WarehouseServiceImpl warehouseService = new WarehouseServiceImpl(wareHouseRepository);
