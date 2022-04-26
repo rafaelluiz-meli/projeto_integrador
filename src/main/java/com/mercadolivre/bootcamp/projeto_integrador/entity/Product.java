@@ -22,7 +22,7 @@ public class Product {
     private BigDecimal volume;
     private Float minimumTemperature;
     private Float maxTemperature;
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Category category;
     @ManyToOne
     @JoinColumn(name = "salesman_id")
