@@ -58,7 +58,7 @@ public class ProductServiceTest {
 
         // Execute action
         Mockito.when(productRepository.findByProductName(any())).thenReturn(Optional.of(product1));
-        Product result = productService.find("Product");
+        Product result = productService.findByProductName("Product");
 
         // Assert result
         assertEquals(product1, result);
@@ -73,7 +73,7 @@ public class ProductServiceTest {
 
         // Execute action
         Mockito.when(productRepository.findAllByCategory(Category.FRESH)).thenReturn(productList);
-        List<Product> resultList = productService.find(Category.FRESH);
+        List<Product> resultList = productService.findAllByCategory(Category.FRESH);
 
         // Assert result
         assertEquals(productList, resultList);
