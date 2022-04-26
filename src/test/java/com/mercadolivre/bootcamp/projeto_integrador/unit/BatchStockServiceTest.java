@@ -32,9 +32,9 @@ public class BatchStockServiceTest {
 
     Long id = 1L;
     String productId = "1L";
-    BatchStock batchStock1 = BatchStock.builder().batchNumber(1L).product(new Product("1L")).build();
-    BatchStock batchStock2 = BatchStock.builder().batchNumber(2L).product(new Product("1L")).build();
-    BatchStock batchStock3 = BatchStock.builder().batchNumber(3L).product(new Product("1L")).build();
+    BatchStock batchStock1 = BatchStock.builder().batchNumber(1L).product(Product.builder().id("1L").build()).build();
+    BatchStock batchStock2 = BatchStock.builder().batchNumber(2L).product(Product.builder().id("1L").build()).build();
+    BatchStock batchStock3 = BatchStock.builder().batchNumber(3L).product(Product.builder().id("1L").build()).build();
     List<BatchStock> batchStockList = Arrays.asList(batchStock1,batchStock2,batchStock3);
 
     @Test
