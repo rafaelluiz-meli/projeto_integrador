@@ -2,6 +2,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewSalesmanDto;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Salesman;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.SalesmanDoesNotExistException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.SalesmanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,9 @@ public class SalesmanServiceImpl implements SalesmanService {
 
     @Override
     public Salesman findSalesman(String salesmanId) {
-        // INSERIR EXCECAO
-        return salesmanRepository.findById(salesmanId).orElse(new Salesman());
+        return salesmanRepository.findById(salesmanId).
+                orElseThrow(() -> new SalesmanDoesNotExistException(
+                        "o vendedor informado não pôde ser identificado."));
     }
 
     @Override
@@ -35,10 +37,10 @@ public class SalesmanServiceImpl implements SalesmanService {
 
     @Override
     public void removeSalesman(String salesmanId) {
-        // VERIFICAR SE ESTÁ CORRETO
         salesmanRepository.delete(findSalesman(salesmanId));
     }
 
+    @Override
     public Salesman updateSalesman(String salesmanId, Salesman salesman){
         Optional<Salesman> getSalesmanId = salesmanRepository.findById(salesmanId);
         Salesman newSalesman;
@@ -47,8 +49,9 @@ public class SalesmanServiceImpl implements SalesmanService {
             newSalesman = new Salesman();
             newSalesman.setFullName(salesman.getFullName());
             return salesmanRepository.save(newSalesman);
+        } else {
+            throw new SalesmanDoesNotExistException(
+                    "o vendedor não foi atualizado pois o id informado não pôde ser identificado.");
         }
-        // FAZER TRATATIVA DE ERRO
-        return new Salesman();
     }
 }
