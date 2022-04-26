@@ -1,6 +1,7 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Representative;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
