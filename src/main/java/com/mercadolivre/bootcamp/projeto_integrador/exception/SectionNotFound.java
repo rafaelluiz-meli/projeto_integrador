@@ -6,7 +6,7 @@ import java.time.ZonedDateTime;
 
 public class SectionNotFound extends BaseException{
 
-    public SectionNotFound(String message, HttpStatus httpStatus, ZonedDateTime timestamp) {
-        super(message, httpStatus, timestamp);
+    public SectionNotFound(String message) {
+        super("A section com ID: " + message, HttpStatus.NOT_FOUND, ZonedDateTime.now());
     }
 }
