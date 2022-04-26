@@ -14,6 +14,7 @@ public class BatchStockServiceImpl implements BatchStockService{
 
     @Override
     public BatchStock create(BatchStock batchStock) {
+        // Todo: Verify if Product exists in Entity Product
         return repository.save(batchStock);
     }
 
