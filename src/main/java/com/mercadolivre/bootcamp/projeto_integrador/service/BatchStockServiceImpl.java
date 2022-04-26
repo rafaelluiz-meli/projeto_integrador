@@ -4,14 +4,16 @@ import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.BatchStockIdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.InvalidProductException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.BatchStockRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@AllArgsConstructor
 @Service
 public class BatchStockServiceImpl implements BatchStockService{
 
-    private BatchStockRepository repository;
+    private final BatchStockRepository repository;
 
     @Override
     public BatchStock create(BatchStock batchStock) {
