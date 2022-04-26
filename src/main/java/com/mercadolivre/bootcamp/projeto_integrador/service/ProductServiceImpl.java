@@ -82,17 +82,31 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> findAllByProductName(String productName) {
+        List<Product> productList = productRepository.findAllByProductName(productName);
+        if (productList.isEmpty()) throw new InvalidProductException(productName);
+
+        return productList;
+    }
+
+    @Override
     public List<Product> findAllByCategory(Category category) {
-        return productRepository.findAllByCategory(category);
+        List<Product> productList = productRepository.findAllByCategory(category);
+        if (productList.isEmpty()) throw new InvalidProductException(category.toString());
+        return productList;
     }
 
     @Override
     public List<Product> findAll(String salesmanId) {
-        return productRepository.findAllBySalesman_Id(salesmanId);
+        List<Product> productList = productRepository.findAllBySalesman_Id(salesmanId);
+        if (productList.isEmpty()) throw new InvalidProductException(salesmanId);
+        return productList;
     }
 
     @Override
     public List<Product> findAll() {
-        return productRepository.findAll();
+        List<Product> productList = productRepository.findAll();
+        if (productList.isEmpty()) throw new InvalidProductException("Empty");
+        return productList;
     }
 }
