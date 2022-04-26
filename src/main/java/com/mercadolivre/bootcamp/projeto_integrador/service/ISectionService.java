@@ -12,7 +12,7 @@ public interface ISectionService {
     List<Section> getAllSection();
     Section getSectionById(String sectionId);
     void deleteSection(String sectionId);
-    Section updateSection(String id, Section section);
+    Section updateSection(Section section);
     boolean isSectionValid(String sectionID);
     boolean availableSectionCapacity(BigDecimal totalVolume, String sectionId);
 

@@ -34,36 +34,34 @@ public class SectionServiceImpl implements ISectionService {
 
     @Override
     public Section getSectionById(String sectionId) {
-        Section getSectionById = sectionRepository.findById(sectionId).orElseThrow(() -> new SectionNotFound("Id da secao não é valido", HttpStatus.NOT_FOUND, ZonedDateTime.now()));
+        Section getSectionById = sectionRepository.findById(sectionId).orElseThrow(() ->
+                new SectionNotFound("Id da secao não é valido", HttpStatus.NOT_FOUND, ZonedDateTime.now()));
         return getSectionById;
     }
 
     @Override
     public void deleteSection(String sectionId) {
-        sectionRepository.deleteById(sectionId);
+        try {
+            sectionRepository.deleteById(sectionId);
+        } catch (EmptyResultDataAccessException e) {
+            new SectionNotFound("Id da secao não foi encontrado!", HttpStatus.NOT_FOUND, ZonedDateTime.now());
+        }
     }
 
     @Override
-    public Section updateSection(String sectionId, Section section) {
-        Optional<Section> getSectionId = sectionRepository.findById(sectionId);
+    public Section updateSection(Section section) {
+        Section getSectionId = sectionRepository.findById(section.getSectionId()).orElseThrow(() -> new SectionNotFound("Id da secao não é valido", HttpStatus.NOT_FOUND, ZonedDateTime.now()));
 
-        if (getSectionId.isPresent()) {
-
-            Section sectionUpdate = new Section();
-
-            sectionUpdate.setCapacity(section.getCapacity());
-            sectionUpdate.setCategory(section.getCategory());
-            sectionUpdate.setCapacity(section.getCapacity());
-            sectionUpdate.setListInBoundOrder(section.getListInBoundOrder());
-            sectionUpdate.setWarehouseId(section.getWarehouseId());
+        getSectionId.setCapacity(section.getCapacity());
+        getSectionId.setCategory(section.getCategory());
+        getSectionId.setCapacity(section.getCapacity());
+        getSectionId.setListInBoundOrder(section.getListInBoundOrder());
+        getSectionId.setWarehouseId(section.getWarehouseId());
 
 
-            return sectionRepository.save(sectionUpdate);
-        }
-
-        throw new SectionNotFound("Id da secao não é valido", HttpStatus.NOT_FOUND, ZonedDateTime.now());
-
+        return sectionRepository.save(getSectionId);
     }
+
 
     @Override
     public boolean isSectionValid(String sectionID) {
