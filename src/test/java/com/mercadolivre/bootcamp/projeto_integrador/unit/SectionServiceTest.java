@@ -114,7 +114,7 @@ public class SectionServiceTest {
 
         Mockito.when(sectionRepository.findById(any())).thenReturn(sectionOptional);
         Mockito.when(sectionRepository.save(any())).thenReturn(section);
-        Section sectionUpdated = sectionService.updateSection(any(), section);
+        Section sectionUpdated = sectionService.updateSection(section);
 
         //Assert
 
@@ -152,7 +152,7 @@ public class SectionServiceTest {
         //Assert
         Assertions.assertThrows(SectionNotFound.class,
                 () -> {
-                    sectionService.updateSection("100000", section);
+                    sectionService.updateSection(section);
                 });
     }
 
