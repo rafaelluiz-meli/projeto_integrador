@@ -84,6 +84,7 @@ public class SectionServiceImpl implements ISectionService {
 
         if (getSection.getCapacity().compareTo(totalVolume) == 0 || getSection.getCapacity().compareTo(totalVolume) < 0) {
             return false;
+
         }
 
         return true;
