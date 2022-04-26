@@ -6,6 +6,7 @@ import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.SectionNotFound;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.SectionRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.SectionService;
+import com.mercadolivre.bootcamp.projeto_integrador.service.SectionServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,7 +33,7 @@ public class SectionServiceTest {
     private SectionRepository sectionRepository;
 
     @InjectMocks
-    private SectionService sectionService;
+    private SectionServiceImpl sectionService;
 
     @Test
     void shouldSaveNewSection() {
