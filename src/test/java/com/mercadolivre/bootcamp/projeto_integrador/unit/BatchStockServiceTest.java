@@ -3,6 +3,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.unit;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.BatchStockIdNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.InvalidProductException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.BatchStockRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockServiceImpl;
 import org.junit.jupiter.api.DisplayName;
@@ -124,7 +125,6 @@ public class BatchStockServiceTest {
     @Test
     @DisplayName("It should not do list all BatchStocks by product id when it not exists.")
     public void shouldNotListBatchStockByProductIdWhenProductIdNotExists(){
-        // Todo : invalidProductIdException
-        // assertThrows(ExceptionClass.class, () -> service.findAllByProductId(anyString()));
+        assertThrows(InvalidProductException.class, () -> service.findAllByProductId(anyString()));
     }
 }
