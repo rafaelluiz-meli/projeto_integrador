@@ -17,8 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 
@@ -35,6 +34,7 @@ public class WarehouseServiceTest {
     Warehouse warehouse = Warehouse.builder().warehouseId(warehouseId).build();
     public LinkedList<Warehouse> warehouseList = new LinkedList<>();
 
+
     //creating optionals
     final Optional<Warehouse> optionalWarehouse = Optional.of(warehouse);
     final Optional<List<Warehouse>> optionalListWarehouse = Optional.of(warehouseList);
@@ -42,31 +42,19 @@ public class WarehouseServiceTest {
 
     @Test
     void shouldFindAllWarehouses(){
-        //Arrange
-        WarehouseRepository wareHouseRepository = Mockito.mock(WarehouseRepository.class);
-        Warehouse warehouse = Warehouse.builder().warehouseId(warehouseId).build();
-        WarehouseServiceImpl warehouseService = new WarehouseServiceImpl(wareHouseRepository);
-        warehouseService.save(warehouse);
+        //Prepare
         warehouseList.add(warehouse);
-
 
         //Act
         Mockito.when(wareHouseRepository.findAll()).thenReturn(warehouseList);
         List<Warehouse> whList = warehouseService.findAll();
 
         //Assert
-        assertNotNull(whList);
+        assertEquals(whList,warehouseList);
     }
 
     @Test
     void shouldFindWarehouseById(){
-        //Arrange
-        WarehouseRepository wareHouseRepository = Mockito.mock(WarehouseRepository.class);
-        Warehouse warehouse = Warehouse.builder().warehouseId(warehouseId).build();
-        WarehouseServiceImpl warehouseService = new WarehouseServiceImpl(wareHouseRepository);
-        warehouseService.save(warehouse);
-
-
         //Act
         Mockito.when(wareHouseRepository.findById(anyString())).thenReturn(optionalWarehouse);
         Warehouse wh = warehouseService.findById(warehouseId);
@@ -78,19 +66,25 @@ public class WarehouseServiceTest {
 
     @Test
     void shouldValidWarehouse(){
-        //Arrange
-        WarehouseRepository wareHouseRepository = Mockito.mock(WarehouseRepository.class);
-        Warehouse warehouse = Warehouse.builder().warehouseId(warehouseId).build();
-        WarehouseServiceImpl warehouseService = new WarehouseServiceImpl(wareHouseRepository);
-        warehouseService.save(warehouse);
-
 
         //Act
         Mockito.when(wareHouseRepository.findById(anyString())).thenReturn(optionalWarehouse);
         boolean test = warehouseService.isValidWarehouse(warehouseId);
 
-        assert test;
+        assertTrue(test);
     }
+
+    @Test
+    void shouldSaveWarehouse(){
+        //Act
+        Mockito.when(wareHouseRepository.save(any())).thenReturn(warehouse);
+        Warehouse wh = warehouseService.save(warehouse);
+
+        //assert
+        //Check if it has ben saved and has ID
+        assertTrue(warehouse.getWarehouseId() != null);
+    }
+
 }
 
 

@@ -2,7 +2,8 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Warehouse;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.WarehouseNaoExisteException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.NoWarehouseCreatedException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.WarehouseDoesntExistException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.WarehouseRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class WarehouseServiceImpl implements WarehouseService{
     public Warehouse findById(String warehouseId) {
         Optional<Warehouse> wh = warehouseRepository.findById(warehouseId);
         if(wh.isEmpty()){
-            throw new WarehouseNaoExisteException(warehouseId);
+            throw new WarehouseDoesntExistException(warehouseId);
         }else{
             return wh.get();
         }
@@ -28,8 +29,10 @@ public class WarehouseServiceImpl implements WarehouseService{
 
     @Override
     public List<Warehouse> findAll() {
-        List<Warehouse> warehouses = new ArrayList<>();
-        warehouseRepository.findAll().forEach(warehouses::add);
+        List<Warehouse> warehouses = warehouseRepository.findAll();
+        if(warehouses.isEmpty()){
+            throw new NoWarehouseCreatedException();
+        }
         return warehouses;
     }
 
@@ -37,15 +40,15 @@ public class WarehouseServiceImpl implements WarehouseService{
     public boolean isValidWarehouse(String warehouseId) {
         Optional<Warehouse> wh = warehouseRepository.findById(warehouseId);
         if(wh.isEmpty()){
-            throw new WarehouseNaoExisteException(warehouseId);
+            throw new WarehouseDoesntExistException(warehouseId);
         }else{
             return true;
         }
     }
 
     @Override
-    public void save(Warehouse wh) {
-        warehouseRepository.save(wh);
+    public Warehouse save(Warehouse wh) {
+        return warehouseRepository.save(wh);
     }
 
 

@@ -9,5 +9,5 @@ public interface WarehouseService {
     Warehouse findById(String warehouseId);
     List<Warehouse> findAll();
     boolean isValidWarehouse(String warehouseId);
-    void save(Warehouse wh);
+    Warehouse save(Warehouse wh);
 }
