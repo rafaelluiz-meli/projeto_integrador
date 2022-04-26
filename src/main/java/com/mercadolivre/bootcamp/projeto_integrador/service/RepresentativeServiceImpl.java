@@ -69,4 +69,5 @@ public class RepresentativeServiceImpl implements RepresentativeService {
         representativeIsAssociated = representative.getSectionId().equals(sectionId);
         return representativeIsAssociated;
     }
+
 }
