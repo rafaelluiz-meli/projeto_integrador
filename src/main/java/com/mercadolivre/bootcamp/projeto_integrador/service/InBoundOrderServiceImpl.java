@@ -18,7 +18,12 @@ public class InBoundOrderServiceImpl implements InBoundOrderService{
     @Override
     public InBoundOrder addInBoundOrder(NewInBoundOrderDTO inBoundOrderDTO){
         //Todo: validation of section, warehouse and representative
-        return inBoundOrderrepository.save(NewInBoundOrderDTO.convert(inBoundOrderDTO));
+        InBoundOrder inBoundOrder = InBoundOrder.builder()
+                .inBoundOrderDate(inBoundOrderDTO.getInBoundOrderDate())
+                .representativeId(inBoundOrderDTO.getRepresentativeId())
+                .build();
+
+        return inBoundOrderrepository.save(inBoundOrder);
     }
 
     @Override
@@ -38,7 +43,6 @@ public class InBoundOrderServiceImpl implements InBoundOrderService{
                 new InBoundOrderIdNotFoundException(inBoundOrder.getInBoundOrderNumber()));
 
         updateInBoundOrderById.setInBoundOrderDate(inBoundOrder.getInBoundOrderDate());
-        updateInBoundOrderById.setBatchStock(inBoundOrder.getBatchStock());
         updateInBoundOrderById.setRepresentativeId(inBoundOrder.getRepresentativeId());
         return inBoundOrderrepository.save(updateInBoundOrderById);
     }
@@ -47,10 +51,5 @@ public class InBoundOrderServiceImpl implements InBoundOrderService{
     public void deleteInBoundOrder(Long inBoundOrderNumber){
         InBoundOrder inBoundOrder = getInBoundOrderById(inBoundOrderNumber);
         inBoundOrderrepository.delete(inBoundOrder);
-        try {
-            inBoundOrderrepository.deleteById(inBoundOrderNumber);
-        } catch (EmptyResultDataAccessException e) {
-            new InBoundOrderIdNotFoundException(inBoundOrderNumber);
-        }
     }
 }
