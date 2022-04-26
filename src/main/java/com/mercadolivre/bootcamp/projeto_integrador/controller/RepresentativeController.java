@@ -2,6 +2,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.controller;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Representative;
 import com.mercadolivre.bootcamp.projeto_integrador.service.RepresentativeServiceImpl;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -12,28 +13,33 @@ public class RepresentativeController {
     RepresentativeServiceImpl representativeServiceImpl;
 
     @GetMapping("/representatives")
-    public List<Representative> getAllRepresentatives() {
-        return representativeServiceImpl.getAllRepresentatives();
+    public ResponseEntity<?> getAllRepresentatives() {
+        List<Representative> representativeList = representativeServiceImpl.getAllRepresentatives();
+        return ResponseEntity.ok().body(representativeList);
     }
 
     @GetMapping("/representatives/{id}")
-    public Representative getByRepresentativeId(@PathVariable(value = "id") String representativeId) {
-        return representativeServiceImpl.getRepresentativeById(representativeId);
+    public ResponseEntity<?> getByRepresentativeId(@PathVariable(value = "id") String representativeId) {
+        Representative representative = representativeServiceImpl.getRepresentativeById(representativeId);
+        return ResponseEntity.ok().body(representative);
     }
 
     @PostMapping("/representatives")
-    public Representative createRepresentative(@Valid @RequestBody Representative representative) {
-        return representativeServiceImpl.createRepresentative(representative);
+    public ResponseEntity<?> createRepresentative(@Valid @RequestBody Representative representative) {
+        Representative representativeAux = representativeServiceImpl.createRepresentative(representative);
+        return ResponseEntity.ok().body(representativeAux);
     }
 
     @PutMapping("/representative/{id}")
-    public Representative updateRepresentative(@PathVariable(value = "id") String representativeId, @Valid @RequestBody Representative representative) {
-        return representativeServiceImpl.updateRepresentative(representativeId, representative);
+    public ResponseEntity<?> updateRepresentative(@PathVariable(value = "id") String representativeId, @Valid @RequestBody Representative representative) {
+        Representative representativeAux = representativeServiceImpl.updateRepresentative(representativeId, representative);
+        return ResponseEntity.ok().body(representativeAux);
     }
 
     @DeleteMapping("/representative/{id}")
-    public void deleteRepresentative(@PathVariable(value = "id") String representativeId) {
+    public ResponseEntity<?> deleteRepresentative(@PathVariable(value = "id") String representativeId) {
         representativeServiceImpl.deleteRepresentative(representativeId);
+        return ResponseEntity.ok().body("success");
     }
 
 }
