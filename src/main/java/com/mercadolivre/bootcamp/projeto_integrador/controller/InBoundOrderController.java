@@ -10,5 +10,4 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class InBoundOrderController {
     private final InBoundOrderService inBoundOrderService;
-
 }

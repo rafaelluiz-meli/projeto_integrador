@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 
 @Builder
@@ -14,10 +13,11 @@ import java.time.LocalDate;
 @Data
 public class NewInBoundOrderDTO {
     private LocalDate inBoundOrderDate;
-//    private Representative representativeId;
+    private String representativeId;
 
     public static InBoundOrder convert(NewInBoundOrderDTO newInBoundOrderDTO){
         return InBoundOrder.builder()
-                .inBoundOrderDate(newInBoundOrderDTO.getInBoundOrderDate()).build();
+                .inBoundOrderDate(newInBoundOrderDTO.getInBoundOrderDate())
+                .representativeId(newInBoundOrderDTO.getRepresentativeId()).build();
     }
 }
