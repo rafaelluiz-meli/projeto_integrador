@@ -33,6 +33,22 @@ public class ProductServiceTest {
     private ProductServiceImpl productService;
 
     @Test
+    @DisplayName("it should validate that a product due date is valid")
+    public void shouldValidateProductDueDate() {
+        // TODO: 26/04/22 - Create test after finishing BatchStockService
+        productService.validateProductDueDate("5");
+        assertTrue(true);
+    }
+
+    @Test
+    @DisplayName("it should validate that a stock quantity is valid")
+    public void availableStockQuantity() {
+        // TODO: 26/04/22 - Create test after finishing BatchStockService
+        productService.availableStockQuantity(5);
+        assertTrue(true);
+    }
+
+    @Test
     @DisplayName("it should find a product by name")
     public void shouldFindProductByName() {
         // Arrange tests
