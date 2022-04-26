@@ -20,6 +20,7 @@ public class InBoundOrderServiceImpl implements InBoundOrderService{
         //Todo: validation of section, warehouse and representative
         InBoundOrder inBoundOrder = InBoundOrder.builder()
                 .inBoundOrderDate(inBoundOrderDTO.getInBoundOrderDate())
+                .batchStock(inBoundOrderDTO.getBatchStock())
                 .representativeId(inBoundOrderDTO.getRepresentativeId())
                 .build();
 
@@ -43,6 +44,7 @@ public class InBoundOrderServiceImpl implements InBoundOrderService{
                 new InBoundOrderIdNotFoundException(inBoundOrder.getInBoundOrderNumber()));
 
         updateInBoundOrderById.setInBoundOrderDate(inBoundOrder.getInBoundOrderDate());
+        updateInBoundOrderById.setBatchStock(inBoundOrder.getBatchStock());
         updateInBoundOrderById.setRepresentativeId(inBoundOrder.getRepresentativeId());
         return inBoundOrderrepository.save(updateInBoundOrderById);
     }
