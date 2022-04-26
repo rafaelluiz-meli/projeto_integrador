@@ -139,7 +139,6 @@ public class SectionServiceTest {
                     sectionService.getSectionById("1000000");
                 });
     }
-
     @Test
     void shouldReturnErrorWhenUpdateSectionAndNotFoundId() {
 
