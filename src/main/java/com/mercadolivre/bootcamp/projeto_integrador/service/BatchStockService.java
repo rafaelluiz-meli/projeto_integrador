@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface BatchStockService {
-    BatchStock create(BatchStock batchStock);
     BigDecimal calculateTotalVolume(BatchStock batchStock);
+    BatchStock create(BatchStock batchStock);
     List<BatchStock> list();
     BatchStock findById(Long id);
     BatchStock update(BatchStock batchStock);
