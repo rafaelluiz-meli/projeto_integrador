@@ -1,11 +1,9 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewPurchaseOrderItensDTO;
-import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrderItens;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.InvalidProductException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.PurchaseOrderItensExceptions.PurchaseOrderItensListEmptyException;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.PurchaseOrderItensExceptions.PurchaseOrderItensNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.PurchaseOrderItensExceptions.PurchaseOrderItensIdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.PurchaseOrderItensRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -60,7 +58,7 @@ public class PurchaseOrderItensServiceImpl implements PurchaseOrderItensService{
     @Override
     public PurchaseOrderItens findById(String purchaseOrderItensId) {
         return purchaseOrderItensRepository.findById(purchaseOrderItensId).orElseThrow(()
-                -> new PurchaseOrderItensNotFoundException(purchaseOrderItensId));
+                -> new PurchaseOrderItensIdNotFoundException(purchaseOrderItensId));
     }
 
 
