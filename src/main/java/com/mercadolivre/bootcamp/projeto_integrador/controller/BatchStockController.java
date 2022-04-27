@@ -3,8 +3,10 @@ package com.mercadolivre.bootcamp.projeto_integrador.controller;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewBatchStockDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.UpdateBatchStockDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrder;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -56,7 +58,8 @@ public class BatchStockController {
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteBatchStock(){
-        return null;
+    public ResponseEntity<Long> deleteBatchStock(@PathVariable(value = "id") Long purchaseOrderNumber){
+        service.remove(purchaseOrderNumber);
+        return ResponseEntity.ok(purchaseOrderNumber);
     }
 }
