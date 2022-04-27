@@ -4,19 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
-@Entity
+import javax.persistence.*;
+
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Buyer {
+@Entity
+public class PurchaseOrderItens {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String buyerId;
-    private String fullName;
+    private String PurchaseOrderItensId;
+    private Long purchaseOrderNumber;
+    private String productId;
+    private int quantity;
 }

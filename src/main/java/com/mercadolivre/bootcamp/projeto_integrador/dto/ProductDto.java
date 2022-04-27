@@ -28,7 +28,7 @@ public class ProductDto {
                 .minimumTemperature(product.getMinimumTemperature())
                 .maxTemperature(product.getMaxTemperature())
                 .category(product.getCategory())
-                .salesman_id(product.getSalesman().getId())
+                .salesman_id(product.getSalesman().getSalesmanId())
                 .build();
     }
 

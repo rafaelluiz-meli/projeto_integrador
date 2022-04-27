@@ -17,6 +17,7 @@ public class Warehouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String warehouseId;
+    private String name;
 
 
 }

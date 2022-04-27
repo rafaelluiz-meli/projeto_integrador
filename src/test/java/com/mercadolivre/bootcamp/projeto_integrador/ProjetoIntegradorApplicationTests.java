@@ -5,8 +5,5 @@ import org.junit.jupiter.api.Test;
 
 class ProjetoIntegradorApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
 
 }
