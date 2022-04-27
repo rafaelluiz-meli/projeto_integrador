@@ -18,7 +18,7 @@ public class Section {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String sectionId;
+    private Long sectionId;
     private BigDecimal capacity;
     private float currentTemperature;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

@@ -83,7 +83,7 @@ public class SectionServiceTest {
 
         //Arrange
         Section section = Section.builder()
-                .sectionId("1")
+                .sectionId(1l)
                 .capacity(new BigDecimal(100))
                 .category(Category.REFRIGERATED)
                 .currentTemperature(15)
@@ -138,7 +138,7 @@ public class SectionServiceTest {
         //Assert
         Assertions.assertThrows(SectionNotFound.class,
                 () -> {
-                    sectionService.getSectionById("1000000");
+                    sectionService.getSectionById(1000000l);
                 });
     }
     @Test
@@ -167,26 +167,10 @@ public class SectionServiceTest {
 
         //Act
         Mockito.when(sectionRepository.findById(any())).thenReturn(sectionOptional);
-        Boolean isValid = sectionService.isSectionValid("1");
+        Boolean isValid = sectionService.isSectionValid(1l);
 
         //Assert
         Assertions.assertTrue(isValid);
-
-    }
-
-    @Test
-    void shouldReturnFalseWhenCallMethodIsValidSectionAndIdIsBlankOrEmpty() {
-
-        //Arrange
-        Section section = Section.builder().build();
-
-        //Act
-        Boolean isNotBlank = sectionService.isSectionValid("   ");
-        Boolean isNotEmpty = sectionService.isSectionValid("");
-
-        //Assert
-        Assertions.assertFalse(isNotEmpty);
-        Assertions.assertFalse(isNotBlank);
 
     }
 
@@ -223,14 +207,14 @@ public class SectionServiceTest {
     @Test
     public void shouldDeleteSection() {
         // Arrange
-        Section section = Section.builder().sectionId("100").build();
+        Section section = Section.builder().sectionId(100l).build();
 
         // Act
         doNothing().when(sectionRepository).deleteById(any());
 
         // Assert
         assertDoesNotThrow(() -> {
-            sectionService.deleteSection("100");
+            sectionService.deleteSection(100l);
         });
     }
 
