@@ -20,8 +20,6 @@ public class InBoundOrderServiceImpl implements InBoundOrderService{
         InBoundOrder inBoundOrder = InBoundOrder.builder()
                 .inBoundOrderDate(inBoundOrderDTO.getInBoundOrderDate())
                 .batchStock(inBoundOrderDTO.getBatchStock())
-                .representativeId(inBoundOrderDTO.getRepresentativeId())
-                .sectionId(inBoundOrderDTO.getSectionId())
                 .build();
 
         return inBoundOrderrepository.save(inBoundOrder);
@@ -51,8 +49,6 @@ public class InBoundOrderServiceImpl implements InBoundOrderService{
 
         updateInBoundOrderById.setInBoundOrderDate(inBoundOrder.getInBoundOrderDate());
         updateInBoundOrderById.setBatchStock(inBoundOrder.getBatchStock());
-        updateInBoundOrderById.setRepresentativeId(inBoundOrder.getRepresentativeId());
-        updateInBoundOrderById.setSectionId(inBoundOrder.getSectionId());
 
         return inBoundOrderrepository.save(updateInBoundOrderById);
     }
