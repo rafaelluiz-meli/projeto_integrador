@@ -32,7 +32,7 @@ public class SalesmanServiceTest {
     private SalesmanServiceImpl service;
 
     @Test
-    @DisplayName("This test should create a salesman.")
+    @DisplayName("It should create a salesman.")
     public void shouldCreateSalesman(){
         //Arrange
         Salesman salesman = Salesman.builder().build();
@@ -46,11 +46,11 @@ public class SalesmanServiceTest {
     }
 
     @Test
-    @DisplayName("This test should find a salesman by his id.")
+    @DisplayName("It should find a salesman by his id.")
     public void shouldFindSalesmanById (){
         // arrange
         Salesman salesman = Salesman.builder()
-                .id("1").build();
+                .salesmanId("1").build();
         // act
         Mockito.when(repository.findById(any())).thenReturn(Optional.of(salesman));
         Salesman result = service.findSalesmanById("1");
@@ -60,7 +60,7 @@ public class SalesmanServiceTest {
     }
 
     @Test
-    @DisplayName("This test should not find a salesman by his id.")
+    @DisplayName("It should not find a salesman by his id.")
     public void shouldNotFindSalesmanById (){
         // arrange
 
@@ -72,7 +72,7 @@ public class SalesmanServiceTest {
     }
 
     @Test
-    @DisplayName("This test should list all the salesman.")
+    @DisplayName("It should list all the salesman.")
     public void shouldListSalesman(){
         // arrange
         Salesman salesman = Salesman.builder().build();
@@ -87,7 +87,7 @@ public class SalesmanServiceTest {
     }
 
     @Test
-    @DisplayName("This test should throws a exception if the salesman list is empty.")
+    @DisplayName("It should throws a exception if the salesman list is empty.")
     public void shouldNotListSalesman(){
         // arrange
         List<Salesman> salesmanList = Arrays.asList();
@@ -100,10 +100,10 @@ public class SalesmanServiceTest {
     }
 
     @Test
-    @DisplayName("This test should remove a salesman by his id.")
+    @DisplayName("It should remove a salesman by his id.")
     public void shouldRemoveSalesman(){
         // arrange
-        Salesman salesman = Salesman.builder().id("id").build();
+        Salesman salesman = Salesman.builder().salesmanId("id").build();
 
         // act
         Mockito.when(repository.findById(any())).thenReturn(Optional.of(salesman));
@@ -114,7 +114,7 @@ public class SalesmanServiceTest {
     }
 
     @Test
-    @DisplayName("This test should not remove a salesman by his id.")
+    @DisplayName("It should not remove a salesman by his id.")
     public void shouldNotRemoveSalesman(){
         // arrange
 
@@ -126,7 +126,7 @@ public class SalesmanServiceTest {
     }
 
     @Test
-    @DisplayName("This test should update a salesman.")
+    @DisplayName("It should update a salesman.")
     public void shouldUpdateSalesman(){
         // arrange
         Salesman salesman = Salesman.builder().build();
