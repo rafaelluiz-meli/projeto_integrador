@@ -25,6 +25,6 @@ public class Section {
     private List<InBoundOrder> listInBoundOrder;
     @Enumerated(EnumType.STRING)
     private Category category;
-    private String warehouseId;
+    private Long warehouseId;
 
 }

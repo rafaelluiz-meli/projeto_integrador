@@ -15,8 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
 public class WarehouseServiceTest {
@@ -53,7 +52,7 @@ public class WarehouseServiceTest {
     @Test
     void shouldFindWarehouseById(){
         //Act
-        Mockito.when(wareHouseRepository.findById(anyString())).thenReturn(optionalWarehouse);
+        Mockito.when(wareHouseRepository.findById(anyLong())).thenReturn(optionalWarehouse);
         Warehouse wh = warehouseService.findById(warehouseId);
 
         //assert
@@ -65,7 +64,7 @@ public class WarehouseServiceTest {
     void shouldValidWarehouse(){
 
         //Act
-        Mockito.when(wareHouseRepository.findById(anyString())).thenReturn(optionalWarehouse);
+        Mockito.when(wareHouseRepository.findById(anyLong())).thenReturn(optionalWarehouse);
         boolean test = warehouseService.isValidWarehouse(warehouseId);
 
         assertTrue(test);

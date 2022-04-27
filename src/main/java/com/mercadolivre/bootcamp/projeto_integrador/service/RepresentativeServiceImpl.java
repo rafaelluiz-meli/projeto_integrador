@@ -4,11 +4,9 @@ import com.mercadolivre.bootcamp.projeto_integrador.entity.Representative;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.RepresentativeNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.RepresentativeRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,7 +23,7 @@ public class RepresentativeServiceImpl implements RepresentativeService {
     }
 
     @Override
-    public Representative getRepresentativeById(String representativeId) {
+    public Representative getRepresentativeById(Long representativeId) {
 
         return representativeRepository.findById(representativeId).orElseThrow(() -> new RepresentativeNotFoundException(representativeId));
 
@@ -37,7 +35,7 @@ public class RepresentativeServiceImpl implements RepresentativeService {
     }
 
     @Override
-    public Representative updateRepresentative(String representativeId, Representative representative) {
+    public Representative updateRepresentative(Long representativeId, Representative representative) {
 
         Representative representativeAux = getRepresentativeById(representativeId);
 
@@ -49,14 +47,14 @@ public class RepresentativeServiceImpl implements RepresentativeService {
     }
 
     @Override
-    public void deleteRepresentative(String representativeId) {
+    public void deleteRepresentative(Long representativeId) {
         Representative representative = getRepresentativeById(representativeId);
         representativeRepository.delete(representative);
 
     }
 
 
-    public boolean isRepresentativeAssociatedWithSection(String representativeId, String sectionId) {
+    public boolean isRepresentativeAssociatedWithSection(Long representativeId, Long sectionId) {
         Representative representative = getRepresentativeById(representativeId);
         boolean representativeIsAssociated = false;
         representativeIsAssociated = representative.getSectionId().equals(sectionId);

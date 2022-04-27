@@ -195,7 +195,7 @@ public class ProductServiceTest {
                 .category(Category.FRESH)
                 .maxTemperature(1F)
                 .minimumTemperature(0F)
-                .salesman_id("Salesman ID")
+                .salesman_id(1L)
                 .volume(BigDecimal.valueOf(10))
                 .build();
 

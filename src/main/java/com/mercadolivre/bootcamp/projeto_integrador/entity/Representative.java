@@ -18,6 +18,6 @@ public class Representative {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long representativeId;
     private String fullName;
-    private String sectionId;
+    private Long sectionId;
 
 }
