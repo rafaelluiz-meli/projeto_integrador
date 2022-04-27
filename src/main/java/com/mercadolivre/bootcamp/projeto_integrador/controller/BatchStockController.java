@@ -1,0 +1,57 @@
+package com.mercadolivre.bootcamp.projeto_integrador.controller;
+
+import com.mercadolivre.bootcamp.projeto_integrador.dto.NewBatchStockDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
+import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
+
+@RestController
+@RequestMapping(BatchStockController.baseUri)
+public class BatchStockController {
+
+    public static final String baseUri = "/batchstock";
+
+    @Autowired
+    private BatchStockService service;
+
+    @PostMapping
+    public ResponseEntity<NewBatchStockDTO> newBatchStock(@RequestBody NewBatchStockDTO batchStockDTO, UriComponentsBuilder uriBuilder){
+        BatchStock batchStock = batchStockDTO.map();
+        service.create(batchStock);
+
+        URI uri = uriBuilder
+                    .path(BatchStockController.baseUri.concat("/{id}"))
+                .buildAndExpand(batchStock.getBatchNumber())
+                .toUri();
+
+        NewBatchStockDTO d = NewBatchStockDTO.map(batchStock);
+        return ResponseEntity.created(uri).body(d);
+    }
+
+    @PutMapping
+    public ResponseEntity<BatchStock> updateBatchStock(){
+
+    }
+
+    @GetMapping
+    public ResponseEntity<List<NewBatchStockDTO>> batchStock(){
+        List<BatchStock> batchStockList = service.list();
+        return ResponseEntity.ok(NewBatchStockDTO.map(batchStockList));
+    }
+
+    @GetMapping
+    public ResponseEntity<BatchStock> batchStockById(){
+
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteBatchStock(){
+
+    }
+}
