@@ -1,7 +1,9 @@
 package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewSectionDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.SectionNotFound;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.SectionRepository;
@@ -231,5 +233,60 @@ public class SectionServiceTest {
             sectionService.deleteSection("100");
         });
     }
+
+    @Test
+    public void shouldReturnTrueWhenSectionCorrespondsProductType(){
+
+        //Arrange
+        Product product01 = Product.builder().category(Category.REFRIGERATED).build();
+        BatchStock batchStock1 = BatchStock.builder().product(product01).build();
+        Section section = Section.builder().category(Category.REFRIGERATED).build();
+        Optional<Section> sectionOptional = Optional.of(section);
+
+        //Act
+        Mockito.when(sectionRepository.findById(any())).thenReturn(sectionOptional);
+        Boolean correspondsProductType = sectionService.sectionCorrespondsProductType(any(), batchStock1.getProduct().getCategory());
+
+        //Asserts
+        Assertions.assertTrue(correspondsProductType);
+
+    }
+
+    @Test
+    public void shouldReturnFalseWhenSectionDontCorrespondsProductType(){
+        //Arrange
+        Product product01 = Product.builder().category(Category.REFRIGERATED).build();
+        BatchStock batchStock1 = BatchStock.builder().product(product01).build();
+        Section section = Section.builder().category(Category.FRESH).build();
+        Optional<Section> sectionOptional = Optional.of(section);
+
+        //Act
+        Mockito.when(sectionRepository.findById(any())).thenReturn(sectionOptional);
+        Boolean correspondsProductType = sectionService.sectionCorrespondsProductType(any(), batchStock1.getProduct().getCategory());
+
+        //Asserts
+        Assertions.assertFalse(correspondsProductType);
+    }
+
+    @Test
+    void shouldReturnErrorWhenVerifySectionCorrespondsProductTypeAndNotFoundId() {
+
+        //Arrange
+        Product product01 = Product.builder().category(Category.REFRIGERATED).build();
+        BatchStock batchStock1 = BatchStock.builder().product(product01).build();
+        Optional<Section> sectionOptionalNull = Optional.empty();
+
+
+        //Act
+        Mockito.when(sectionRepository.findById(any())).thenReturn(sectionOptionalNull);
+
+        //Assert
+        Assertions.assertThrows(SectionNotFound.class,
+                () -> {
+                    sectionService.sectionCorrespondsProductType(any(), batchStock1.getProduct().getCategory());
+                });
+    }
+
+
 
 }

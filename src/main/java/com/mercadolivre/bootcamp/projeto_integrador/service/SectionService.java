@@ -1,6 +1,7 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewSectionDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
 
 import java.math.BigDecimal;
@@ -15,6 +16,6 @@ public interface SectionService {
     Section updateSection(Section section);
     boolean isSectionValid(String sectionID);
     boolean availableSectionCapacity(BigDecimal totalVolume, String sectionId);
-
+    boolean sectionCorrespondsProductType(String sectionId, Category category);
 
 }
