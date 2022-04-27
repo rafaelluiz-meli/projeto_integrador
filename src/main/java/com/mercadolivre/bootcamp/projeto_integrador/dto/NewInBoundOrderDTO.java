@@ -15,12 +15,15 @@ import java.time.LocalDate;
 public class NewInBoundOrderDTO {
     private LocalDate inBoundOrderDate;
     private String representativeId;
+    private String sectionId;
     private BatchStock batchStock;
 
     public static InBoundOrder convert(NewInBoundOrderDTO newInBoundOrderDTO){
         return InBoundOrder.builder()
                 .inBoundOrderDate(newInBoundOrderDTO.getInBoundOrderDate())
                 .batchStock(newInBoundOrderDTO.getBatchStock())
-                .representativeId(newInBoundOrderDTO.getRepresentativeId()).build();
+                .representativeId(newInBoundOrderDTO.getRepresentativeId())
+                .sectionId(newInBoundOrderDTO.getSectionId())
+                .build();
     }
 }

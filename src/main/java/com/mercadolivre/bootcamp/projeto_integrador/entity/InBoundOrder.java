@@ -20,5 +20,6 @@ public class InBoundOrder {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private BatchStock batchStock;
     private String representativeId;
+    private String sectionId;
 }
 
