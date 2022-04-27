@@ -9,6 +9,7 @@ import com.mercadolivre.bootcamp.projeto_integrador.service.WarehouseServiceImpl
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -31,5 +32,12 @@ public class WarehouseController {
             return ResponseEntity.badRequest().body("Id not found");
         }
 
+    }
+
+    @GetMapping("/warehouse/{name}")
+    public ResponseEntity<?> getWarehouse(@PathVariable(value = "name") String name) {
+        Warehouse wh = new Warehouse(name);
+        Warehouse finalWh = warehouseService.save(wh);
+        return ResponseEntity.ok().body(finalWh);
     }
 }
