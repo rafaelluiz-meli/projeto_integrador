@@ -25,4 +25,3 @@ public class InBoundOrder {
     @JoinColumn(name = "section_id")
     private Section section;
 }
-
