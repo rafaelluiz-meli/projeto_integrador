@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class NewInBoundOrderDTO {
     private String representativeId;
-    private String sectionId;
+    private SectionDTO sectionDTO;
     private BatchStock batchStock;
 }
