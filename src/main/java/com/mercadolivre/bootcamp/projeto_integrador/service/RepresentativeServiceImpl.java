@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class RepresentativeServiceImpl implements RepresentativeService {
 
-    private RepresentativeRepository representativeRepository;
+    private final RepresentativeRepository representativeRepository;
 
     @Override
     public List<Representative> getAllRepresentatives() {

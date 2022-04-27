@@ -32,5 +32,4 @@ public class NewSectionDTO {
                 .category(newSectionDTO.getCategory())
                 .warehouseId(newSectionDTO.getWarehouseId()).build();
     }
-
 }
