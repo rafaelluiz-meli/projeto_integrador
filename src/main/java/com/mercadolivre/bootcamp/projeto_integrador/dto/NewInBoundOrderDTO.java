@@ -17,13 +17,4 @@ public class NewInBoundOrderDTO {
     private String representativeId;
     private String sectionId;
     private BatchStock batchStock;
-
-    public static InBoundOrder convert(NewInBoundOrderDTO newInBoundOrderDTO){
-        return InBoundOrder.builder()
-                .inBoundOrderDate(newInBoundOrderDTO.getInBoundOrderDate())
-                .batchStock(newInBoundOrderDTO.getBatchStock())
-                .representativeId(newInBoundOrderDTO.getRepresentativeId())
-                .sectionId(newInBoundOrderDTO.getSectionId())
-                .build();
-    }
 }
