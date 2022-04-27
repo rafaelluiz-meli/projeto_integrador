@@ -3,6 +3,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Representative;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.RepresentativeNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.RepresentativeRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class RepresentativeServiceImpl implements RepresentativeService {
 
     private RepresentativeRepository representativeRepository;
@@ -18,21 +20,15 @@ public class RepresentativeServiceImpl implements RepresentativeService {
     @Override
     public List<Representative> getAllRepresentatives() {
 
-        List<Representative> representativeList = new ArrayList<>();
+        return representativeRepository.findAll();
 
-        representativeList = representativeRepository.findAll();
-
-        return representativeList;
     }
 
     @Override
     public Representative getRepresentativeById(String representativeId) {
-        Representative representative = null;
 
-        representative = representativeRepository.findById(representativeId)
-                .orElseThrow(() -> new RepresentativeNotFoundException(representativeId));
+        return representativeRepository.findById(representativeId).orElseThrow(() -> new RepresentativeNotFoundException(representativeId));
 
-        return representative;
     }
 
     @Override
