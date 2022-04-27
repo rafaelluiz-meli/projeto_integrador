@@ -3,6 +3,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewSalesmanDto;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Salesman;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.SalesmanDoesNotExistException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.SalesmanListIsEmptyException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.SalesmanRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,11 @@ public class SalesmanServiceImpl implements SalesmanService {
 
     @Override
     public List<Salesman> listSalesman() {
-        return salesmanRepository.findAll();
+        List<Salesman> allTheSalesman= salesmanRepository.findAll();
+        if (allTheSalesman.isEmpty()){
+            throw new SalesmanListIsEmptyException();
+        }
+        return  salesmanRepository.findAll();
     }
 
     @Override
@@ -41,9 +46,7 @@ public class SalesmanServiceImpl implements SalesmanService {
     @Override
     public Salesman updateSalesman(String salesmanId, Salesman salesman){
         Salesman updatedSalesman = findSalesmanById(salesmanId);
-
         updatedSalesman.setFullName(salesman.getFullName());
         return salesmanRepository.save(updatedSalesman);
         }
-
 }

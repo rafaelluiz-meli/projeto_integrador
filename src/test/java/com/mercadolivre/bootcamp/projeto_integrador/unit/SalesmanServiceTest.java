@@ -2,6 +2,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Salesman;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.SalesmanDoesNotExistException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.SalesmanListIsEmptyException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.SalesmanRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.SalesmanServiceImpl;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 
 @ExtendWith(MockitoExtension.class)
-public class SalesmanTest {
+public class SalesmanServiceTest {
 
     @Mock
     private SalesmanRepository repository;
@@ -83,6 +84,19 @@ public class SalesmanTest {
 
         // assert
         assertEquals(salesmanList, result);
+    }
+
+    @Test
+    @DisplayName("This test should throws a exception if the salesman list is empty.")
+    public void shouldNotListSalesman(){
+        // arrange
+        List<Salesman> salesmanList = Arrays.asList();
+
+        // act
+        Mockito.when(repository.findAll()).thenReturn(salesmanList);
+
+        // assert
+        assertThrows(SalesmanListIsEmptyException.class, ()->service.listSalesman());
     }
 
     @Test
