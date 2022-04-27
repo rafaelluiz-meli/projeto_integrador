@@ -40,14 +40,16 @@ public class BatchStockController {
     }
 
     @GetMapping
-    public ResponseEntity<List<NewBatchStockDTO>> batchStock(){
+    public ResponseEntity<List<NewBatchStockDTO>> listAllBatchStocks(){
         List<BatchStock> batchStockList = service.list();
         return ResponseEntity.ok(NewBatchStockDTO.map(batchStockList));
     }
 
-    @GetMapping
-    public ResponseEntity<BatchStock> batchStockById(){
-
+    @GetMapping("/{id}")
+    public ResponseEntity<NewBatchStockDTO> batchStockById(@PathVariable Long id){
+        BatchStock batchStock = service.findById(id);
+        NewBatchStockDTO result = NewBatchStockDTO.map(batchStock);
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping
