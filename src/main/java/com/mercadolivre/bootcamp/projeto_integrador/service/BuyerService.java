@@ -10,4 +10,6 @@ public interface BuyerService {
     List<Buyer> getAllBuyer();
     Buyer updateBuyer(String buyerId);
     void deleteBuyer(String buyerId);
+    List<Buyer> findAll();
+    Buyer findById(String buyerId);
 }
