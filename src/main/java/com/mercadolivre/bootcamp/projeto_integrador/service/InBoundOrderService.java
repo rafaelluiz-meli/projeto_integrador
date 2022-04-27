@@ -7,7 +7,8 @@ import java.util.List;
 public interface InBoundOrderService {
     InBoundOrder addInBoundOrder(NewInBoundOrderDTO inBoundOrderDTO);
     List<InBoundOrder> getAllInBoundOrder();
-    InBoundOrder getInBoundOrderById(Long inBoundOrderNumber);
+    InBoundOrder findById(Long inBoundOrderNumber);
+    List<InBoundOrder> findAll();
     InBoundOrder updateInBoundOrder(InBoundOrder inBoundOrder);
     void deleteInBoundOrder(Long inBoundOrderNumber);
 }

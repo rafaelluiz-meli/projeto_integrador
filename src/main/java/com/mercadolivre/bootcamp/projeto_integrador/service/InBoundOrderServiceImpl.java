@@ -29,30 +29,37 @@ public class InBoundOrderServiceImpl implements InBoundOrderService{
 
     @Override
     public List<InBoundOrder> getAllInBoundOrder(){
-        return inBoundOrderrepository.findAll();
+        return findAll();
     }
 
     @Override
-    public InBoundOrder getInBoundOrderById(Long inBoundOrderNumber){
+    public InBoundOrder findById(Long inBoundOrderNumber){
         return inBoundOrderrepository.findById(inBoundOrderNumber).orElseThrow(() ->
                 new InBoundOrderIdNotFoundException(inBoundOrderNumber));
     }
 
     @Override
+    public List<InBoundOrder> findAll() {
+        List<InBoundOrder> inBoundOrderList = inBoundOrderrepository.findAll();
+        if (inBoundOrderList.isEmpty()) throw new InBoundOrderEmptyListException();
+        return null;
+    }
+
+    @Override
     public InBoundOrder updateInBoundOrder(InBoundOrder inBoundOrder){
-        InBoundOrder updateInBoundOrderById = inBoundOrderrepository.findById(inBoundOrder.getInBoundOrderNumber()).orElseThrow(() ->
-                new InBoundOrderIdNotFoundException(inBoundOrder.getInBoundOrderNumber()));
+        InBoundOrder updateInBoundOrderById = findById(inBoundOrder.getInBoundOrderNumber());
 
         updateInBoundOrderById.setInBoundOrderDate(inBoundOrder.getInBoundOrderDate());
         updateInBoundOrderById.setBatchStock(inBoundOrder.getBatchStock());
         updateInBoundOrderById.setRepresentativeId(inBoundOrder.getRepresentativeId());
         updateInBoundOrderById.setSectionId(inBoundOrder.getSectionId());
+
         return inBoundOrderrepository.save(updateInBoundOrderById);
     }
 
     @Override
     public void deleteInBoundOrder(Long inBoundOrderNumber){
-        InBoundOrder inBoundOrder = getInBoundOrderById(inBoundOrderNumber);
+        InBoundOrder inBoundOrder = findById(inBoundOrderNumber);
         inBoundOrderrepository.delete(inBoundOrder);
     }
 }
