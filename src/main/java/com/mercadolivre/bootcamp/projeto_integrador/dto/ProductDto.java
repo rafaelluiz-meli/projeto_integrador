@@ -18,7 +18,7 @@ public class ProductDto {
     private Float minimumTemperature;
     private Float maxTemperature;
     private Category category;
-    private String salesman_id;
+    private Long salesman_id;
 
     public static ProductDto convert(Product product) {
         return ProductDto.builder()
