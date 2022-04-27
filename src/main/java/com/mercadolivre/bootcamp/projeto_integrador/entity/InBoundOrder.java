@@ -19,7 +19,7 @@ public class InBoundOrder {
     private LocalDate inBoundOrderDate;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private BatchStock batchStock;
-    //Todo: JoinColumn @OneToOne
+    //Todo: JoinColumn @ManyToOne
     private String representativeId;
     @ManyToOne
     @JoinColumn(name = "section_id")
