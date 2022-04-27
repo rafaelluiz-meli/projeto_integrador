@@ -9,13 +9,15 @@ import java.util.List;
 
 public interface SectionService {
 
-    Section addSection(NewSectionDTO sectionDTO);
+    Section addSection(Section section);
     List<Section> getAllSection();
+    List<Section> getAllSectionByWarehouseId(String warehouseId);
     Section getSectionById(String sectionId);
     void deleteSection(String sectionId);
     Section updateSection(Section section);
     boolean isSectionValid(String sectionID);
     boolean availableSectionCapacity(BigDecimal totalVolume, String sectionId);
     boolean sectionCorrespondsProductType(String sectionId, Category category);
+    boolean isWarehouseValid(String warehouseId);
 
 }

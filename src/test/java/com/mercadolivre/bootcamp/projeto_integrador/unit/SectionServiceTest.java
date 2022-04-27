@@ -40,19 +40,13 @@ public class SectionServiceTest {
     @Test
     void shouldSaveNewSection() {
         //Arrange
-        NewSectionDTO sectionDTO = NewSectionDTO.builder()
-                .capacity(new BigDecimal(100))
-                .currentTemperature(10)
-                .category(Category.REFRIGERATED)
-                .warehouseId("1").build();
-
         Section section = Section.builder().build();
 
         //Act
 
         Mockito.when(sectionRepository.save(any())).thenReturn(section);
 
-        Section sectionAdd = sectionService.addSection(sectionDTO);
+        Section sectionAdd = sectionService.addSection(section);
 
         //Assert
         Assertions.assertEquals(section, sectionAdd);

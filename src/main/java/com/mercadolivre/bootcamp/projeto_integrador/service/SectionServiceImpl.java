@@ -3,8 +3,11 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewSectionDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.Warehouse;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.SectionNotFound;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.WarehouseDoesntExistException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.SectionRepository;
+import com.mercadolivre.bootcamp.projeto_integrador.repository.WarehouseRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -18,17 +21,31 @@ import java.util.Optional;
 public class SectionServiceImpl implements SectionService {
 
     private final SectionRepository sectionRepository;
+    private final WarehouseRepository warehouseRepository;
 
     @Override
-    public Section addSection(NewSectionDTO sectionDTO) {
-        Section savedSectionDTO = sectionRepository.save(NewSectionDTO.convert(sectionDTO));
-        return savedSectionDTO;
+    public Section addSection(Section section) {
+        return sectionRepository.save(section);
     }
 
     @Override
     public List<Section> getAllSection() {
         List<Section> listSections = sectionRepository.findAll();
         return listSections;
+    }
+
+    @Override
+    public List<Section> getAllSectionByWarehouseId(String warehouseId) {
+        isWarehouseValid(warehouseId);
+        return sectionRepository.findAllByWarehouseId(warehouseId);
+    }
+
+    public boolean isWarehouseValid(String warehouseId) {
+        Optional<Warehouse> warehouse = warehouseRepository.findById(warehouseId);
+        if (warehouse.isPresent()){
+            return true;
+        }
+        throw new WarehouseDoesntExistException(warehouseId);
     }
 
     @Override

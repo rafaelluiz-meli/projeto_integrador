@@ -33,4 +33,12 @@ public class NewSectionDTO {
                 .warehouseId(newSectionDTO.getWarehouseId()).build();
     }
 
+    public static NewSectionDTO convert(Section section){
+        return NewSectionDTO.builder()
+                .capacity(section.getCapacity())
+                .currentTemperature(section.getCurrentTemperature())
+                .category(section.getCategory())
+                .warehouseId(section.getWarehouseId()).build();
+    }
+
 }
