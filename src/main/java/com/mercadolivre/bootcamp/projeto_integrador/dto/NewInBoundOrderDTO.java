@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Data
 public class NewInBoundOrderDTO {
-    private LocalDate inBoundOrderDate;
     private String representativeId;
     private String sectionId;
     private BatchStock batchStock;
