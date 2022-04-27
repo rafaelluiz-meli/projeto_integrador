@@ -8,7 +8,6 @@ import java.time.ZonedDateTime;
 public class InvalidInboundOrderException extends BaseException {
 
     public InvalidInboundOrderException() {
-
-        super("InBoundOrder is not valid.", HttpStatus.BAD_REQUEST, ZonedDateTime.now());
+        super("Pedido de compra inválido ou incompleto.", HttpStatus.BAD_REQUEST, ZonedDateTime.now());
     }
 }
