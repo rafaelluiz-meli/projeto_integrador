@@ -17,6 +17,6 @@ import javax.persistence.Id;
 public class Buyer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String buyerId;
+    private Long buyerId;
     private String fullName;
 }
