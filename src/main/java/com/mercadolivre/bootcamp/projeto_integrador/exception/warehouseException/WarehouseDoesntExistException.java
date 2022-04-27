@@ -1,10 +1,11 @@
-package com.mercadolivre.bootcamp.projeto_integrador.exception;
+package com.mercadolivre.bootcamp.projeto_integrador.exception.warehouseException;
 
+import com.mercadolivre.bootcamp.projeto_integrador.exception.BaseException;
 import org.springframework.http.HttpStatus;
 
 import java.time.ZonedDateTime;
 
-public class WarehouseDoesntExistException extends BaseException{
+public class WarehouseDoesntExistException extends BaseException {
     public WarehouseDoesntExistException(String warehouseId) {
         super("Warehouse with id" + warehouseId + " does not exist.", HttpStatus.CONFLICT, ZonedDateTime.now());
     }

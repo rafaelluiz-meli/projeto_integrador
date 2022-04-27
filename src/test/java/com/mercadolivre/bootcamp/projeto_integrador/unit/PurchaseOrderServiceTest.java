@@ -1,13 +1,10 @@
 package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
-import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrder;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.StatusOrder;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.BatchStockIdNotFoundException;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.PurchaseOrderIdNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.purchaseOrderException.PurchaseOrderIdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.PurchaseOrderRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.PurchaseOrderServiceImpl;
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

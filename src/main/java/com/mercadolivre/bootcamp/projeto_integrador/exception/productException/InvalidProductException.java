@@ -1,5 +1,6 @@
-package com.mercadolivre.bootcamp.projeto_integrador.exception;
+package com.mercadolivre.bootcamp.projeto_integrador.exception.productException;
 
+import com.mercadolivre.bootcamp.projeto_integrador.exception.BaseException;
 import org.springframework.http.HttpStatus;
 
 import java.time.ZonedDateTime;

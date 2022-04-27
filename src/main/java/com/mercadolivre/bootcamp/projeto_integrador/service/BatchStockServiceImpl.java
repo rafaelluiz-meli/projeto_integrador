@@ -1,11 +1,10 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.BatchStockIdNotFoundException;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.InvalidProductException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.batchStockException.BatchStockIdNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.productException.InvalidProductException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.BatchStockRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

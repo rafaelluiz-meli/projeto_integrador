@@ -1,7 +1,7 @@
 package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Representative;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.RepresentativeNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.representativeException.RepresentativeNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.RepresentativeRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.RepresentativeServiceImpl;
 import org.junit.jupiter.api.DisplayName;

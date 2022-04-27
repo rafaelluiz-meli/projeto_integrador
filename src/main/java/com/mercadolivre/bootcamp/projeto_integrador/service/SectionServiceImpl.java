@@ -3,7 +3,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewSectionDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.SectionNotFound;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.sectionException.SectionNotFound;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.SectionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;

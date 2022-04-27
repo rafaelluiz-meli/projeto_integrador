@@ -2,13 +2,12 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Warehouse;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.NoWarehouseCreatedException;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.WarehouseDoesntExistException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.warehouseException.NoWarehouseCreatedException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.warehouseException.WarehouseDoesntExistException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.WarehouseRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
