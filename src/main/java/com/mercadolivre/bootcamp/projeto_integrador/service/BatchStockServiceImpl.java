@@ -5,9 +5,9 @@ import com.mercadolivre.bootcamp.projeto_integrador.exception.BatchStockIdNotFou
 import com.mercadolivre.bootcamp.projeto_integrador.exception.InvalidProductException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.BatchStockRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 @AllArgsConstructor
 @Service
@@ -19,6 +19,14 @@ public class BatchStockServiceImpl implements BatchStockService{
     public BatchStock create(BatchStock batchStock) {
         // Todo: Verify if Product exists in Entity Product
         return repository.save(batchStock);
+    }
+
+    @Override
+    public BigDecimal calculateTotalVolume(BatchStock batchStock) {
+        Integer productQuantity = batchStock.getCurrentQuantity();
+        BigDecimal volumePerProduct = batchStock.getProduct().getVolume();
+        // Multiply currentQuantity per volumePerProduct to calculate batch total volume
+        return volumePerProduct.multiply(BigDecimal.valueOf(productQuantity));
     }
 
     @Override
