@@ -19,5 +19,7 @@ public class Warehouse {
     private String warehouseId;
     private String name;
 
-
+    public Warehouse(String name) {
+        this.name = name;
+    }
 }

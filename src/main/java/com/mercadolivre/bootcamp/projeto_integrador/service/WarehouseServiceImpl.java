@@ -6,6 +6,7 @@ import com.mercadolivre.bootcamp.projeto_integrador.exception.NoWarehouseCreated
 import com.mercadolivre.bootcamp.projeto_integrador.exception.WarehouseDoesntExistException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.WarehouseRepository;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Service
 public class WarehouseServiceImpl implements WarehouseService{
     private WarehouseRepository warehouseRepository;
@@ -51,5 +53,13 @@ public class WarehouseServiceImpl implements WarehouseService{
         return warehouseRepository.save(wh);
     }
 
-
+    @Override
+    public void delete(String warehouseId) {
+        Optional<Warehouse> wh = warehouseRepository.findById(warehouseId);
+        if(wh.isEmpty()){
+            throw new WarehouseDoesntExistException(warehouseId);
+        }else{
+            warehouseRepository.delete(wh.get());
+        }
+    }
 }
