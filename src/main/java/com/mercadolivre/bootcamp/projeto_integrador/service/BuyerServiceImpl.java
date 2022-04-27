@@ -39,7 +39,7 @@ public class BuyerServiceImpl implements BuyerService{
     }
 
     @Override
-    public void deleteBuyer(String buyerId) {
+    public void deleteBuyer(Long buyerId) {
         Buyer foundedBuyerById = buyerRepository.findById(buyerId).orElseThrow(()
                 -> new BuyerIdNotFoundException(buyerId));
         buyerRepository.delete(foundedBuyerById);
@@ -53,7 +53,7 @@ public class BuyerServiceImpl implements BuyerService{
     }
 
     @Override
-    public Buyer findById(String buyerId) {
+    public Buyer findById(Long buyerId) {
         return buyerRepository.findById(buyerId).orElseThrow(()
                 -> new BuyerIdNotFoundException(buyerId));
     }

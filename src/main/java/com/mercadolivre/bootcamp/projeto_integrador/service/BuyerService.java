@@ -9,7 +9,7 @@ public interface BuyerService {
     Buyer addBuyer(NewBuyerDTO newBuyerDTO);
     List<Buyer> getAllBuyer();
     Buyer updateBuyer(Buyer buyer);
-    void deleteBuyer(String buyerId);
+    void deleteBuyer(Long buyerId);
     List<Buyer> findAll();
-    Buyer findById(String buyerId);
+    Buyer findById(Long buyerId);
 }
