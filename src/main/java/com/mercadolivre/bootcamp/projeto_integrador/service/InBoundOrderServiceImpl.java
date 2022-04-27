@@ -40,7 +40,7 @@ public class InBoundOrderServiceImpl implements InBoundOrderService{
     public List<InBoundOrder> findAll() {
         List<InBoundOrder> inBoundOrderList = inBoundOrderrepository.findAll();
         if (inBoundOrderList.isEmpty()) throw new InBoundOrderEmptyListException();
-        return null;
+        return inBoundOrderList;
     }
 
     @Override
