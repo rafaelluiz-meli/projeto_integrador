@@ -1,6 +1,7 @@
 package com.mercadolivre.bootcamp.projeto_integrador.controller;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewBatchStockDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.UpdateBatchStockDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,10 @@ public class BatchStockController {
     }
 
     @PutMapping
-    public ResponseEntity<BatchStock> updateBatchStock(){
-
+    public ResponseEntity<UpdateBatchStockDTO> updateBatchStock(@RequestBody UpdateBatchStockDTO updateBatchStockDTO){
+        BatchStock batchStock = updateBatchStockDTO.map();
+        BatchStock updatedBatchStock = service.update(batchStock);
+        return ResponseEntity.ok(UpdateBatchStockDTO.map(updatedBatchStock));
     }
 
     @GetMapping
@@ -54,6 +57,6 @@ public class BatchStockController {
 
     @DeleteMapping
     public ResponseEntity<String> deleteBatchStock(){
-
+        return null;
     }
 }
