@@ -77,9 +77,9 @@ public class RepresentativeServiceTest {
     @DisplayName("It should create a representative")
     public void shouldCreateRepresentative() {
         //Arrange tests
-       Representative representative = Representative.builder().build();
+        Representative representative = Representative.builder().build();
 
-       //Act
+        //Act
         Mockito.when(representativeRepository.save(any())).thenReturn(representative);
         Representative result = representativeService.createRepresentative(representative);
 
