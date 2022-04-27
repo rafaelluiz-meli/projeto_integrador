@@ -7,7 +7,6 @@ import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
 import java.util.List;
 
 public interface ProductService {
-
     Boolean availableStockQuantity(Integer orderProductQuantity);
     Boolean validateProductDueDate(String productId);
 
