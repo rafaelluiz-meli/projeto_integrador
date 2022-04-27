@@ -1,7 +1,7 @@
 --Popula tabela Salesman
-INSERT INTO Salesman (fullName) VALUES ('Rafael'), ('Fernando'), ('Vinicius'), ('Alan'), ('Kleber'), ('Romário'), ('Ronaldo');
+INSERT INTO salesman (full_name) VALUES ('Rafael'), ('Fernando'), ('Vinicius'), ('Alan'), ('Kleber'), ('Romário'), ('Ronaldo');
 --Popula
-INSERT INTO Product (productName, volume, minimumTemperature, maxTemperature, category, salesman_id) VALUES ('Banana', 10, 0, 15, 'Fresco', 1),
+INSERT INTO Product (product_name, volume, minimum_temperature, max_temperature, category, salesman_id) VALUES ('Banana', 10, 0, 15, 'Fresco', 1),
                                                                                                             ('Maca', 15, 0, 15,'Fresco',1 ),
                                                                                                             ('Laranja', 25, 10, 20,'Fresco',1 ),
                                                                                                             ('Melancia', 50, 15, 25,'Fresco',1 ),
