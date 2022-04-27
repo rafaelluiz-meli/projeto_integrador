@@ -1,24 +1,23 @@
 package com.mercadolivre.bootcamp.projeto_integrador.entity;
 
-
 import lombok.*;
-
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Getter
-@Setter
-@Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
-@Data
-public class Salesman {
+@Getter
+public class Warehouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String salesmanId;
-    private String fullName;
+    private String warehouseId;
+    private String name;
+
+
 }
