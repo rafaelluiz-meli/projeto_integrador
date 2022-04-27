@@ -1,14 +1,12 @@
 package com.mercadolivre.bootcamp.projeto_integrador.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class SectionDTO {
     String sectionId;
     String warehouseId;
