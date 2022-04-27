@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Builder
 @Data
 public class ProductDto {
-    private String id;
+    private Long id;
     private String productName;
     private BigDecimal volume;
     private Float minimumTemperature;

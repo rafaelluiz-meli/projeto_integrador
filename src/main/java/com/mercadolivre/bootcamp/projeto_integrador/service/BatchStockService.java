@@ -10,7 +10,7 @@ public interface BatchStockService {
     List<BatchStock> list();
     BatchStock findById(Long id);
     BatchStock update(BatchStock batchStock);
-    List<BatchStock> findAllByProductId(String id);
+    List<BatchStock> findAllByProductId(Long productId);
     void remove(Long id);
 
 }
