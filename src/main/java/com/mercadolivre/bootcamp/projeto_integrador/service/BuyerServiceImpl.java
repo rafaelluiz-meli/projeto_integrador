@@ -30,9 +30,12 @@ public class BuyerServiceImpl implements BuyerService{
     }
 
     @Override
-    public Buyer updateBuyer(String buyerId) {
-        Buyer foundedBuyerById = findById(buyerId);
-        return foundedBuyerById;
+    public Buyer updateBuyer(Buyer buyer) {
+        Buyer updateBuyerById = findById(buyer.getBuyerId());
+
+        updateBuyerById.setFullName(buyer.getFullName());
+
+        return buyerRepository.save(updateBuyerById);
     }
 
     @Override

@@ -8,7 +8,7 @@ import java.util.List;
 public interface BuyerService {
     Buyer addBuyer(NewBuyerDTO newBuyerDTO);
     List<Buyer> getAllBuyer();
-    Buyer updateBuyer(String buyerId);
+    Buyer updateBuyer(Buyer buyer);
     void deleteBuyer(String buyerId);
     List<Buyer> findAll();
     Buyer findById(String buyerId);
