@@ -2,7 +2,6 @@ package com.mercadolivre.bootcamp.projeto_integrador.controller;
 
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Warehouse;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.WarehouseDoesntExistException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.service.WarehouseService;
 import lombok.AllArgsConstructor;
