@@ -1,14 +1,14 @@
 package com.mercadolivre.bootcamp.projeto_integrador.factory;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.InboundOrderDTO;
-import com.mercadolivre.bootcamp.projeto_integrador.dto.NewBatchStockDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewInBoundOrderDTO;
-import com.mercadolivre.bootcamp.projeto_integrador.dto.SectionDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.*;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.inbound_order.InvalidInboundOrderException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.inbound_order.RepresentativeNotAssociatedWithSectionException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.inbound_order.SectionDoesNotHaveEnoughCapacityException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.inbound_order.SectionNotAppropriateForProductException;
 import com.mercadolivre.bootcamp.projeto_integrador.service.*;
 import lombok.AllArgsConstructor;
-import org.hibernate.engine.jdbc.batch.spi.Batch;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -24,22 +24,10 @@ public class InBoundOrderFactory {
     private final ProductService productService;
 
     public InBoundOrder createInBoundOrder(NewInBoundOrderDTO newInBoundOrderDTO) {
-        Product product = productService.findByProductId(newInBoundOrderDTO.getBatchStock().getProductId());
-        Section section = sectionService.getSectionById(newInBoundOrderDTO.getSection().getSectionId());
-        BatchStock batchStock = newInBoundOrderDTO.getBatchStock().map();
-        batchStock.setProduct(product);
+        InboundOrderDTO inboundOrderDTO = this.createInboundOrder(newInBoundOrderDTO);
 
-        boolean isInboundOrderValid = this.isInboundOrderValid(newInBoundOrderDTO);
-        boolean isBatchStockValid = this.isBatchStockValid(batchStock, section.getSectionId());
-
-        if(!isInboundOrderValid || !isBatchStockValid) throw new InvalidInboundOrderException();
-
-        InboundOrderDTO inboundOrderDTO = InboundOrderDTO.builder()
-                .orderNumber(newInBoundOrderDTO.getOrderNumber())
-                .section(section)
-                .batchStock(batchStock)
-                .representativeId(newInBoundOrderDTO.getRepresentativeId())
-                .build();
+        this.validateInboundOrderValid(newInBoundOrderDTO);
+        this.validateStockValid(inboundOrderDTO.getBatchStock(), inboundOrderDTO.getSection().getSectionId());
 
         return inBoundOrderService.addInBoundOrder(inboundOrderDTO);
     }
@@ -52,7 +40,22 @@ public class InBoundOrderFactory {
         return createInBoundOrder(newInBoundOrderDTO);
     }
 
-    private boolean isInboundOrderValid(NewInBoundOrderDTO newInBoundOrderDTO) {
+
+    private InboundOrderDTO createInboundOrder(NewInBoundOrderDTO newInBoundOrderDTO) {
+        BatchStock batchStock = newInBoundOrderDTO.getBatchStock().map();
+        batchStock.setProduct(productService.findByProductId(newInBoundOrderDTO.getBatchStock().getProductId()));
+
+        Section section = sectionService.getSectionById(newInBoundOrderDTO.getSection().getSectionId());
+
+        return InboundOrderDTO.builder()
+                .orderNumber(newInBoundOrderDTO.getOrderNumber())
+                .section(section)
+                .batchStock(batchStock)
+                .representativeId(newInBoundOrderDTO.getRepresentativeId())
+                .build();
+    }
+
+    private void validateInboundOrderValid(NewInBoundOrderDTO newInBoundOrderDTO) {
         /* Faz validação de sectionId, warehouseId e representativeId em seus respectivos
            services. Caso um deles não seja valido, a inboundOrder é inválida e o método retorna false.
          */
@@ -66,16 +69,19 @@ public class InBoundOrderFactory {
         boolean isRepresentativeAssociatedWithSection = representativeService
                 .isRepresentativeAssociatedWithSection(representativeId, sectionId);
 
-        return isSectionValid && isWarehouseValid && isRepresentativeAssociatedWithSection;
+        if(!isSectionValid) throw new IdNotFoundException(sectionId);
+        if(!isWarehouseValid) throw new IdNotFoundException(warehouseId);
+        if(!isRepresentativeAssociatedWithSection) throw new RepresentativeNotAssociatedWithSectionException(representativeId, sectionId);
     }
 
-    private boolean isBatchStockValid(BatchStock batchStock, Long sectionId) {
+    private void validateStockValid(BatchStock batchStock, Long sectionId) {
         Category productCategory = batchStock.getProduct().getCategory();
         BigDecimal totalVolume = batchStockService.calculateTotalVolume(batchStock);
 
         boolean isSectionAppropriateForProductCategory = sectionService.sectionCorrespondsProductType(sectionId, productCategory);
         boolean sectionHasEnoughCapacity = sectionService.availableSectionCapacity(totalVolume, sectionId);
 
-        return isSectionAppropriateForProductCategory && sectionHasEnoughCapacity;
+        if (!isSectionAppropriateForProductCategory) throw new SectionNotAppropriateForProductException(sectionId, productCategory);
+        if (!sectionHasEnoughCapacity) throw new SectionDoesNotHaveEnoughCapacityException(sectionId, totalVolume);
     }
 }

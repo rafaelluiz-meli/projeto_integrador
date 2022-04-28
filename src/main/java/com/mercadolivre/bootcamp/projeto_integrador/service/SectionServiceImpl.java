@@ -61,8 +61,7 @@ public class SectionServiceImpl implements SectionService {
 
     @Override
     public boolean isSectionValid(Long sectionID) {
-            Optional<Section> sectionOptional = sectionRepository.findById(sectionID);
-
+        Optional<Section> sectionOptional = sectionRepository.findById(sectionID);
         return sectionOptional.isPresent();
     }
 

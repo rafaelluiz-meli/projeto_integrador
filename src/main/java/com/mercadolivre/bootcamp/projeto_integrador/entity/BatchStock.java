@@ -23,7 +23,7 @@ public class BatchStock {
     private LocalDate dueDate;
     private LocalDate manufacturingDate;
     private LocalDateTime manufacturingTime;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private Product product;
 }
