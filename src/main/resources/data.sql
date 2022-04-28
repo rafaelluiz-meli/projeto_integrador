@@ -39,11 +39,11 @@ INSERT INTO warehouse (name) VALUES ('Osasco');
 INSERT INTO warehouse (name) VALUES ('Bahia');
 
 INSERT INTO section (capacity, category, current_temperature, warehouse_id) VALUES (500, 'FRESH', 5, 1);
-INSERT INTO section (capacity, category, current_temperature, warehouse_id) VALUES (500, 'FROZEN', -21, 1);
+INSERT INTO section (capacity, category, current_temperature, warehouse_id) VALUES (500, 'FROZEN_FOOD', -21, 1);
 INSERT INTO section (capacity, category, current_temperature, warehouse_id) VALUES (500, 'REFRIGERATED', 0, 1);
 
 INSERT INTO section (capacity, category, current_temperature, warehouse_id) VALUES (500, 'FRESH', 5, 2);
-INSERT INTO section (capacity, category, current_temperature, warehouse_id) VALUES (500, 'FROZEN', -21, 2);
+INSERT INTO section (capacity, category, current_temperature, warehouse_id) VALUES (500, 'FROZEN_FOOD', -21, 2);
 INSERT INTO section (capacity, category, current_temperature, warehouse_id) VALUES (500, 'REFRIGERATED', 0, 2);
 
 INSERT INTO representative (full_name, section_id) VALUES ('JOSE', 1);
