@@ -1,6 +1,7 @@
 package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.Buyer;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrder;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.StatusOrder;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.BatchStockIdNotFoundException;
@@ -86,9 +87,11 @@ public class PurchaseOrderServiceTest {
     @Test
     @DisplayName("It should do update a PurchaseOrder.")
     public void shouldUpdatePurchaseOrder() {
+        Buyer buyer = Buyer.builder().fullName("afonso").build();
         PurchaseOrder updatedPurchaseOrder = PurchaseOrder.builder()
                 .purchaseOrderNumber(1L)
                 .statusOrder(StatusOrder.PROCESSING)
+                .buyer(buyer)
                 .build();
 
         Mockito.when(repository.findById(anyLong())).thenReturn(Optional.ofNullable(purchaseOrder1));
