@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 public class InBoundOrder {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long inBoundOrderNumber;
     private LocalDateTime inBoundOrderDate;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
