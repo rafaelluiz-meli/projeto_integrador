@@ -18,7 +18,7 @@ public class WarehouseController {
 
 
     @PostMapping()
-    public ResponseEntity<?> createWarehouse(@RequestBody String name) {
+    public ResponseEntity createWarehouse(@RequestBody String name) {
         Warehouse wh = new Warehouse(name);
         Warehouse finalWh = warehouseService.save(wh);
         return new ResponseEntity(finalWh, HttpStatus.CREATED);
