@@ -1,4 +1,4 @@
-package com.mercadolivre.bootcamp.projeto_integrador.dto;
+package com.mercadolivre.bootcamp.projeto_integrador.dto.buyer;
 
 import lombok.*;
 

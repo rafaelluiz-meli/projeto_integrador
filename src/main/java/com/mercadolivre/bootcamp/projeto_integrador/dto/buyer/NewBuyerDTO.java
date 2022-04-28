@@ -1,4 +1,4 @@
-package com.mercadolivre.bootcamp.projeto_integrador.dto.buyerDTO;
+package com.mercadolivre.bootcamp.projeto_integrador.dto.buyer;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Buyer;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,6 @@
-package com.mercadolivre.bootcamp.projeto_integrador.dto;
+package com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order;
 
-import com.mercadolivre.bootcamp.projeto_integrador.entity.Buyer;
-import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrder;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.buyer.BuyerDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrderItens;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.StatusOrder;
 import lombok.*;

@@ -1,7 +1,7 @@
 package com.mercadolivre.bootcamp.projeto_integrador.controller;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.salesmanDTO.NewSalesmanDto;
-import com.mercadolivre.bootcamp.projeto_integrador.dto.salesmanDTO.UpdateSalesmanDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.salesman.NewSalesmanDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.salesman.UpdateSalesmanDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Salesman;
 import com.mercadolivre.bootcamp.projeto_integrador.service.SalesmanService;
 import lombok.AllArgsConstructor;
@@ -17,9 +17,9 @@ public class SalesmanController {
     private final SalesmanService salesmanService;
 
     @PostMapping("/addSalesman")
-    public ResponseEntity<NewSalesmanDto> createSalesman(@RequestBody Salesman salesman) {
+    public ResponseEntity<NewSalesmanDTO> createSalesman(@RequestBody Salesman salesman) {
         salesmanService.createSalesman(salesman);
-        return ResponseEntity.status(HttpStatus.CREATED).body(NewSalesmanDto.map(salesman));
+        return ResponseEntity.status(HttpStatus.CREATED).body(NewSalesmanDTO.map(salesman));
     }
 
     @PutMapping("/updateSalesman")

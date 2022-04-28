@@ -1,6 +1,6 @@
 package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.NewPurchaseOrderItensDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order_items.NewPurchaseOrderItemsDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrderItens;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
@@ -32,7 +32,7 @@ public class PurchaseOrderItensTest {
     @Test
     void shouldCreatePurchaseOrderItens() {
         //Arrange
-        NewPurchaseOrderItensDTO purchaseOrderItensDTO = NewPurchaseOrderItensDTO.builder()
+        NewPurchaseOrderItemsDTO purchaseOrderItensDTO = NewPurchaseOrderItemsDTO.builder()
                 .purchaseOrderNumber(1L)
                 .productId(1L)
                 .quantity(10)
@@ -111,7 +111,7 @@ public class PurchaseOrderItensTest {
     @Test
     void shouldUpdatePurchaseOrderItens() {
         //Arrange
-        NewPurchaseOrderItensDTO purchaseOrderItensDTO = NewPurchaseOrderItensDTO.builder()
+        NewPurchaseOrderItemsDTO purchaseOrderItensDTO = NewPurchaseOrderItemsDTO.builder()
                 .purchaseOrderNumber(1L)
                 .productId(1L)
                 .quantity(10)

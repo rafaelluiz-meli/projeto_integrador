@@ -1,4 +1,4 @@
-package com.mercadolivre.bootcamp.projeto_integrador.dto.salesmanDTO;
+package com.mercadolivre.bootcamp.projeto_integrador.dto.salesman;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Salesman;
 import lombok.*;
