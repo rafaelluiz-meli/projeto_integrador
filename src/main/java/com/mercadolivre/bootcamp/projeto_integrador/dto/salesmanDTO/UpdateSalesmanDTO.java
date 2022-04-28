@@ -9,13 +9,14 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateSalesmanDTO {
+    private Long id;
     private String fullName;
 
     public Salesman map() {
-        return Salesman.builder().fullName(this.fullName).build();
+        return Salesman.builder().fullName(this.fullName).id(this.id).build();
     }
 
     public static UpdateSalesmanDTO map(Salesman salesman) {
-        return UpdateSalesmanDTO.builder().fullName(salesman.getFullName()).build();
+        return UpdateSalesmanDTO.builder().fullName(salesman.getFullName()).id(salesman.getId()).build();
     }
 }
