@@ -7,6 +7,7 @@ import com.mercadolivre.bootcamp.projeto_integrador.exception.WarehouseDoesntExi
 import com.mercadolivre.bootcamp.projeto_integrador.service.WarehouseService;
 import com.mercadolivre.bootcamp.projeto_integrador.service.WarehouseServiceImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 public class WarehouseController {
-    private final WarehouseServiceImpl warehouseService;
+    private WarehouseService warehouseService;
     @RequestMapping("api/v1/fresh-products/warehouse")
 
 

@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 public class WarehouseServiceImpl implements WarehouseService{
 
-    private final WarehouseRepository warehouseRepository;
+    private WarehouseRepository warehouseRepository;
 
     @Override
     public Warehouse findById(Long warehouseId) {
