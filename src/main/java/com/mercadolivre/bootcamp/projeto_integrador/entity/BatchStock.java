@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class BatchStock {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long batchNumber;
     private Integer initialQuantity;
     private Integer currentQuantity;
