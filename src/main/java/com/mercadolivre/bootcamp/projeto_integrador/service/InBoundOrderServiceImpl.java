@@ -1,6 +1,8 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewInBoundOrderDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.inBoundOrderException.InBoundOrderEmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.inBoundOrderException.InBoundOrderIdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.InBoundOrderRepository;
@@ -27,6 +29,13 @@ public class InBoundOrderServiceImpl implements InBoundOrderService{
     }
 
     @Override
+    public List<InBoundOrder> findAll() {
+        List<InBoundOrder> inBoundOrderList = inBoundOrderrepository.findAll();
+        if (inBoundOrderList.isEmpty()) throw new EmptyListException();
+        return inBoundOrderList;
+    }
+
+    @Override
     public List<InBoundOrder> getAllInBoundOrder(){
         return findAll();
     }
@@ -34,14 +43,7 @@ public class InBoundOrderServiceImpl implements InBoundOrderService{
     @Override
     public InBoundOrder findById(Long inBoundOrderNumber){
         return inBoundOrderrepository.findById(inBoundOrderNumber).orElseThrow(() ->
-                new InBoundOrderIdNotFoundException(inBoundOrderNumber));
-    }
-
-    @Override
-    public List<InBoundOrder> findAll() {
-        List<InBoundOrder> inBoundOrderList = inBoundOrderrepository.findAll();
-        if (inBoundOrderList.isEmpty()) throw new InBoundOrderEmptyListException();
-        return inBoundOrderList;
+                new IdNotFoundException(inBoundOrderNumber));
     }
 
     @Override
