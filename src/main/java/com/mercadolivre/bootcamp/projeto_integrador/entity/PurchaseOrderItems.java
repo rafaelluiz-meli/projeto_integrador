@@ -1,21 +1,18 @@
 package com.mercadolivre.bootcamp.projeto_integrador.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Builder
-@Data
+@Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class PurchaseOrderItens {
+public class PurchaseOrderItems {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String PurchaseOrderItensId;
+    private Long PurchaseOrderItemsId;
     private Long purchaseOrderNumber;
     private String productId;
     private int quantity;
