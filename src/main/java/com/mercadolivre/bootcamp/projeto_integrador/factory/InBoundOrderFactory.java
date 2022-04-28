@@ -22,15 +22,14 @@ public class InBoundOrderFactory {
     private final BatchStockService batchStockService;
 
     public InBoundOrder createInBoundOrder(NewInBoundOrderDTO newInBoundOrderDTO) {
-        SectionDTO inboundOrderSection = newInBoundOrderDTO.getSectionDTO();
+        SectionDTO inboundOrderSection = newInBoundOrderDTO.getSection();
         boolean isInboundOrderValid = this.isInboundOrderValid(newInBoundOrderDTO);
-        boolean isBatchStockValid = this.isBatchStockValid(newInBoundOrderDTO.getBatchStock(), inboundOrderSection.getSectionId());
+        boolean isBatchStockValid = this.isBatchStockValid(newInBoundOrderDTO.getBatchStock().map(), inboundOrderSection.getSectionId());
 
         if(!isInboundOrderValid || !isBatchStockValid) {
-            // TODO: 27/04/22 MAKE A BETTER EXCEPTION HANDLING FOR EACH VALIDATION
             throw new InvalidInboundOrderException();
         }
-
+        
         return inBoundOrderService.addInBoundOrder(newInBoundOrderDTO);
     }
 
@@ -39,8 +38,8 @@ public class InBoundOrderFactory {
            services. Caso um deles não seja valido, a inboundOrder é inválida e o método retorna false.
          */
 
-        Long sectionId = newInBoundOrderDTO.getSectionDTO().getSectionId();
-        Long warehouseId = newInBoundOrderDTO.getSectionDTO().getWarehouseId();
+        Long sectionId = newInBoundOrderDTO.getSection().getSectionId();
+        Long warehouseId = newInBoundOrderDTO.getSection().getWarehouseId();
         Long representativeId = newInBoundOrderDTO.getRepresentativeId();
 
         boolean isSectionValid = sectionService.isSectionValid(sectionId);
@@ -62,6 +61,7 @@ public class InBoundOrderFactory {
     }
 
     public InBoundOrder updateInboundOrder(NewInBoundOrderDTO newInBoundOrderDTO) {
+        // TODO: 28/04/22 CRIAR MÉTODO UPDATE
         Long inboundOrderId = newInBoundOrderDTO.getOrderNumber();
         inBoundOrderService.findById(inboundOrderId);
         return null;

@@ -54,7 +54,6 @@ public class SectionServiceImpl implements SectionService {
         getSectionId.setCapacity(section.getCapacity());
         getSectionId.setCategory(section.getCategory());
         getSectionId.setCapacity(section.getCapacity());
-        getSectionId.setListInBoundOrder(section.getListInBoundOrder());
         getSectionId.setWarehouseId(section.getWarehouseId());
 
 

@@ -87,8 +87,7 @@ public class SectionServiceTest {
                 .capacity(new BigDecimal(100))
                 .category(Category.REFRIGERATED)
                 .currentTemperature(15)
-                .warehouseId(1L)
-                .listInBoundOrder(new ArrayList<>()).build();
+                .warehouseId(1L).build();
 
         Optional<Section> sectionOptional = Optional.of(section);
 

@@ -13,7 +13,6 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/v1/fresh-products/inboundorder")
 @AllArgsConstructor
 public class InBoundOrderController {
-    private final InBoundOrderService inBoundOrderService;
     private final InBoundOrderFactory inBoundOrderFactory;
 
 

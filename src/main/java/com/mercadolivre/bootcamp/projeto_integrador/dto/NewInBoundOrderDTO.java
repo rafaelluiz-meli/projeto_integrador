@@ -1,6 +1,5 @@
 package com.mercadolivre.bootcamp.projeto_integrador.dto;
 
-import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -14,6 +13,6 @@ import lombok.*;
 public class NewInBoundOrderDTO {
     private Long orderNumber;
     private Long representativeId;
-    private SectionDTO sectionDTO;
-    private BatchStock batchStock;
+    private SectionDTO section;
+    private NewBatchStockDTO batchStock;
 }

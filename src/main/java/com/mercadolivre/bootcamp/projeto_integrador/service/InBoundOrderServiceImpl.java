@@ -20,7 +20,7 @@ public class InBoundOrderServiceImpl implements InBoundOrderService{
     public InBoundOrder addInBoundOrder(NewInBoundOrderDTO inBoundOrderDTO){
         InBoundOrder inBoundOrder = InBoundOrder.builder()
                 .inBoundOrderDate(LocalDateTime.now())
-                .batchStock(inBoundOrderDTO.getBatchStock())
+//                .batchStock(inBoundOrderDTO.getBatchStock()) // TODO: 28/04/22 refactor 
                 .build();
 
         return inBoundOrderrepository.save(inBoundOrder);
