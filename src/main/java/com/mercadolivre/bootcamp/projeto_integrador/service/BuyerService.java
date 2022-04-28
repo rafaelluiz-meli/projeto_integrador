@@ -1,6 +1,6 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.NewBuyerDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.buyerDTO.NewBuyerDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Buyer;
 
 import java.util.List;

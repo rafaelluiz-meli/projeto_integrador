@@ -6,15 +6,17 @@ import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyList
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.WarehouseRepository;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Service
 public class WarehouseServiceImpl implements WarehouseService{
-    private final WarehouseRepository warehouseRepository;
+
+    private WarehouseRepository warehouseRepository;
 
     @Override
     public Warehouse findById(Long warehouseId) {
@@ -46,6 +48,12 @@ public class WarehouseServiceImpl implements WarehouseService{
     @Override
     public Warehouse save(Warehouse wh) {
         return warehouseRepository.save(wh);
+    }
+
+    @Override
+    public void delete(Long warehouseId) {
+        Optional<Warehouse> wh = warehouseRepository.findById(warehouseId);
+        warehouseRepository.delete(wh.get());
     }
 
 }
