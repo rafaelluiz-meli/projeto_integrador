@@ -2,7 +2,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrder;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.StatusOrder;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.purchaseOrderException.PurchaseOrderIdNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.purchaseOrderExceptions.PurchaseOrderIdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.PurchaseOrderRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.PurchaseOrderServiceImpl;
 import org.junit.jupiter.api.DisplayName;

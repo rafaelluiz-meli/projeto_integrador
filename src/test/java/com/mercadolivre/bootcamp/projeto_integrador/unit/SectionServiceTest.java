@@ -5,7 +5,7 @@ import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.sectionException.SectionNotFound;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.sectionExceptions.SectionNotFound;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.SectionRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.SectionServiceImpl;
 import org.junit.jupiter.api.Assertions;

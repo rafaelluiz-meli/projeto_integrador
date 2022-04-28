@@ -1,7 +1,7 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Representative;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.representativeException.RepresentativeNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.representativeExceptions.RepresentativeNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.RepresentativeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

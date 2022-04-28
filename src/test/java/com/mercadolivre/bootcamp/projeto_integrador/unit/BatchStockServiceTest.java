@@ -2,8 +2,8 @@ package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.batchStockException.BatchStockIdNotFoundException;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.productException.InvalidProductException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.batchStockExceptions.BatchStockIdNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.productExceptions.InvalidProductException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.BatchStockRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockServiceImpl;
 import org.junit.jupiter.api.DisplayName;

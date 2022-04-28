@@ -1,4 +1,4 @@
-package com.mercadolivre.bootcamp.projeto_integrador.exception.purchaseOrderException;
+package com.mercadolivre.bootcamp.projeto_integrador.exception.purchaseOrderExceptions;
 
 import com.mercadolivre.bootcamp.projeto_integrador.exception.BaseException;
 import org.springframework.http.HttpStatus;

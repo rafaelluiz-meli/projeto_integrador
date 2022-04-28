@@ -1,12 +1,11 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewInBoundOrderDTO;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.inBoudnOrderException.InBoundOrderEmptyListException;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.inBoudnOrderException.InBoundOrderIdNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.inBoudnOrderExceptions.InBoundOrderEmptyListException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.inBoudnOrderExceptions.InBoundOrderIdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.InBoundOrderRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.InBoundOrder;
 import lombok.AllArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
