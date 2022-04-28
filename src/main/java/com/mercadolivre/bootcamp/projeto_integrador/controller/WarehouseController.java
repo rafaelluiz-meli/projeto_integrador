@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 public class WarehouseController {
-    final WarehouseServiceImpl warehouseService;
+    private final WarehouseService warehouseService;
     @RequestMapping("api/v1/fresh-products/warehouse")
 
 
