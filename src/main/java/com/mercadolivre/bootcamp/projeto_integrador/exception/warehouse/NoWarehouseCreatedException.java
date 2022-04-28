@@ -7,6 +7,6 @@ import java.time.ZonedDateTime;
 
 public class NoWarehouseCreatedException extends BaseException {
     public NoWarehouseCreatedException() {
-        super("No Warehouse Created.", HttpStatus.CONFLICT, ZonedDateTime.now());
+        super("Nenhum Armazém criado.", HttpStatus.CONFLICT, ZonedDateTime.now());
     }
 }

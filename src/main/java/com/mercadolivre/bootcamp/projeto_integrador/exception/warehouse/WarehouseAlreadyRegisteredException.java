@@ -7,6 +7,6 @@ import java.time.ZonedDateTime;
 
 public class WarehouseAlreadyRegisteredException extends BaseException {
     public WarehouseAlreadyRegisteredException(Long warehouseId) {
-        super("The Warehouse " + warehouseId + " is already created.", HttpStatus.CONFLICT, ZonedDateTime.now());
+        super("O Armazém " + warehouseId + " já está criado.", HttpStatus.CONFLICT, ZonedDateTime.now());
     }
 }
