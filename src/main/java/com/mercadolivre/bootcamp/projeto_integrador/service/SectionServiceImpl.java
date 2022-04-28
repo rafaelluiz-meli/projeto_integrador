@@ -34,7 +34,6 @@ public class SectionServiceImpl implements SectionService {
         return listSections;
     }
 
-    @Override
     public boolean isWarehouseValid(Long warehouseId) {
         Optional<Warehouse> warehouse = warehouseRepository.findById(warehouseId);
         if (warehouse.isPresent()){
