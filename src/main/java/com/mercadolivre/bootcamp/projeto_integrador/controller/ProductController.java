@@ -4,6 +4,7 @@ import com.mercadolivre.bootcamp.projeto_integrador.dto.NewProductDto;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.ProductDto;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
+import com.mercadolivre.bootcamp.projeto_integrador.factory.ProductFactory;
 import com.mercadolivre.bootcamp.projeto_integrador.service.ProductService;
 import com.mercadolivre.bootcamp.projeto_integrador.service.ProductServiceImpl;
 import lombok.AllArgsConstructor;
@@ -19,10 +20,11 @@ import java.util.List;
 @RequestMapping("/api/v1/fresh-products")
 public class ProductController {
     private final ProductService productService;
+    private final ProductFactory productFactory;
 
     @PostMapping
     public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody NewProductDto productDto) {
-        ProductDto createdProduct = ProductDto.convert(productService.create(productDto));
+        ProductDto createdProduct = ProductDto.convert(productFactory.createProduct(productDto));
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 

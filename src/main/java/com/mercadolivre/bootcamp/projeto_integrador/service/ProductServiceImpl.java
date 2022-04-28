@@ -3,6 +3,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewProductDto;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.Salesman;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.product.InvalidProductException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
@@ -35,14 +36,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product create(NewProductDto newProductDto) {
 
+        Salesman salesmanId = Salesman.builder().id(newProductDto.getSalesman_id()).build();
+
         Product product = Product.builder()
                                 .productName(newProductDto.getProductName())
                                 .volume(newProductDto.getVolume())
                                 .minimumTemperature(newProductDto.getMinimumTemperature())
                                 .maxTemperature(newProductDto.getMaxTemperature())
                                 .category(newProductDto.getCategory())
-                                // TODO: 25/04/22  ADD SALESMAN TO THIS METHOD
-                                //  .salesman()
+                                .salesman(salesmanId)
                                 .build();
 
         return productRepository.save(product);
