@@ -1,8 +1,8 @@
 package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Salesman;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.SalesmanDoesNotExistException;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.SalesmanListIsEmptyException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.SalesmanRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.SalesmanServiceImpl;
 import org.junit.jupiter.api.DisplayName;
@@ -68,7 +68,7 @@ public class SalesmanServiceTest {
         Mockito.when(repository.findById(any())).thenReturn(Optional.empty());
 
         // assert
-        assertThrows(SalesmanDoesNotExistException.class, ()->service.findSalesmanById(1L));
+        assertThrows(IdNotFoundException.class, ()->service.findSalesmanById(1L));
     }
 
     @Test
@@ -90,13 +90,13 @@ public class SalesmanServiceTest {
     @DisplayName("It should throws a exception if the salesman list is empty.")
     public void shouldNotListSalesman(){
         // arrange
-        List<Salesman> salesmanList = Arrays.asList();
+        List<Salesman> salesmanList = List.of();
 
         // act
         Mockito.when(repository.findAll()).thenReturn(salesmanList);
 
         // assert
-        assertThrows(SalesmanListIsEmptyException.class, ()->service.listSalesman());
+        assertThrows(EmptyListException.class, ()->service.listSalesman());
     }
 
     @Test
@@ -122,7 +122,7 @@ public class SalesmanServiceTest {
         Mockito.when(repository.findById(any())).thenReturn(Optional.empty());
 
         // assert
-        assertThrows(SalesmanDoesNotExistException.class, ()->service.findSalesmanById(1L));
+        assertThrows(IdNotFoundException.class, ()->service.findSalesmanById(1L));
     }
 
     @Test

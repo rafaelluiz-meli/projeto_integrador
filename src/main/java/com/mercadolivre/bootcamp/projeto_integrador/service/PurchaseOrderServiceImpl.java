@@ -1,7 +1,8 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrder;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.PurchaseOrderIdNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.PurchaseOrderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,13 +21,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
     }
 
     @Override
-    public List<PurchaseOrder> list() {
-        return repository.findAll();
+    public List<PurchaseOrder> findAll() {
+        List<PurchaseOrder> purchaseOrderList = repository.findAll();
+        if (purchaseOrderList.isEmpty()) throw new EmptyListException();
+        return purchaseOrderList;
     }
 
     @Override
     public PurchaseOrder findById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new PurchaseOrderIdNotFoundException(id));
+        return repository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
     }
 
     @Override

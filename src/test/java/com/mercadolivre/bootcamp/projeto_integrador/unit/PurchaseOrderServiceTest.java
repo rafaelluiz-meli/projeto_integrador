@@ -1,14 +1,11 @@
 package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
-import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Buyer;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrder;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.StatusOrder;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.BatchStockIdNotFoundException;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.PurchaseOrderIdNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.PurchaseOrderRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.PurchaseOrderServiceImpl;
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,11 +13,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -39,7 +34,6 @@ public class PurchaseOrderServiceTest {
     PurchaseOrder purchaseOrder1 = PurchaseOrder.builder().purchaseOrderNumber(1L).statusOrder(StatusOrder.CART).build();
     PurchaseOrder purchaseOrder2 = PurchaseOrder.builder().purchaseOrderNumber(2L).statusOrder(StatusOrder.CART).build();
     PurchaseOrder purchaseOrder3 = PurchaseOrder.builder().purchaseOrderNumber(3L).statusOrder(StatusOrder.CART).build();
-
 
     @Test
     @DisplayName("It should do create a new PurchaseOrder.")
@@ -62,7 +56,7 @@ public class PurchaseOrderServiceTest {
 
         Mockito.when(repository.findAll()).thenReturn(purchaseOrderList);
 
-        List<PurchaseOrder> result = service.list();
+        List<PurchaseOrder> result = service.findAll();
 
         assertEquals(purchaseOrderList, result);
         assertEquals(3, result.size());
@@ -81,7 +75,7 @@ public class PurchaseOrderServiceTest {
     @Test
     @DisplayName("It should not do find PurchaseOrder by id when it not exists.")
     public void shouldNotFindPurchaseOrderByIdWhenIdNotExists() {
-        assertThrows(PurchaseOrderIdNotFoundException.class,()->service.findById(anyLong()));
+        assertThrows(IdNotFoundException.class,()->service.findById(anyLong()));
     }
 
     @Test
@@ -114,7 +108,7 @@ public class PurchaseOrderServiceTest {
     @Test
     @DisplayName("It should not do delete a PurchaseOrder when id not exists.")
     public void shouldNotDeletePurchaseOrderWhenIdNotExists() {
-        assertThrows(PurchaseOrderIdNotFoundException.class,()->service.remove(anyLong()));
+        assertThrows(IdNotFoundException.class,()->service.remove(anyLong()));
     }
 
 }
