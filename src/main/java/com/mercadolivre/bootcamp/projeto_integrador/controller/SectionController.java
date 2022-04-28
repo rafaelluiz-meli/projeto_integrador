@@ -22,14 +22,14 @@ public class SectionController {
     private final SectionService sectionService;
 
     @GetMapping("/section/{id}")
-    public ResponseEntity<NewSectionDTO> getSectionById(@PathVariable String id){
+    public ResponseEntity<NewSectionDTO> getSectionById(@PathVariable Long id){
         Section sectionExistente = sectionService.getSectionById(id);
         NewSectionDTO result = NewSectionDTO.convert(sectionExistente);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Section>> getSectionsByWarehouseById(@RequestParam String warehouseId){
+    public ResponseEntity<List<Section>> getSectionsByWarehouseById(@RequestParam Long warehouseId){
         List<Section> allSectionsByWarehouseId = sectionService.getAllSectionByWarehouseId(warehouseId);
         return ResponseEntity.ok(allSectionsByWarehouseId);
     }
@@ -51,7 +51,7 @@ public class SectionController {
     }
 
     @DeleteMapping("/section")
-    public ResponseEntity deleteSection (@RequestParam String id) {
+    public ResponseEntity deleteSection (@RequestParam Long id) {
         try{
             sectionService.deleteSection(id);
             return ResponseEntity.ok().body("a seção foi excluída.");
