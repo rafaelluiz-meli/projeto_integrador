@@ -3,6 +3,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.controller;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewSectionDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Warehouse;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.SectionNotFound;
 import com.mercadolivre.bootcamp.projeto_integrador.service.SectionService;
 import com.mercadolivre.bootcamp.projeto_integrador.service.SectionServiceImpl;
 import com.mercadolivre.bootcamp.projeto_integrador.service.WarehouseService;
@@ -16,13 +17,12 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("api/v1/fresh-products/section")
+@RequestMapping("api/v1/fresh-products")
 public class SectionController {
     private final SectionService sectionService;
-    private final WarehouseService warehouseService;
 
-    @GetMapping("")
-    public ResponseEntity<NewSectionDTO> obter(@PathVariable String id){
+    @GetMapping("/section/{id}")
+    public ResponseEntity<NewSectionDTO> getSectionById(@PathVariable String id){
         Section sectionExistente = sectionService.getSectionById(id);
         NewSectionDTO result = NewSectionDTO.convert(sectionExistente);
         return ResponseEntity.ok(result);
@@ -50,5 +50,20 @@ public class SectionController {
         return ResponseEntity.badRequest().build();
     }
 
+    @DeleteMapping("/section")
+    public ResponseEntity deleteSection (@RequestParam String id) {
+        try{
+            sectionService.deleteSection(id);
+            return ResponseEntity.ok().body("a seção foi excluída.");
+        }catch (SectionNotFound ex){
+            return ResponseEntity.badRequest().body("A seção informada não foi encontrada.");
+        }
+    }
+
+    @PutMapping("")
+    public ResponseEntity<Section> putSection (@RequestBody Section section){
+        Section updatedSection = sectionService.updateSection(section);
+        return ResponseEntity.ok(updatedSection);
+    }
 
 }
