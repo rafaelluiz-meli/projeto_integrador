@@ -12,6 +12,7 @@ import lombok.*;
 @Getter
 @Setter
 public class NewInBoundOrderDTO {
+    private Long orderNumber;
     private Long representativeId;
     private SectionDTO sectionDTO;
     private BatchStock batchStock;

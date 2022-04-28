@@ -11,9 +11,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.util.List;
 
 @Component
 @AllArgsConstructor
@@ -62,5 +59,11 @@ public class InBoundOrderFactory {
         boolean sectionHasEnoughCapacity = sectionService.availableSectionCapacity(totalVolume, sectionId);
 
         return isSectionAppropriateForProductCategory && sectionHasEnoughCapacity;
+    }
+
+    public InBoundOrder updateInboundOrder(NewInBoundOrderDTO newInBoundOrderDTO) {
+        Long inboundOrderId = newInBoundOrderDTO.getOrderNumber();
+        inBoundOrderService.findById(inboundOrderId);
+        return null;
     }
 }
