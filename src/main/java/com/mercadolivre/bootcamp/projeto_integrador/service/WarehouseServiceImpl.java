@@ -2,8 +2,8 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Warehouse;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.NoWarehouseCreatedException;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.WarehouseDoesntExistException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.WarehouseRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ public class WarehouseServiceImpl implements WarehouseService{
     public Warehouse findById(Long warehouseId) {
         Optional<Warehouse> wh = warehouseRepository.findById(warehouseId);
         if(wh.isEmpty()){
-            throw new WarehouseDoesntExistException(warehouseId);
+            throw new IdNotFoundException(warehouseId);
         }else{
             return wh.get();
         }
@@ -30,18 +30,16 @@ public class WarehouseServiceImpl implements WarehouseService{
 
     @Override
     public List<Warehouse> findAll() {
-        List<Warehouse> warehouses = warehouseRepository.findAll();
-        if(warehouses.isEmpty()){
-            throw new NoWarehouseCreatedException();
-        }
-        return warehouses;
+        List<Warehouse> warehouseList = warehouseRepository.findAll();
+        if(warehouseList.isEmpty()) throw new EmptyListException();
+        return warehouseList;
     }
 
     @Override
     public boolean isValidWarehouse(Long warehouseId) {
         Optional<Warehouse> wh = warehouseRepository.findById(warehouseId);
         if(wh.isEmpty()){
-            throw new WarehouseDoesntExistException(warehouseId);
+            throw new IdNotFoundException(warehouseId);
         }else{
             return true;
         }
@@ -57,4 +55,5 @@ public class WarehouseServiceImpl implements WarehouseService{
         Optional<Warehouse> wh = warehouseRepository.findById(warehouseId);
         warehouseRepository.delete(wh.get());
     }
+
 }
