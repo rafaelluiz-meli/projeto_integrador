@@ -11,13 +11,12 @@ public interface SectionService {
 
     Section addSection(Section section);
     List<Section> getAllSection();
-    List<Section> getAllSectionByWarehouseId(String warehouseId);
-    Section getSectionById(String sectionId);
-    void deleteSection(String sectionId);
+    List<Section> getAllSectionByWarehouseId(Long warehouseId);
+    Section getSectionById(Long sectionId);
+    void deleteSection(Long sectionId);
     Section updateSection(Section section);
-    boolean isSectionValid(String sectionID);
-    boolean availableSectionCapacity(BigDecimal totalVolume, String sectionId);
+    boolean isSectionValid(Long sectionID);
+    boolean availableSectionCapacity(BigDecimal totalVolume, Long sectionId);
     boolean sectionCorrespondsProductType(String sectionId, Category category);
-    boolean isWarehouseValid(String warehouseId);
-
+    boolean isWarehouseValid(Long warehouseId);
 }

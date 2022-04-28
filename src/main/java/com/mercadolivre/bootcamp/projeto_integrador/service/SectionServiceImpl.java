@@ -35,12 +35,13 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public List<Section> getAllSectionByWarehouseId(String warehouseId) {
+
+    public List<Section> getAllSectionByWarehouseId(Long warehouseId) {
         isWarehouseValid(warehouseId);
         return sectionRepository.findAllByWarehouseId(warehouseId);
     }
 
-    public boolean isWarehouseValid(String warehouseId) {
+    public boolean isWarehouseValid(Long warehouseId) {
         Optional<Warehouse> warehouse = warehouseRepository.findById(warehouseId);
         if (warehouse.isPresent()){
             return true;
@@ -49,14 +50,14 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public Section getSectionById(String sectionId) {
+    public Section getSectionById(Long sectionId) {
         Section getSectionById = sectionRepository.findById(sectionId).orElseThrow(() ->
                 new SectionNotFound(sectionId));
         return getSectionById;
     }
 
     @Override
-    public void deleteSection(String sectionId) {
+    public void deleteSection(Long sectionId) {
         try {
             sectionRepository.deleteById(sectionId);
         } catch (EmptyResultDataAccessException e) {
@@ -80,20 +81,18 @@ public class SectionServiceImpl implements SectionService {
 
 
     @Override
-    public boolean isSectionValid(String sectionID) {
-
-        if (!sectionID.isBlank() && !sectionID.isEmpty()) {
+    public boolean isSectionValid(Long sectionID) {
             Optional<Section> sectionOptional = sectionRepository.findById(sectionID);
 
             if (sectionOptional.isPresent()) {
                 return true;
             }
-        }
+
         return false;
     }
 
     @Override
-    public boolean availableSectionCapacity(BigDecimal totalVolume, String sectionId) {
+    public boolean availableSectionCapacity(BigDecimal totalVolume, Long sectionId) {
 
         Section getSection = getSectionById(sectionId);
 
@@ -106,7 +105,7 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public boolean sectionCorrespondsProductType(String sectionId, Category category) {
+    public boolean sectionCorrespondsProductType(Long sectionId, Category category) {
         Section getSection = sectionRepository.findById(sectionId).orElseThrow(
                 () -> new SectionNotFound(sectionId));
 

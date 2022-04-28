@@ -23,7 +23,7 @@ public class NewSectionDTO {
     private BigDecimal capacity;
     private float currentTemperature;
     private Category category;
-    private String warehouseId;
+    private Long warehouseId;
 
     public static Section convert(NewSectionDTO newSectionDTO){
         return Section.builder()

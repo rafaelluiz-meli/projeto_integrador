@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Builder
 @AllArgsConstructor
@@ -16,11 +16,11 @@ public class InBoundOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long inBoundOrderNumber;
-    private LocalDate inBoundOrderDate;
+    private LocalDateTime inBoundOrderDate;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private BatchStock batchStock;
     //Todo: JoinColumn @ManyToOne
-    private String representativeId;
+    private Long representativeId;
     @ManyToOne
     @JoinColumn(name = "section_id")
     private Section section;
