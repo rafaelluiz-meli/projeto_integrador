@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter @Setter
+@Data
 @Entity
 public class PurchaseOrder {
 
@@ -18,6 +18,6 @@ public class PurchaseOrder {
     private StatusOrder statusOrder;
     @ManyToOne
     @JoinColumn(name = "buyer_id")
-    private Buyer buyerId;
+    private Buyer buyer;
     private LocalDate purchaseOrderDate;
 }
