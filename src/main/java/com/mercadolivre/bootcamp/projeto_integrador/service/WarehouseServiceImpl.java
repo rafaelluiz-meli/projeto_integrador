@@ -55,10 +55,6 @@ public class WarehouseServiceImpl implements WarehouseService{
     @Override
     public void delete(Long warehouseId) {
         Optional<Warehouse> wh = warehouseRepository.findById(warehouseId);
-        if(wh.isEmpty()){
-            throw new WarehouseDoesntExistException(warehouseId);
-        }else{
-            warehouseRepository.delete(wh.get());
-        }
+        warehouseRepository.delete(wh.get());
     }
 }
