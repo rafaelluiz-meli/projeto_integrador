@@ -1,7 +1,7 @@
 package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Representative;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.RepresentativeNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.RepresentativeRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.RepresentativeServiceImpl;
 import org.junit.jupiter.api.DisplayName;
@@ -69,7 +69,7 @@ public class RepresentativeServiceTest {
         Mockito.when(representativeRepository.findById(any())).thenReturn(Optional.empty());
 
         //Assert
-        assertThrows(RepresentativeNotFoundException.class, () -> representativeService.getRepresentativeById(1L));
+        assertThrows(IdNotFoundException.class, () -> representativeService.getRepresentativeById(1L));
 
     }
 
@@ -128,7 +128,7 @@ public class RepresentativeServiceTest {
         Mockito.when(representativeRepository.findById(any())).thenReturn(Optional.empty());
 
         //Assert
-        assertThrows(RepresentativeNotFoundException.class, () -> representativeService.deleteRepresentative(1L));
+        assertThrows(IdNotFoundException.class, () -> representativeService.deleteRepresentative(1L));
     }
 
     @Test

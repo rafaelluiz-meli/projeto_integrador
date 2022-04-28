@@ -2,8 +2,8 @@ package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewPurchaseOrderItensDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrderItens;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.PurchaseOrderItensExceptions.PurchaseOrderItensIdNotFoundException;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.PurchaseOrderItensExceptions.PurchaseOrderItensListEmptyException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.PurchaseOrderItensRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.PurchaseOrderItensServiceImpl;
 import org.junit.jupiter.api.Assertions;
@@ -69,7 +69,7 @@ public class PurchaseOrderItensTest {
         Mockito.when(purchaseOrderItensRepository.findById(any())).thenReturn(Optional.empty());
 
         //Assert
-        assertThrows(PurchaseOrderItensIdNotFoundException.class, ()
+        assertThrows(IdNotFoundException.class, ()
                 -> purchaseOrderItensService.findById(1L)
         );
     }
@@ -103,7 +103,7 @@ public class PurchaseOrderItensTest {
         Mockito.when(purchaseOrderItensRepository.findAll()).thenReturn(purchaseOrderItensList);
 
         //Assert
-        assertThrows(PurchaseOrderItensListEmptyException.class, ()
+        assertThrows(EmptyListException.class, ()
                 -> purchaseOrderItensService.getAllPurchaseOrderItens()
         );
     }
@@ -151,7 +151,7 @@ public class PurchaseOrderItensTest {
         Mockito.when(purchaseOrderItensRepository.findById(any())).thenReturn(Optional.empty());
 
         //Assert
-        assertThrows(PurchaseOrderItensIdNotFoundException.class, ()
+        assertThrows(IdNotFoundException.class, ()
                 -> purchaseOrderItensService.deletePurchaseOrderItens(1L)
         );
     }
