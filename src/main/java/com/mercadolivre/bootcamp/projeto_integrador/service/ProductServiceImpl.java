@@ -1,6 +1,6 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.NewProductDto;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.product.NewProductDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.product.InvalidProductException;
@@ -33,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
 
     // METHOD TO CREATE PRODUCT
     @Override
-    public Product create(NewProductDto newProductDto) {
+    public Product create(NewProductDTO newProductDto) {
 
         Product product = Product.builder()
                                 .productName(newProductDto.getProductName())

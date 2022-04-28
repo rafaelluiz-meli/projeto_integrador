@@ -1,6 +1,6 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.NewSectionDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.section.NewSectionDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
 
