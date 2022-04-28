@@ -4,6 +4,8 @@ import com.mercadolivre.bootcamp.projeto_integrador.dto.NewBuyerDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Buyer;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.buyerExceptions.BuyerIdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.buyerExceptions.BuyerListEmptyException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.BuyerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,21 +42,20 @@ public class BuyerServiceImpl implements BuyerService{
 
     @Override
     public void deleteBuyer(Long buyerId) {
-        Buyer foundedBuyerById = buyerRepository.findById(buyerId).orElseThrow(()
-                -> new BuyerIdNotFoundException(buyerId));
+        Buyer foundedBuyerById = findById(buyerId);
         buyerRepository.delete(foundedBuyerById);
     }
 
     @Override
     public List<Buyer> findAll() {
         List<Buyer> buyerList = buyerRepository.findAll();
-        if (buyerList.isEmpty()) throw new BuyerListEmptyException();
+        if (buyerList.isEmpty()) throw new EmptyListException();
         return buyerList;
     }
 
     @Override
     public Buyer findById(Long buyerId) {
         return buyerRepository.findById(buyerId).orElseThrow(()
-                -> new BuyerIdNotFoundException(buyerId));
+                -> new IdNotFoundException(buyerId));
     }
 }
