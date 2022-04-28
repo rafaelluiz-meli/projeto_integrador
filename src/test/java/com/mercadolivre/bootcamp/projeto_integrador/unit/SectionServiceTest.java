@@ -2,10 +2,9 @@ package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewSectionDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.*;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.SectionNotFound;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.SectionRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.WarehouseRepository;
-import com.mercadolivre.bootcamp.projeto_integrador.service.SectionService;
 import com.mercadolivre.bootcamp.projeto_integrador.service.SectionServiceImpl;
 import com.mercadolivre.bootcamp.projeto_integrador.service.WarehouseServiceImpl;
 import org.junit.jupiter.api.Assertions;
@@ -142,7 +141,7 @@ public class SectionServiceTest {
         Mockito.when(sectionRepository.findById(any())).thenReturn(sectionOptionalNull);
 
         //Assert
-        Assertions.assertThrows(SectionNotFound.class,
+        Assertions.assertThrows(IdNotFoundException.class,
                 () -> {
                     sectionService.getSectionById(1000000L);
                 });
@@ -176,7 +175,7 @@ public class SectionServiceTest {
         Mockito.when(sectionRepository.findById(any())).thenReturn(sectionOptionalNull);
 
         //Assert
-        Assertions.assertThrows(SectionNotFound.class,
+        Assertions.assertThrows(IdNotFoundException.class,
                 () -> {
                     sectionService.updateSection(section);
                 });
@@ -311,7 +310,7 @@ public class SectionServiceTest {
         Mockito.when(sectionRepository.findById(any())).thenReturn(sectionOptionalNull);
 
         //Assert
-        Assertions.assertThrows(SectionNotFound.class,
+        Assertions.assertThrows(IdNotFoundException.class,
                 () -> {
                     sectionService.sectionCorrespondsProductType(any(), batchStock1.getProduct().getCategory());
                 });

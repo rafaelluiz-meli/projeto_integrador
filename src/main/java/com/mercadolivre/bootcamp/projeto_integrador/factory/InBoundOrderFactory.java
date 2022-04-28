@@ -5,15 +5,12 @@ import com.mercadolivre.bootcamp.projeto_integrador.dto.SectionDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.InBoundOrder;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.inBoundOrderException.InvalidInboundOrderException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.inbound_order.InvalidInboundOrderException;
 import com.mercadolivre.bootcamp.projeto_integrador.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.util.List;
 
 @Component
 @AllArgsConstructor

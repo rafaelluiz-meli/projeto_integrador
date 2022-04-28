@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface InBoundOrderService {
     InBoundOrder addInBoundOrder(NewInBoundOrderDTO inBoundOrderDTO);
+    List<InBoundOrder> findAll();
     List<InBoundOrder> getAllInBoundOrder();
     InBoundOrder findById(Long inBoundOrderNumber);
-    List<InBoundOrder> findAll();
     InBoundOrder updateInBoundOrder(InBoundOrder inBoundOrder);
     void deleteInBoundOrder(Long inBoundOrderNumber);
 }

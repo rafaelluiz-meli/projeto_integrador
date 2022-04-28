@@ -2,7 +2,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.controller;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewSectionDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.SectionNotFound;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.service.SectionService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +52,7 @@ public class SectionController {
         try{
             sectionService.deleteSection(sectionId);
             return ResponseEntity.ok().body("a seção foi excluída.");
-        }catch (SectionNotFound ex){
+        }catch (IdNotFoundException ex){
             return ResponseEntity.badRequest().body("A seção informada não foi encontrada.");
         }
     }
