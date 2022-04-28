@@ -15,6 +15,7 @@ import java.util.Optional;
 @NoArgsConstructor
 @Service
 public class WarehouseServiceImpl implements WarehouseService{
+
     private final WarehouseRepository warehouseRepository;
 
     @Override

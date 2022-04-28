@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@RestController
+
 @AllArgsConstructor
+@RestController
 public class WarehouseController {
-    private final WarehouseService warehouseService;
+    private final WarehouseServiceImpl warehouseService;
     @RequestMapping("api/v1/fresh-products/warehouse")
 
 
