@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 
 
@@ -222,7 +223,7 @@ public class SectionServiceTest {
         // act
         Mockito.when(sectionRepository.findAllByWarehouseId(any())).thenReturn(sectionList);
         Mockito.when(warehouseRepository.findById(any())).thenReturn(Optional.of(warehouse));
-        Warehouse id = warehouseService.findById(warehouse.getWarehouseId());
+        Warehouse id = warehouseService.findById(1L);
         List<Section> result = sectionService.getAllSectionByWarehouseId(id.getWarehouseId());
 
         // assert
@@ -249,10 +250,11 @@ public class SectionServiceTest {
     @DisplayName("It should delete a section.")
     public void shouldDeleteSection() {
         // Arrange
-        Section section = Section.builder().sectionId(100l).build();
+        Section section = Section.builder().sectionId(100L).build();
 
-        // Act
-        doNothing().when(sectionRepository).deleteById(any());
+        //Act
+        Mockito.when(sectionRepository.findById(anyLong())).thenReturn(Optional.ofNullable(section));
+        doNothing().when(sectionRepository).delete(any());
 
         // Assert
         assertDoesNotThrow(() -> {
