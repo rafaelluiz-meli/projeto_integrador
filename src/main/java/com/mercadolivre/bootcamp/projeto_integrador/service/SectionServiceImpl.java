@@ -35,17 +35,21 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public List<Section> getAllSectionByWarehouseId(Long warehouseId) {
-        isWarehouseValid(warehouseId);
-        return sectionRepository.findAllByWarehouseId(warehouseId);
-    }
-
     public boolean isWarehouseValid(Long warehouseId) {
         Optional<Warehouse> warehouse = warehouseRepository.findById(warehouseId);
         if (warehouse.isPresent()){
             return true;
         }
         throw new WarehouseDoesntExistException(warehouseId);
+    }
+
+    @Override
+    public List<Section> getAllSectionByWarehouseId(Long warehouseId) {
+        if (isWarehouseValid(warehouseId)){
+            return sectionRepository.findAllByWarehouseId(warehouseId);
+        } else {
+            throw new WarehouseDoesntExistException(warehouseId);
+        }
     }
 
     @Override
