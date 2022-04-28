@@ -3,8 +3,6 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewInBoundOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.inBoundOrderException.InBoundOrderEmptyListException;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.inBoundOrderException.InBoundOrderIdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.InBoundOrderRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.InBoundOrder;
 import lombok.AllArgsConstructor;

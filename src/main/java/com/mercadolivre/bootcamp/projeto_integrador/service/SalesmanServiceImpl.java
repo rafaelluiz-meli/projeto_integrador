@@ -1,8 +1,6 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Salesman;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.SalesmanDoesNotExistException;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.SalesmanListIsEmptyException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.SalesmanRepository;

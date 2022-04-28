@@ -1,4 +1,4 @@
-package com.mercadolivre.bootcamp.projeto_integrador.exception.inBoundOrderException;
+package com.mercadolivre.bootcamp.projeto_integrador.exception.inbound_order;
 
 import com.mercadolivre.bootcamp.projeto_integrador.exception.BaseException;
 import org.springframework.http.HttpStatus;

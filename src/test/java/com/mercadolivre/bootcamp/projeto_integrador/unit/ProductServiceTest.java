@@ -3,7 +3,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.unit;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewProductDto;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.InvalidProductException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.product.InvalidProductException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.ProductRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.ProductServiceImpl;
 import org.junit.jupiter.api.DisplayName;

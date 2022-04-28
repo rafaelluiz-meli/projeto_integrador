@@ -2,7 +2,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrder;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.StatusOrder;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.PurchaseOrderIdNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.PurchaseOrderRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.PurchaseOrderServiceImpl;
 import org.junit.jupiter.api.DisplayName;
@@ -77,7 +77,7 @@ public class PurchaseOrderServiceTest {
     @Test
     @DisplayName("It should not do find PurchaseOrder by id when it not exists.")
     public void shouldNotFindPurchaseOrderByIdWhenIdNotExists() {
-        assertThrows(PurchaseOrderIdNotFoundException.class,()->service.findById(anyLong()));
+        assertThrows(IdNotFoundException.class,()->service.findById(anyLong()));
     }
 
     @Test
@@ -108,7 +108,7 @@ public class PurchaseOrderServiceTest {
     @Test
     @DisplayName("It should not do delete a PurchaseOrder when id not exists.")
     public void shouldNotDeletePurchaseOrderWhenIdNotExists() {
-        assertThrows(PurchaseOrderIdNotFoundException.class,()->service.remove(anyLong()));
+        assertThrows(IdNotFoundException.class,()->service.remove(anyLong()));
     }
 
 }

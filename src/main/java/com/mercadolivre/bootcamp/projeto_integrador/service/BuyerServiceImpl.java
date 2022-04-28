@@ -2,8 +2,6 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewBuyerDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Buyer;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.buyerExceptions.BuyerIdNotFoundException;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.buyerExceptions.BuyerListEmptyException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.BuyerRepository;

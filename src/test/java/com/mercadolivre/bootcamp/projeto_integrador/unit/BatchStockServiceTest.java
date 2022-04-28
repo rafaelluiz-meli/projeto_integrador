@@ -2,8 +2,8 @@ package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.BatchStockIdNotFoundException;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.InvalidProductException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.product.InvalidProductException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.BatchStockRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockServiceImpl;
 import org.junit.jupiter.api.DisplayName;
@@ -90,7 +90,7 @@ public class BatchStockServiceTest {
     @Test
     @DisplayName("It should not do delete BatchStock by id when it not exists.")
     public void shouldNotDeleteBatchStockByIdWhenIdNotExist(){
-        assertThrows(BatchStockIdNotFoundException.class,()->service.remove(anyLong()));
+        assertThrows(IdNotFoundException.class,()->service.remove(anyLong()));
     }
 
     @Test
@@ -123,7 +123,7 @@ public class BatchStockServiceTest {
     @Test
     @DisplayName("It should not do find BatchStock by id when it not exists.")
     public void shouldNotFindBatchStockByIdWhenIdNotExists(){
-        assertThrows(BatchStockIdNotFoundException.class,()->service.findById(anyLong()));
+        assertThrows(IdNotFoundException.class,()->service.findById(anyLong()));
     }
 
     @Test
