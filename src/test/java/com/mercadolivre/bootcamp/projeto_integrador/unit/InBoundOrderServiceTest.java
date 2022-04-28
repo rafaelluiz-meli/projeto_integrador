@@ -5,8 +5,8 @@ import com.mercadolivre.bootcamp.projeto_integrador.dto.SectionDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.InBoundOrder;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.inBoundOrderException.InBoundOrderEmptyListException;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.inBoundOrderException.InBoundOrderIdNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.InBoundOrderRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.InBoundOrderServiceImpl;
 import org.junit.jupiter.api.Assertions;
@@ -76,7 +76,7 @@ public class InBoundOrderServiceTest {
         Mockito.when(inBoundOrderRepository.findById(any())).thenReturn(Optional.empty());
 
         //Assert
-        assertThrows(InBoundOrderIdNotFoundException.class, ()
+        assertThrows(IdNotFoundException.class, ()
                 -> inBoundOrderService.findById(1L)
         );
     }
@@ -110,7 +110,7 @@ public class InBoundOrderServiceTest {
         Mockito.when(inBoundOrderRepository.findAll()).thenReturn(InBoundOrderList);
 
         //Assert
-        assertThrows(InBoundOrderEmptyListException.class, ()
+        assertThrows(EmptyListException.class, ()
                 -> inBoundOrderService.getAllInBoundOrder()
         );
     }
@@ -152,7 +152,7 @@ public class InBoundOrderServiceTest {
         Mockito.when(inBoundOrderRepository.findById(any())).thenReturn(Optional.empty());
 
         //Assert
-        assertThrows(InBoundOrderIdNotFoundException.class, ()
+        assertThrows(IdNotFoundException.class, ()
                 -> inBoundOrderService.deleteInBoundOrder(1L)
         );
     }

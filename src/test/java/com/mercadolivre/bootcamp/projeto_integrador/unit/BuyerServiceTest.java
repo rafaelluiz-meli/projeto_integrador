@@ -2,8 +2,8 @@ package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewBuyerDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Buyer;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.buyerExceptions.BuyerIdNotFoundException;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.buyerExceptions.BuyerListEmptyException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.BuyerRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BuyerServiceImpl;
 import org.junit.jupiter.api.Assertions;
@@ -62,7 +62,7 @@ public class BuyerServiceTest {
         Mockito.when(BuyerRepository.findById(any())).thenReturn(Optional.empty());
 
         //Assert
-        assertThrows(BuyerIdNotFoundException.class, ()
+        assertThrows(IdNotFoundException.class, ()
                 -> BuyerService.findById(1L)
         );
     }
@@ -96,7 +96,7 @@ public class BuyerServiceTest {
         Mockito.when(BuyerRepository.findAll()).thenReturn(buyerList);
 
         //Assert
-        assertThrows(BuyerListEmptyException.class, ()
+        assertThrows(EmptyListException.class, ()
                 -> BuyerService.getAllBuyer()
         );
     }
@@ -138,7 +138,7 @@ public class BuyerServiceTest {
         Mockito.when(BuyerRepository.findById(any())).thenReturn(Optional.empty());
 
         //Assert
-        assertThrows(BuyerIdNotFoundException.class, ()
+        assertThrows(IdNotFoundException.class, ()
                 -> BuyerService.deleteBuyer(1L)
         );
     }
