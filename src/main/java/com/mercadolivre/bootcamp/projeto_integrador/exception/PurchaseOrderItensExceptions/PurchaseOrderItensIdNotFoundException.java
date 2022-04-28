@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import java.time.ZonedDateTime;
 
 public class PurchaseOrderItensIdNotFoundException extends BaseException {
-    public PurchaseOrderItensIdNotFoundException(String PurchaseOrderItensId) {
+    public PurchaseOrderItensIdNotFoundException(Long PurchaseOrderItensId) {
         super("O id" + PurchaseOrderItensId + " não foi encontrado.", HttpStatus.NOT_FOUND, ZonedDateTime.now());
     }
 }

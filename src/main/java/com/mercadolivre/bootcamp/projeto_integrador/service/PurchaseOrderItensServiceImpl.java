@@ -43,7 +43,7 @@ public class PurchaseOrderItensServiceImpl implements PurchaseOrderItensService{
     }
 
     @Override
-    public void deletePurchaseOrderItens(String purchaseOrderItensId) {
+    public void deletePurchaseOrderItens(Long purchaseOrderItensId) {
         PurchaseOrderItens purchaseOrderItens = findById(purchaseOrderItensId);
         purchaseOrderItensRepository.delete(purchaseOrderItens);
     }
@@ -56,7 +56,7 @@ public class PurchaseOrderItensServiceImpl implements PurchaseOrderItensService{
     }
 
     @Override
-    public PurchaseOrderItens findById(String purchaseOrderItensId) {
+    public PurchaseOrderItens findById(Long purchaseOrderItensId) {
         return purchaseOrderItensRepository.findById(purchaseOrderItensId).orElseThrow(()
                 -> new PurchaseOrderItensIdNotFoundException(purchaseOrderItensId));
     }

@@ -6,7 +6,7 @@ import lombok.Data;
 @Builder
 @Data
 public class NewPurchaseOrderItensDTO {
-    private String productId;
+    private Long productId;
     private Long purchaseOrderNumber;
     private int quantity;
 }

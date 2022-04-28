@@ -9,7 +9,7 @@ public interface PurchaseOrderItensService {
     PurchaseOrderItens addPurchaseOrderItens(NewPurchaseOrderItensDTO purchaseOrderItensDTO);
     List<PurchaseOrderItens> getAllPurchaseOrderItens();
     PurchaseOrderItens updatePurchaseOrderItens(PurchaseOrderItens purchaseOrderItens);
-    void deletePurchaseOrderItens(String purchaseOrderItensId);
+    void deletePurchaseOrderItens(Long purchaseOrderItensId);
     List<PurchaseOrderItens> findAll();
-    PurchaseOrderItens findById(String purchaseOrderItensId);
+    PurchaseOrderItens findById(Long purchaseOrderItensId);
 }

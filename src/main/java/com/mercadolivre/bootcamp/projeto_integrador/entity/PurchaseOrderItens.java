@@ -15,8 +15,8 @@ import javax.persistence.*;
 public class PurchaseOrderItens {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String PurchaseOrderItensId;
+    private Long PurchaseOrderItensId;
     private Long purchaseOrderNumber;
-    private String productId;
+    private Long productId;
     private int quantity;
 }
