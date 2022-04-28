@@ -1,23 +1,22 @@
 package com.mercadolivre.bootcamp.projeto_integrador.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter @Setter
 @Entity
-public class PurchaseOrder {
-
+public class PurchaseOrderItens {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String PurchaseOrderItensId;
     private Long purchaseOrderNumber;
-    private StatusOrder statusOrder;
-    @ManyToOne
-    @JoinColumn(name = "buyer_id")
-    private Buyer buyerId;
-    private LocalDate purchaseOrderDate;
+    private String productId;
+    private int quantity;
 }

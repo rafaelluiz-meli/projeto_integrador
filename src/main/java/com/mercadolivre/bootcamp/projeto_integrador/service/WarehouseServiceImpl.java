@@ -8,7 +8,6 @@ import com.mercadolivre.bootcamp.projeto_integrador.repository.WarehouseReposito
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +15,7 @@ import java.util.Optional;
 @NoArgsConstructor
 @Service
 public class WarehouseServiceImpl implements WarehouseService{
-    private WarehouseRepository warehouseRepository;
+    private final WarehouseRepository warehouseRepository;
 
     @Override
     public Warehouse findById(Long warehouseId) {
