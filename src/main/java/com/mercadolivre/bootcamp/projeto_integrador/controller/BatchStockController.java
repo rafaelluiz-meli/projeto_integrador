@@ -38,7 +38,7 @@ public class BatchStockController {
 
     @GetMapping
     public ResponseEntity<List<NewBatchStockDTO>> listAllBatchStocks(){
-        List<BatchStock> batchStockList = service.list();
+        List<BatchStock> batchStockList = service.findAll();
         List<NewBatchStockDTO> result = batchStockList.stream().map(NewBatchStockDTO::map).collect(Collectors.toList());
         return ResponseEntity.ok(result);
     }

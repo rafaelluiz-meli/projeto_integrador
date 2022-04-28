@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface BatchStockService {
     BatchStock create(BatchStock batchStock);
-    List<BatchStock> list();
+    List<BatchStock> findAll();
     BatchStock findById(Long id);
     BatchStock update(BatchStock batchStock);
     List<BatchStock> findAllByProductId(String id);

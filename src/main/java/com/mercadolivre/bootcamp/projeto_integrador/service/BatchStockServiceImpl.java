@@ -22,7 +22,7 @@ public class BatchStockServiceImpl implements BatchStockService{
     }
 
     @Override
-    public List<BatchStock> list() {
+    public List<BatchStock> findAll() {
         return repository.findAll();
     }
 
