@@ -22,6 +22,7 @@ public class BatchStock {
     private BigDecimal price;
     private LocalDate dueDate;
     private LocalDate manufacturingDate;
+
     private LocalDateTime manufacturingTime;
     @ManyToOne
     @JoinColumn(name = "product_id")

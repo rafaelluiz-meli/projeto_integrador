@@ -1,18 +1,14 @@
 package com.mercadolivre.bootcamp.projeto_integrador.controller;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.BatchStockDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewBatchStockDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.UpdateBatchStockDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
-import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrder;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +25,6 @@ public class BatchStockController {
     public ResponseEntity<NewBatchStockDTO> newBatchStock(@RequestBody NewBatchStockDTO batchStockDTO){
         BatchStock batchStock = batchStockDTO.map();
         service.create(batchStock);
-
         NewBatchStockDTO d = NewBatchStockDTO.map(batchStock);
         return new ResponseEntity(d, HttpStatus.CREATED);
     }
@@ -42,16 +37,16 @@ public class BatchStockController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BatchStockDTO>> listAllBatchStocks(){
+    public ResponseEntity<List<NewBatchStockDTO>> listAllBatchStocks(){
         List<BatchStock> batchStockList = service.list();
-        List<BatchStockDTO> result = batchStockList.stream().map(BatchStockDTO::map).collect(Collectors.toList());
+        List<NewBatchStockDTO> result = batchStockList.stream().map(NewBatchStockDTO::map).collect(Collectors.toList());
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("{batchNumber}")
-    public ResponseEntity<BatchStockDTO> getBatchStockById(@RequestParam(value = "batchNumber") Long id){
+    public ResponseEntity<NewBatchStockDTO> getBatchStockById(@RequestParam(value = "batchNumber") Long id){
         BatchStock batchStock = service.findById(id);
-        BatchStockDTO result = BatchStockDTO.map(batchStock);
+        NewBatchStockDTO result = NewBatchStockDTO.map(batchStock);
         return ResponseEntity.ok(result);
     }
 
