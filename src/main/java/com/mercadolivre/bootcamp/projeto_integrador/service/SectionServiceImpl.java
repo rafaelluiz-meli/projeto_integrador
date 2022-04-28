@@ -61,7 +61,7 @@ public class SectionServiceImpl implements SectionService {
     @Override
     public void deleteSection(Long sectionId) {
         try {
-            sectionRepository.deleteById(sectionId);
+            sectionRepository.delete(getSectionById(sectionId));
         } catch (EmptyResultDataAccessException e) {
             new SectionNotFound(sectionId);
         }
