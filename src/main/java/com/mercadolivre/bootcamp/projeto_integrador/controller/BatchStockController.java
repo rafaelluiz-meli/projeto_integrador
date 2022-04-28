@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping(BatchStockController.baseUri)
 public class BatchStockController {
 
-    public static final String baseUri = "/batchstock";
+    public static final String baseUri = "api/v1/fresh-products/batchstock";
 
     @Autowired
     private BatchStockService service;
@@ -50,16 +50,17 @@ public class BatchStockController {
         return ResponseEntity.ok(NewBatchStockDTO.map(batchStockList));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<NewBatchStockDTO> batchStockById(@PathVariable Long id){
+    @GetMapping
+    @ResponseBody
+    public ResponseEntity<NewBatchStockDTO> getBatchStockById(@RequestParam(value = "batchNumber") Long id){
         BatchStock batchStock = service.findById(id);
         NewBatchStockDTO result = NewBatchStockDTO.map(batchStock);
         return ResponseEntity.ok(result);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Long> deleteBatchStock(@PathVariable(value = "id") Long purchaseOrderNumber){
-        service.remove(purchaseOrderNumber);
-        return ResponseEntity.ok(purchaseOrderNumber);
+    @DeleteMapping("/{batchStockNumber}")
+    public ResponseEntity<Long> deleteBatchStock(@PathVariable(value = "batchStockNumber") Long id){
+        service.remove(id);
+        return ResponseEntity.ok(id);
     }
 }
