@@ -7,16 +7,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Data
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
 @Getter
+@Data
 public class Warehouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String warehouseId;
+    private Long warehouseId;
+    private String name;
 
-
+    public Warehouse(String name) {
+        this.name = name;
+    }
 }

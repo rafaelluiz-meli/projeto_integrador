@@ -8,16 +8,16 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter @Setter
+@Data
 @Entity
 public class PurchaseOrder {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long purchaseOrderNumber;
     private StatusOrder statusOrder;
     @ManyToOne
     @JoinColumn(name = "buyer_id")
-    private Buyer buyerId;
+    private Buyer buyer;
     private LocalDate purchaseOrderDate;
 }

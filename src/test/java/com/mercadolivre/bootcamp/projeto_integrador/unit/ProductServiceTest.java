@@ -3,7 +3,10 @@ package com.mercadolivre.bootcamp.projeto_integrador.unit;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewProductDto;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.InvalidProductException;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.Salesman;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.product.InvalidProductException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.ProductRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.ProductServiceImpl;
 import org.junit.jupiter.api.DisplayName;
@@ -16,13 +19,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceTest {
@@ -37,7 +38,7 @@ public class ProductServiceTest {
     @DisplayName("it should validate that a product due date is valid")
     public void shouldValidateProductDueDate() {
         // TODO: 26/04/22 - Create test after finishing BatchStockService
-        productService.validateProductDueDate("5");
+        productService.validateProductDueDate(5L);
         assertTrue(true);
     }
 
@@ -54,12 +55,12 @@ public class ProductServiceTest {
     public void shouldFindProductById() {
         // Arrange tests
         Product product = Product.builder()
-                                .id("Id")
+                                .id(5L)
                                 .build();
 
         // Execute actions
         Mockito.when(productRepository.findById(any())).thenReturn(Optional.of(product));
-        Product result = productService.findByProductId("Id");
+        Product result = productService.findByProductId(5L);
 
         // Assert result
         assertEquals(product, result);
@@ -137,12 +138,15 @@ public class ProductServiceTest {
     @DisplayName("it should find a product list by salesman id")
     public void shouldFindProductListBySalesmanId() {
         // Arrange tests
-        Product product = Product.builder().salesman(any()).build();
-        List<Product> productList = Arrays.asList(product, product);
+        Product product1 = Product.builder().salesman(Salesman.builder().build()).build();
+        Product product2 = Product.builder().salesman(Salesman.builder().build()).build();
+        List<Product> productList = new ArrayList<>();
+        productList.add(product1);
+        productList.add(product2);
 
         // Execute action
-        Mockito.when(productRepository.findAllBySalesman_Id("any")).thenReturn(productList);
-        List<Product> resultList = productService.findAllBySalesmanId(any());
+        Mockito.when(productRepository.findAllBySalesman_Id(any())).thenReturn(productList);
+        List<Product> resultList = productService.findAllBySalesmanId(anyLong());
 
         // Assert result
         assertEquals(resultList, productList);
@@ -152,11 +156,11 @@ public class ProductServiceTest {
     @DisplayName("it should throw error when trying to find products with invalid salesmanid")
     public void shouldNotFindAllBySalesmanId() {
         //Arrange
-        List<Product> productList = Collections.emptyList();
+        List<Product> productList = List.of();
         Mockito.when(productRepository.findAllBySalesman_Id(any())).thenReturn(productList);
 
         // Exec
-        assertThrows(InvalidProductException.class,() -> productService.findAllBySalesmanId("a"));
+        assertThrows(IdNotFoundException.class,() -> productService.findAllBySalesmanId(anyLong()));
     }
 
     @Test
@@ -183,7 +187,7 @@ public class ProductServiceTest {
         Mockito.when(productRepository.findAll()).thenReturn(productList);
 
         // Exec
-        assertThrows(InvalidProductException.class,() -> productService.findAll());
+        assertThrows(EmptyListException.class,() -> productService.findAll());
     }
 
     @Test
@@ -195,12 +199,12 @@ public class ProductServiceTest {
                 .category(Category.FRESH)
                 .maxTemperature(1F)
                 .minimumTemperature(0F)
-                .salesman_id("Salesman ID")
+                .salesman_id(1L)
                 .volume(BigDecimal.valueOf(10))
                 .build();
 
         Product product = Product.builder()
-                .id("id")
+                .id(5L)
                 .productName("Product")
                 .category(Category.FRESH)
                 .maxTemperature(1F)
@@ -219,13 +223,13 @@ public class ProductServiceTest {
     @DisplayName("it should delete an existing product")
     public void shouldDeleteProduct() {
         // Arrange tests
-        Product product = Product.builder().id("id").build();
+        Product product = Product.builder().id(5L).build();
         // Execute action
         Mockito.when(productRepository.findById(any())).thenReturn(Optional.of(product));
         doNothing().when(productRepository).delete(any());
         // Assert result
         assertDoesNotThrow(() -> {
-            productService.delete("id");
+            productService.delete(5L);
         });
     }
 
@@ -237,15 +241,15 @@ public class ProductServiceTest {
         // Execute action
 
         // Assert result
-        assertThrows(InvalidProductException.class, () -> productService.delete(any()));
+        assertThrows(IdNotFoundException.class, () -> productService.delete(any()));
     }
     
     @Test
     @DisplayName("it should update an existing product")
     public void shouldUpdateExistingProduct() {
         // Arrange tests
-        Product product         = Product.builder().id("1").productName("Test").build();
-        Product productResponse         = Product.builder().id("1").productName("Test2").build();
+        Product product         = Product.builder().id(5L).productName("Test").build();
+        Product productResponse         = Product.builder().id(5L).productName("Test2").build();
 
         // Execute action
         Mockito.when(productRepository.findById(any())).thenReturn(Optional.of(product));

@@ -3,7 +3,9 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewProductDto;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.InvalidProductException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.product.InvalidProductException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Boolean validateProductDueDate(String productId) {
+    public Boolean validateProductDueDate(Long productId) {
         // TODO: 26/04/22 validate product due date after batchstock endpoints are complete 
         return null;
     }
@@ -65,14 +67,14 @@ public class ProductServiceImpl implements ProductService {
 
     // METHOD TO DELETE PRODUCT
     @Override
-    public void delete(String id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new InvalidProductException(id));
+    public void delete(Long id) {
+        Product product = findByProductId(id);
         productRepository.delete(product);
     }
 
     @Override
-    public Product findByProductId(String id) {
-        return productRepository.findById(id).orElseThrow(() -> new InvalidProductException(id));
+    public Product findByProductId(Long id) {
+        return productRepository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
     }
 
     // METHODS TO FIND PRODUCT OR LIST OF PRODUCTS
@@ -97,16 +99,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAllBySalesmanId(String salesmanId) {
+    public List<Product> findAllBySalesmanId(Long salesmanId) {
         List<Product> productList = productRepository.findAllBySalesman_Id(salesmanId);
-        if (productList.isEmpty()) throw new InvalidProductException(salesmanId);
+        if (productList.isEmpty()) throw new IdNotFoundException(salesmanId);
         return productList;
     }
 
     @Override
     public List<Product> findAll() {
         List<Product> productList = productRepository.findAll();
-        if (productList.isEmpty()) throw new InvalidProductException("Empty");
+        if (productList.isEmpty()) throw new EmptyListException();
         return productList;
     }
 }
