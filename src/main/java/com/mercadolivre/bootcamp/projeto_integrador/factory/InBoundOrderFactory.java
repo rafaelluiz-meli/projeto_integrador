@@ -1,13 +1,14 @@
 package com.mercadolivre.bootcamp.projeto_integrador.factory;
 
+import com.mercadolivre.bootcamp.projeto_integrador.dto.InboundOrderDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.NewBatchStockDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewInBoundOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.SectionDTO;
-import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
-import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
-import com.mercadolivre.bootcamp.projeto_integrador.entity.InBoundOrder;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.*;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.inbound_order.InvalidInboundOrderException;
 import com.mercadolivre.bootcamp.projeto_integrador.service.*;
 import lombok.AllArgsConstructor;
+import org.hibernate.engine.jdbc.batch.spi.Batch;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -20,17 +21,35 @@ public class InBoundOrderFactory {
     private final WarehouseService warehouseService;
     private final RepresentativeService representativeService;
     private final BatchStockService batchStockService;
+    private final ProductService productService;
 
     public InBoundOrder createInBoundOrder(NewInBoundOrderDTO newInBoundOrderDTO) {
-        SectionDTO inboundOrderSection = newInBoundOrderDTO.getSection();
-        boolean isInboundOrderValid = this.isInboundOrderValid(newInBoundOrderDTO);
-        boolean isBatchStockValid = this.isBatchStockValid(newInBoundOrderDTO.getBatchStock().map(), inboundOrderSection.getSectionId());
+        Product product = productService.findByProductId(newInBoundOrderDTO.getBatchStock().getProductId());
+        Section section = sectionService.getSectionById(newInBoundOrderDTO.getSection().getSectionId());
+        BatchStock batchStock = newInBoundOrderDTO.getBatchStock().map();
+        batchStock.setProduct(product);
 
-        if(!isInboundOrderValid || !isBatchStockValid) {
-            throw new InvalidInboundOrderException();
-        }
-        
-        return inBoundOrderService.addInBoundOrder(newInBoundOrderDTO);
+        boolean isInboundOrderValid = this.isInboundOrderValid(newInBoundOrderDTO);
+        boolean isBatchStockValid = this.isBatchStockValid(batchStock, section.getSectionId());
+
+        if(!isInboundOrderValid || !isBatchStockValid) throw new InvalidInboundOrderException();
+
+        InboundOrderDTO inboundOrderDTO = InboundOrderDTO.builder()
+                .orderNumber(newInBoundOrderDTO.getOrderNumber())
+                .section(section)
+                .batchStock(batchStock)
+                .representativeId(newInBoundOrderDTO.getRepresentativeId())
+                .build();
+
+        return inBoundOrderService.addInBoundOrder(inboundOrderDTO);
+    }
+
+    public InBoundOrder updateInboundOrder(NewInBoundOrderDTO newInBoundOrderDTO) {
+        // TODO: 28/04/22 CRIAR MÉTODO UPDATE
+        Long inboundOrderId = newInBoundOrderDTO.getOrderNumber();
+        inBoundOrderService.findById(inboundOrderId);
+
+        return createInBoundOrder(newInBoundOrderDTO);
     }
 
     private boolean isInboundOrderValid(NewInBoundOrderDTO newInBoundOrderDTO) {
@@ -58,12 +77,5 @@ public class InBoundOrderFactory {
         boolean sectionHasEnoughCapacity = sectionService.availableSectionCapacity(totalVolume, sectionId);
 
         return isSectionAppropriateForProductCategory && sectionHasEnoughCapacity;
-    }
-
-    public InBoundOrder updateInboundOrder(NewInBoundOrderDTO newInBoundOrderDTO) {
-        // TODO: 28/04/22 CRIAR MÉTODO UPDATE
-        Long inboundOrderId = newInBoundOrderDTO.getOrderNumber();
-        inBoundOrderService.findById(inboundOrderId);
-        return null;
     }
 }
