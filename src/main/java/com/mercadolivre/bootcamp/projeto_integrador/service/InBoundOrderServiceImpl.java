@@ -1,13 +1,14 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewInBoundOrderDTO;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.inBoudnOrderException.InBoundOrderEmptyListException;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.inBoudnOrderException.InBoundOrderIdNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.InBoundOrderRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.InBoundOrder;
 import lombok.AllArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -18,11 +19,18 @@ public class InBoundOrderServiceImpl implements InBoundOrderService{
     @Override
     public InBoundOrder addInBoundOrder(NewInBoundOrderDTO inBoundOrderDTO){
         InBoundOrder inBoundOrder = InBoundOrder.builder()
-                .inBoundOrderDate(inBoundOrderDTO.getInBoundOrderDate())
+                .inBoundOrderDate(LocalDateTime.now())
                 .batchStock(inBoundOrderDTO.getBatchStock())
                 .build();
 
         return inBoundOrderrepository.save(inBoundOrder);
+    }
+
+    @Override
+    public List<InBoundOrder> findAll() {
+        List<InBoundOrder> inBoundOrderList = inBoundOrderrepository.findAll();
+        if (inBoundOrderList.isEmpty()) throw new EmptyListException();
+        return inBoundOrderList;
     }
 
     @Override
@@ -33,14 +41,7 @@ public class InBoundOrderServiceImpl implements InBoundOrderService{
     @Override
     public InBoundOrder findById(Long inBoundOrderNumber){
         return inBoundOrderrepository.findById(inBoundOrderNumber).orElseThrow(() ->
-                new InBoundOrderIdNotFoundException(inBoundOrderNumber));
-    }
-
-    @Override
-    public List<InBoundOrder> findAll() {
-        List<InBoundOrder> inBoundOrderList = inBoundOrderrepository.findAll();
-        if (inBoundOrderList.isEmpty()) throw new InBoundOrderEmptyListException();
-        return inBoundOrderList;
+                new IdNotFoundException(inBoundOrderNumber));
     }
 
     @Override

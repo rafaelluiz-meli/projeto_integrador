@@ -2,15 +2,15 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 public interface BatchStockService {
     BatchStock create(BatchStock batchStock);
-    List<BatchStock> list();
+    List<BatchStock> findAll();
     BatchStock findById(Long id);
+    List<BatchStock> findAllByProductId(Long productId);
     BatchStock update(BatchStock batchStock);
-    List<BatchStock> findAllByProductId(String id);
     void remove(Long id);
-
+    BigDecimal calculateTotalVolume(BatchStock batchStock);
 }

@@ -1,20 +1,18 @@
 package com.mercadolivre.bootcamp.projeto_integrador.dto;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
-import com.mercadolivre.bootcamp.projeto_integrador.entity.InBoundOrder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDate;
+import lombok.*;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class NewInBoundOrderDTO {
-    private LocalDate inBoundOrderDate;
-    private String representativeId;
-    private String sectionId;
+    private Long representativeId;
+    private SectionDTO sectionDTO;
     private BatchStock batchStock;
 }
