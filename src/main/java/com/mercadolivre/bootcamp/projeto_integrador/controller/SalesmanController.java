@@ -29,10 +29,10 @@ public class SalesmanController {
         return ResponseEntity.ok(updateSalesmanDTO.map(updateSalesman));
     }
 
-    @DeleteMapping("/{salesman}")
-    public ResponseEntity<Long> deleteSalesman(@PathVariable(value = "salesman") Salesman salesman) {
-        salesmanService.removeSalesman(salesman.getId());
-        return ResponseEntity.ok(salesman.getId());
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Long> deleteSalesman(@PathVariable(value = "id") Long salesmanId) {
+        salesmanService.removeSalesman(salesmanId);
+        return ResponseEntity.ok(salesmanId);
     }
 }
 
