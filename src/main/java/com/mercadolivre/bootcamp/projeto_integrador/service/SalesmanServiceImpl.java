@@ -35,7 +35,7 @@ public class SalesmanServiceImpl implements SalesmanService {
 
     @Override
     public void removeSalesman(Long salesmanId) {
-        salesmanRepository.deleteById(salesmanId);
+        salesmanRepository.delete(findSalesmanById(salesmanId));
     }
 
     @Override
