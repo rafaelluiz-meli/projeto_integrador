@@ -3,6 +3,9 @@ package com.mercadolivre.bootcamp.projeto_integrador.unit;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewProductDto;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.Salesman;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.product.InvalidProductException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.ProductRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.ProductServiceImpl;
@@ -16,13 +19,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceTest {
@@ -137,12 +138,15 @@ public class ProductServiceTest {
     @DisplayName("it should find a product list by salesman id")
     public void shouldFindProductListBySalesmanId() {
         // Arrange tests
-        Product product = Product.builder().salesman(any()).build();
-        List<Product> productList = Arrays.asList(product, product);
+        Product product1 = Product.builder().salesman(Salesman.builder().build()).build();
+        Product product2 = Product.builder().salesman(Salesman.builder().build()).build();
+        List<Product> productList = new ArrayList<>();
+        productList.add(product1);
+        productList.add(product2);
 
         // Execute action
-        Mockito.when(productRepository.findAllBySalesman_Id("any")).thenReturn(productList);
-        List<Product> resultList = productService.findAllBySalesmanId(any());
+        Mockito.when(productRepository.findAllBySalesman_Id(any())).thenReturn(productList);
+        List<Product> resultList = productService.findAllBySalesmanId(anyLong());
 
         // Assert result
         assertEquals(resultList, productList);
@@ -152,11 +156,11 @@ public class ProductServiceTest {
     @DisplayName("it should throw error when trying to find products with invalid salesmanid")
     public void shouldNotFindAllBySalesmanId() {
         //Arrange
-        List<Product> productList = Collections.emptyList();
+        List<Product> productList = List.of();
         Mockito.when(productRepository.findAllBySalesman_Id(any())).thenReturn(productList);
 
         // Exec
-        assertThrows(InvalidProductException.class,() -> productService.findAllBySalesmanId("a"));
+        assertThrows(IdNotFoundException.class,() -> productService.findAllBySalesmanId(anyLong()));
     }
 
     @Test
@@ -183,7 +187,7 @@ public class ProductServiceTest {
         Mockito.when(productRepository.findAll()).thenReturn(productList);
 
         // Exec
-        assertThrows(InvalidProductException.class,() -> productService.findAll());
+        assertThrows(EmptyListException.class,() -> productService.findAll());
     }
 
     @Test
@@ -237,7 +241,7 @@ public class ProductServiceTest {
         // Execute action
 
         // Assert result
-        assertThrows(InvalidProductException.class, () -> productService.delete(any()));
+        assertThrows(IdNotFoundException.class, () -> productService.delete(any()));
     }
     
     @Test
