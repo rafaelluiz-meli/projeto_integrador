@@ -35,13 +35,13 @@ public class SalesmanServiceImpl implements SalesmanService {
 
     @Override
     public void removeSalesman(Long salesmanId) {
-        salesmanRepository.delete(findSalesmanById(salesmanId));
+        salesmanRepository.deleteById(salesmanId);
     }
 
     @Override
-    public Salesman updateSalesman(Salesman salesman){
+    public Salesman updateSalesman(Salesman salesman) {
         Salesman updatedSalesman = findSalesmanById(salesman.getId());
         updatedSalesman.setFullName(salesman.getFullName());
         return salesmanRepository.save(updatedSalesman);
-        }
+    }
 }
