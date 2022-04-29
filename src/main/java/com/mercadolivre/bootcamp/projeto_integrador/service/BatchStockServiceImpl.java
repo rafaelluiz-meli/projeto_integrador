@@ -11,6 +11,7 @@ import org.hibernate.engine.jdbc.batch.spi.Batch;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 @AllArgsConstructor
 @Service
@@ -67,4 +68,12 @@ public class BatchStockServiceImpl implements BatchStockService{
         // Multiply currentQuantity per volumePerProduct to calculate batch total volume
         return volumePerProduct.multiply(BigDecimal.valueOf(productQuantity));
     }
+
+    @Override
+    public List<BatchStock> orderBatchStockList(Long productId, String orderBy) {
+        List<BatchStock> beforeOrderingList = this.findAllByProductId(productId);
+//        if(orderBy == "L") return beforeOrderingList.sort();
+//        if(orderBy == "C") return beforeOrderingList.sort();
+//        return beforeOrderingList.sort();
+    };
 }

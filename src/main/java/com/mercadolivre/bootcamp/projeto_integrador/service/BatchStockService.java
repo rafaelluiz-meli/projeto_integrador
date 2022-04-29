@@ -14,4 +14,5 @@ public interface BatchStockService {
     BatchStock update(BatchStock batchStock);
     void remove(Long id);
     BigDecimal calculateTotalVolume(BatchStock batchStock);
+    List<BatchStock> orderBatchStockList(Long productId, String orderBy);
 }
