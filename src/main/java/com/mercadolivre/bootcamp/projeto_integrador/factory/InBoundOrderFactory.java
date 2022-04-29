@@ -26,8 +26,13 @@ public class InBoundOrderFactory {
     private final BatchStockService batchStockService;
     private final ProductService productService;
 
+    /**
+     *
+     * @param newInBoundOrderDTO RequestBody received at controller level
+     * @return The entity created @ database level
+     */
     public InBoundOrder createInBoundOrder(NewInBoundOrderDTO newInBoundOrderDTO) {
-        InboundOrderDTO inboundOrderDTO = this.createInboundOrder(newInBoundOrderDTO);
+        InboundOrderDTO inboundOrderDTO = this.createInboundOrderDTO(newInBoundOrderDTO);
 
         this.validateInboundOrderValid(newInBoundOrderDTO);
         this.validateStockValid(inboundOrderDTO.getBatchStock(), inboundOrderDTO.getSection().getSectionId());
@@ -35,19 +40,59 @@ public class InBoundOrderFactory {
         return inBoundOrderService.addInBoundOrder(inboundOrderDTO);
     }
 
+    /**
+     *
+     * @param newInBoundOrderDTO RequestBody received at controller level
+     * @return The entity updated @ database level
+     */
     public InBoundOrder updateInboundOrder(NewInBoundOrderDTO newInBoundOrderDTO) {
-        // TODO: 28/04/22 CRIAR MÉTODO UPDATE
+
+        // Create appropriate inboundOrderDTO
+        InboundOrderDTO inboundOrderDTO = this.updateInboundOrderDTO(newInBoundOrderDTO);
+        inboundOrderDTO.setOrderNumber(newInBoundOrderDTO.getOrderNumber());
+
+        // Run validations
+        this.validateInboundOrderValid(newInBoundOrderDTO);
+        this.validateStockValid(inboundOrderDTO.getBatchStock(), inboundOrderDTO.getSection().getSectionId());
+
         Long inboundOrderId = newInBoundOrderDTO.getOrderNumber();
         inBoundOrderService.findById(inboundOrderId);
 
-        return createInBoundOrder(newInBoundOrderDTO);
+        return inBoundOrderService.addInBoundOrder(inboundOrderDTO);
     }
 
-
-    private InboundOrderDTO createInboundOrder(NewInBoundOrderDTO newInBoundOrderDTO) {
+    /**
+     *
+     * @param newInBoundOrderDTO
+     * @return InboundOrderDTO
+     * Runs the conversions needed to create an entity composed of a
+     * BatchStock, Section and Product. It's needed to simplify the requestbody at controller level
+     */
+    private InboundOrderDTO createInboundOrderDTO(NewInBoundOrderDTO newInBoundOrderDTO) {
         BatchStock batchStock = newInBoundOrderDTO.getBatchStock().map();
         batchStock.setProduct(productService.findByProductId(newInBoundOrderDTO.getBatchStock().getProductId()));
 
+        Section section = sectionService.getSectionById(newInBoundOrderDTO.getSection().getSectionId());
+
+        return InboundOrderDTO.builder()
+                .section(section)
+                .batchStock(batchStock)
+                .representativeId(newInBoundOrderDTO.getRepresentativeId())
+                .build();
+    }
+
+
+    /**
+     *
+     * @param newInBoundOrderDTO RequestBody received at controller level
+     * @return InboundOrderDTO
+     * Runs the conversions needed to create an entity composed of a BatchStock, Section and Product.
+     * It will only update the allowed parameters of a BatchStock.
+     */
+    private InboundOrderDTO updateInboundOrderDTO(NewInBoundOrderDTO newInBoundOrderDTO) {
+
+        BatchStock currentBatchStock = inBoundOrderService.findById(newInBoundOrderDTO.getOrderNumber()).getBatchStock();
+        BatchStock batchStock = newInBoundOrderDTO.getBatchStock().map(currentBatchStock);
         Section section = sectionService.getSectionById(newInBoundOrderDTO.getSection().getSectionId());
 
         return InboundOrderDTO.builder()
