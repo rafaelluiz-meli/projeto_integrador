@@ -1,6 +1,6 @@
 package com.mercadolivre.bootcamp.projeto_integrador.controller;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.NewSectionDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.section.NewSectionDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.service.SectionService;
