@@ -1,6 +1,6 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.NewInBoundOrderDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.NewInBoundOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.InBoundOrder;
 import java.util.List;
 

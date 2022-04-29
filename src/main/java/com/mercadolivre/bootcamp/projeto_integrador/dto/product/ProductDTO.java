@@ -1,4 +1,4 @@
-package com.mercadolivre.bootcamp.projeto_integrador.dto;
+package com.mercadolivre.bootcamp.projeto_integrador.dto.product;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @Builder
 @Data
-public class ProductDto {
+public class ProductDTO {
     private Long id;
     private String productName;
     private BigDecimal volume;
@@ -20,8 +20,8 @@ public class ProductDto {
     private Category category;
     private Long salesman_id;
 
-    public static ProductDto convert(Product product) {
-        return ProductDto.builder()
+    public static ProductDTO convert(Product product) {
+        return ProductDTO.builder()
                 .id(product.getId())
                 .productName(product.getProductName())
                 .volume(product.getVolume())
@@ -32,7 +32,7 @@ public class ProductDto {
                 .build();
     }
 
-    public static List<ProductDto> convert(List<Product> productList) {
-        return productList.stream().map(ProductDto::convert).collect(Collectors.toList());
+    public static List<ProductDTO> convert(List<Product> productList) {
+        return productList.stream().map(ProductDTO::convert).collect(Collectors.toList());
     }
 }

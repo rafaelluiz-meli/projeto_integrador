@@ -1,8 +1,7 @@
-package com.mercadolivre.bootcamp.projeto_integrador.dto;
+package com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order;
 
-import com.mercadolivre.bootcamp.projeto_integrador.entity.Buyer;
-import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrder;
-import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrderItems;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.buyer.BuyerDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrderItens;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.StatusOrder;
 import lombok.*;
 
@@ -16,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class NewPurchaseOrderDTO {
     private BuyerDTO buyerDTO;
-    private List<PurchaseOrderItems> purchaseOrderItemsList;
+    private List<PurchaseOrderItens> purchaseOrderItemsList;
     private StatusOrder statusOrder = StatusOrder.CART;
     private LocalDate purchaseOrderDate;
 }
