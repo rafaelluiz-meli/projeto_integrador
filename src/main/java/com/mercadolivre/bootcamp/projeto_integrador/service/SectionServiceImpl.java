@@ -3,9 +3,12 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.section.NewSectionDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.Warehouse;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
+
 import com.mercadolivre.bootcamp.projeto_integrador.repository.SectionRepository;
+import com.mercadolivre.bootcamp.projeto_integrador.repository.WarehouseRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -19,10 +22,11 @@ import java.util.Optional;
 public class SectionServiceImpl implements SectionService {
 
     private final SectionRepository sectionRepository;
+    private final WarehouseRepository warehouseRepository;
 
     @Override
-    public Section addSection(NewSectionDTO sectionDTO) {
-        return sectionRepository.save(NewSectionDTO.convert(sectionDTO));
+    public Section addSection(Section section) {
+        return sectionRepository.save(section);
     }
 
     @Override
@@ -30,6 +34,23 @@ public class SectionServiceImpl implements SectionService {
         List<Section> sectionList = sectionRepository.findAll();
         if(sectionList.isEmpty()) throw new EmptyListException();
         return sectionList;
+    }
+
+    public boolean isWarehouseValid(Long warehouseId) {
+        Optional<Warehouse> warehouse = warehouseRepository.findById(warehouseId);
+        if (warehouse.isPresent()){
+            return true;
+        }
+        throw new IdNotFoundException(warehouseId);
+    }
+
+    @Override
+    public List<Section> getAllSectionByWarehouseId(Long warehouseId) {
+        if (isWarehouseValid(warehouseId)){
+            return sectionRepository.findAllByWarehouseId(warehouseId);
+        } else {
+            throw new IdNotFoundException(warehouseId);
+        }
     }
 
     @Override
@@ -41,7 +62,7 @@ public class SectionServiceImpl implements SectionService {
     @Override
     public void deleteSection(Long sectionId) {
         try {
-            sectionRepository.deleteById(sectionId);
+            sectionRepository.delete(getSectionById(sectionId));
         } catch (EmptyResultDataAccessException e) {
             throw new IdNotFoundException(sectionId);
         }
@@ -62,16 +83,13 @@ public class SectionServiceImpl implements SectionService {
 
     @Override
     public boolean isSectionValid(Long sectionID) {
-            Optional<Section> sectionOptional = sectionRepository.findById(sectionID);
-
+        Optional<Section> sectionOptional = sectionRepository.findById(sectionID);
         return sectionOptional.isPresent();
     }
 
     @Override
     public boolean availableSectionCapacity(BigDecimal totalVolume, Long sectionId) {
-
         Section getSection = getSectionById(sectionId);
-
         return getSection.getCapacity().compareTo(totalVolume) != 0 && getSection.getCapacity().compareTo(totalVolume) >= 0;
     }
 
@@ -79,7 +97,6 @@ public class SectionServiceImpl implements SectionService {
     public boolean sectionCorrespondsProductType(Long sectionId, Category category) {
         Section getSection = sectionRepository.findById(sectionId).orElseThrow(
                 () -> new IdNotFoundException(sectionId));
-
         return getSection.getCategory().equals(category);
     }
 }
