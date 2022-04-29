@@ -8,12 +8,16 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface SectionService {
-    Section addSection(NewSectionDTO sectionDTO);
+
+    Section addSection(Section section);
     List<Section> getAllSection();
+    List<Section> getAllSectionByWarehouseId(Long warehouseId);
     Section getSectionById(Long sectionId);
     void deleteSection(Long sectionId);
     Section updateSection(Section section);
     boolean isSectionValid(Long sectionID);
     boolean availableSectionCapacity(BigDecimal totalVolume, Long sectionId);
     boolean sectionCorrespondsProductType(Long sectionId, Category category);
+    boolean isWarehouseValid(Long warehouseId);
+
 }
