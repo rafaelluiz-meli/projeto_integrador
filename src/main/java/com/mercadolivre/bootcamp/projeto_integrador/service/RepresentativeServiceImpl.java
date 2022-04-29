@@ -3,6 +3,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Representative;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.inbound_order.RepresentativeNotAssociatedWithSectionException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.RepresentativeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -52,6 +53,9 @@ public class RepresentativeServiceImpl implements RepresentativeService {
 
     public boolean isRepresentativeAssociatedWithSection(Long representativeId, Long sectionId) {
         Representative representative = getRepresentativeById(representativeId);
-        return representative.getSectionId().equals(sectionId);
+        if(!representative.getSectionId().equals(sectionId)) throw new RepresentativeNotAssociatedWithSectionException(representativeId, sectionId);
+
+
+        return true;
     }
 }
