@@ -7,6 +7,5 @@ import lombok.Data;
 @Data
 public class NewPurchaseOrderItemsDTO {
     private Long productId;
-    private Long purchaseOrderNumber;
     private int quantity;
 }
