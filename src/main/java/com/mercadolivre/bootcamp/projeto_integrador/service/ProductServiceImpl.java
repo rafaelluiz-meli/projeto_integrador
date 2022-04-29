@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -110,5 +111,11 @@ public class ProductServiceImpl implements ProductService {
         List<Product> productList = productRepository.findAll();
         if (productList.isEmpty()) throw new EmptyListException();
         return productList;
+    }
+
+    @Override
+    public Boolean isProductValid(Long productID) {
+        Optional<Product> isIdValid = productRepository.findById(productID);
+        return isIdValid.isPresent();
     }
 }

@@ -259,4 +259,19 @@ public class ProductServiceTest {
         // Assert result
         assertEquals(productResponse, result);
     }
+
+    @Test
+    @DisplayName("It should return true if product id is valid.")
+    public void shouldReturnTrueIfProductIdIsValid(){
+        // arrange
+        Long id = 23L;
+        Product product = Product.builder().id(id).build();
+
+        // act
+        Mockito.when(productRepository.findById(anyLong())).thenReturn(Optional.of(product));
+        Boolean test = productService.isProductValid(23L);
+
+        // assert
+        assertTrue(test);
+    }
 }

@@ -18,4 +18,5 @@ public interface ProductService {
     List<Product> findAllByCategory(Category category);
     List<Product> findAllBySalesmanId(Long salesmanId);
     List<Product> findAll();
+    Boolean isProductValid(Long productID);
 }
