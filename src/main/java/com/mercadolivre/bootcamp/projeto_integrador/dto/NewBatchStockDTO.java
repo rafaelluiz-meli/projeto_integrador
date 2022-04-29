@@ -35,4 +35,17 @@ public class NewBatchStockDTO {
                     .build();
     }
 
+    public BatchStock map(BatchStock currentBatchStock) {
+        return BatchStock.builder()
+                .batchNumber(currentBatchStock.getBatchNumber())
+                .initialQuantity(currentBatchStock.getInitialQuantity())
+                .currentQuantity(this.quantity)
+                .price(this.price)
+                .dueDate(currentBatchStock.getDueDate())
+                .manufacturingDate(currentBatchStock.getManufacturingDate())
+                .manufacturingTime(currentBatchStock.getManufacturingTime())
+                .product(currentBatchStock.getProduct())
+                .build();
+    }
+
 }
