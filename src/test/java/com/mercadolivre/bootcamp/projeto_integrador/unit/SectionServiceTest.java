@@ -158,10 +158,11 @@ public class SectionServiceTest {
         //Arrange
         Section section = Section.builder().build();
         Optional<Section> sectionOptional = Optional.of(section);
+        Long idToCompare = 5L;
 
         //Act
         Mockito.when(sectionRepository.findById(any())).thenReturn(sectionOptional);
-        boolean isValid = sectionService.isSectionValid(5L);
+        boolean isValid = sectionService.isSectionValid(idToCompare);
 
         //Assert
         Assertions.assertTrue(isValid);
@@ -190,7 +191,8 @@ public class SectionServiceTest {
     @DisplayName("It should return true when a available section has capacity.")
     void shouldReturnTrueWhenAvailableSectionHasCapacity(){
         //Arrange
-        Section section = Section.builder().capacity(new BigDecimal(10000)).build();
+        int capacity = 10000;
+        Section section = Section.builder().capacity(new BigDecimal(capacity)).build();
         Optional<Section> sectionOptional = Optional.of(section);
 
         //Act
@@ -206,8 +208,8 @@ public class SectionServiceTest {
     @DisplayName("It should return true if the warehouse is valid.")
     void shouldReturnTrueIfTheWarehouseIsValid(){
         //Arrange
-        Warehouse warehouse = Warehouse.builder().warehouseId(1L).build();
-
+        Long id = 1L;
+        Warehouse warehouse = Warehouse.builder().warehouseId(id).build();
         //Act
         Mockito.when(warehouseRepository.findById(any())).thenReturn(Optional.of(warehouse));
         Boolean isValid = sectionService.isWarehouseValid(1L);
@@ -220,15 +222,16 @@ public class SectionServiceTest {
     @DisplayName("it should return all sections if warehouse id exists.")
     public void shouldReturnAllSectionsByWarehouseId(){
         //arrange
-        Section section = Section.builder().warehouseId(1L).build();
+        Long id = 1L;
+        Warehouse warehouse = Warehouse.builder().warehouseId(id).build();
+        Section section = Section.builder().warehouseId(id).build();
         List<Section> sectionList = Arrays.asList(section, section, section, section);
-        Warehouse warehouse = Warehouse.builder().warehouseId(1L).build();
 
         // act
         Mockito.when(sectionRepository.findAllByWarehouseId(any())).thenReturn(sectionList);
         Mockito.when(warehouseRepository.findById(any())).thenReturn(Optional.of(warehouse));
-        Warehouse id = warehouseService.findById(1L);
-        List<Section> result = sectionService.getAllSectionByWarehouseId(id.getWarehouseId());
+        Warehouse warehouseId = warehouseService.findById(1L);
+        List<Section> result = sectionService.getAllSectionByWarehouseId(warehouseId.getWarehouseId());
 
         // assert
         assertEquals(sectionList, result);
@@ -238,7 +241,8 @@ public class SectionServiceTest {
     @DisplayName("It should return false when a available section has no capacity.")
     void shouldReturnFalseWhenAvailableSectionHasNotCapacity(){
         //Arrange
-        Section section = Section.builder().capacity(new BigDecimal(10000)).build();
+        int capacity = 10000;
+        Section section = Section.builder().capacity(new BigDecimal(capacity)).build();
         Optional<Section> sectionOptional = Optional.of(section);
 
         //Act
@@ -254,7 +258,8 @@ public class SectionServiceTest {
     @DisplayName("It should delete a section.")
     public void shouldDeleteSection() {
         // Arrange
-        Section section = Section.builder().sectionId(100L).build();
+        Long sectionId = 100L;
+        Section section = Section.builder().sectionId(sectionId).build();
 
         //Act
         Mockito.when(sectionRepository.findById(anyLong())).thenReturn(Optional.ofNullable(section));

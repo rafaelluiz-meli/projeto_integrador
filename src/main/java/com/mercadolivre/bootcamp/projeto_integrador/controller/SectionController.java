@@ -31,7 +31,7 @@ public class SectionController {
         return ResponseEntity.ok(allSectionsByWarehouseId);
     }
 
-    @PostMapping("/section/addSection")
+    @PostMapping("/section")
     public ResponseEntity<NewSectionDTO> creatingSection(@RequestBody NewSectionDTO newSectionDTO, UriComponentsBuilder uriComponentsBuilder){
         Section section = NewSectionDTO.convert(newSectionDTO);
         if (sectionService.isWarehouseValid(section.getWarehouseId())) {
@@ -57,7 +57,7 @@ public class SectionController {
         }
     }
 
-    @PutMapping("/section/updateSection")
+    @PutMapping("/section")
     public ResponseEntity<Section> putSection (@RequestBody Section section){
         Section updatedSection = sectionService.updateSection(section);
         return ResponseEntity.ok(updatedSection);
