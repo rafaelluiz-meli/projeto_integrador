@@ -69,8 +69,7 @@ public class SectionServiceImpl implements SectionService {
     public boolean availableSectionCapacity(BigDecimal totalVolume, Long sectionId) {
 
         Section getSection = getSectionById(sectionId);
-
-        return getSection.getCapacity().compareTo(totalVolume) != 0 && getSection.getCapacity().compareTo(totalVolume) >= 0;
+        return getSection.getCapacity().compareTo(totalVolume) >= 0;
     }
 
     @Override

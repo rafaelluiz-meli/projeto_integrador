@@ -52,8 +52,6 @@ public class RepresentativeServiceImpl implements RepresentativeService {
 
     public boolean isRepresentativeAssociatedWithSection(Long representativeId, Long sectionId) {
         Representative representative = getRepresentativeById(representativeId);
-        boolean representativeIsAssociated = false;
-        representativeIsAssociated = representative.getSectionId().equals(sectionId);
-        return representativeIsAssociated;
+        return representative.getSectionId().equals(sectionId);
     }
 }

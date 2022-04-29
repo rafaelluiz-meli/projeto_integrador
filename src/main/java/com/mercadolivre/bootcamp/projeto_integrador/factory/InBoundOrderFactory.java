@@ -34,8 +34,8 @@ public class InBoundOrderFactory {
     public InBoundOrder createInBoundOrder(NewInBoundOrderDTO newInBoundOrderDTO) {
         InboundOrderDTO inboundOrderDTO = this.createInboundOrderDTO(newInBoundOrderDTO);
 
-        this.validateInboundOrderValid(newInBoundOrderDTO);
-        this.validateStockValid(inboundOrderDTO.getBatchStock(), inboundOrderDTO.getSection().getSectionId());
+        this.validateInboundOrder(newInBoundOrderDTO);
+        this.validateBatchStock(inboundOrderDTO.getBatchStock(), inboundOrderDTO.getSection().getSectionId());
 
         return inBoundOrderService.addInBoundOrder(inboundOrderDTO);
     }
@@ -52,8 +52,8 @@ public class InBoundOrderFactory {
         inboundOrderDTO.setOrderNumber(newInBoundOrderDTO.getOrderNumber());
 
         // Run validations
-        this.validateInboundOrderValid(newInBoundOrderDTO);
-        this.validateStockValid(inboundOrderDTO.getBatchStock(), inboundOrderDTO.getSection().getSectionId());
+        this.validateInboundOrder(newInBoundOrderDTO);
+        this.validateBatchStock(inboundOrderDTO.getBatchStock(), inboundOrderDTO.getSection().getSectionId());
 
         inBoundOrderService.findById(id);
 
@@ -102,7 +102,7 @@ public class InBoundOrderFactory {
                 .build();
     }
 
-    private void validateInboundOrderValid(NewInBoundOrderDTO newInBoundOrderDTO) {
+    private void validateInboundOrder(NewInBoundOrderDTO newInBoundOrderDTO) {
         /* Faz validação de sectionId, warehouseId e representativeId em seus respectivos
            services. Caso um deles não seja valido, a inboundOrder é inválida e o método retorna false.
          */
@@ -112,16 +112,15 @@ public class InBoundOrderFactory {
         Long representativeId = newInBoundOrderDTO.getRepresentativeId();
 
         boolean isSectionValid = sectionService.isSectionValid(sectionId);
-        boolean isWarehouseValid = warehouseService.isValidWarehouse(warehouseId);
+        warehouseService.isValidWarehouse(warehouseId);
         boolean isRepresentativeAssociatedWithSection = representativeService
                 .isRepresentativeAssociatedWithSection(representativeId, sectionId);
 
         if(!isSectionValid) throw new IdNotFoundException(sectionId);
-        if(!isWarehouseValid) throw new IdNotFoundException(warehouseId);
         if(!isRepresentativeAssociatedWithSection) throw new RepresentativeNotAssociatedWithSectionException(representativeId, sectionId);
     }
 
-    private void validateStockValid(BatchStock batchStock, Long sectionId) {
+    private void validateBatchStock(BatchStock batchStock, Long sectionId) {
         Category productCategory = batchStock.getProduct().getCategory();
         BigDecimal totalVolume = batchStockService.calculateTotalVolume(batchStock);
 
