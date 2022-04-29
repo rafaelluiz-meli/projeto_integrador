@@ -1,6 +1,6 @@
 package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.NewProductDto;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.product.NewProductDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Salesman;
@@ -194,7 +194,7 @@ public class ProductServiceTest {
     @DisplayName("it should create a new product")
     public void shouldCreateProduct() {
         // Arrange tests
-        NewProductDto productDto = NewProductDto.builder()
+        NewProductDTO productDto = NewProductDTO.builder()
                 .productName("Product")
                 .category(Category.FRESH)
                 .maxTemperature(1F)

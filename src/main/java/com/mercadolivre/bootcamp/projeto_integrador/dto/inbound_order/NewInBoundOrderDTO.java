@@ -1,5 +1,7 @@
-package com.mercadolivre.bootcamp.projeto_integrador.dto;
+package com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order;
 
+import com.mercadolivre.bootcamp.projeto_integrador.dto.NewBatchStockDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.section.SectionDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

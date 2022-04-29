@@ -1,12 +1,15 @@
 package com.mercadolivre.bootcamp.projeto_integrador.factory;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.InboundOrderDTO;
-import com.mercadolivre.bootcamp.projeto_integrador.dto.NewInBoundOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.*;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.inbound_order.RepresentativeNotAssociatedWithSectionException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.inbound_order.SectionDoesNotHaveEnoughCapacityException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.inbound_order.SectionNotAppropriateForProductException;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.NewInBoundOrderDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.InBoundOrder;
 import com.mercadolivre.bootcamp.projeto_integrador.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -24,7 +24,7 @@ public class Product {
     private Float maxTemperature;
     @Enumerated(EnumType.STRING)
     private Category category;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "salesman_id")
     private Salesman salesman;
 
