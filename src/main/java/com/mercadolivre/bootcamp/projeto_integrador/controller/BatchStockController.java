@@ -3,6 +3,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.controller;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.batch_stock.NewBatchStockDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.batch_stock.UpdateBatchStockDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,15 +14,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(BatchStockController.baseUri)
+@RequestMapping("/api/v1/fresh-products")
 public class BatchStockController {
-
-    public static final String baseUri = "/api/v1/fresh-products/batchstock";
-
     @Autowired
     private BatchStockService service;
 
-    @PostMapping
+    @PostMapping("/batchstock")
     public ResponseEntity<NewBatchStockDTO> newBatchStock(@RequestBody NewBatchStockDTO batchStockDTO){
         BatchStock batchStock = batchStockDTO.map();
         service.create(batchStock);
@@ -29,18 +27,28 @@ public class BatchStockController {
         return new ResponseEntity(d, HttpStatus.CREATED);
     }
 
-    @PutMapping
+    @PutMapping("/batchstock")
     public ResponseEntity<UpdateBatchStockDTO> updateBatchStock(@RequestBody UpdateBatchStockDTO updateBatchStockDTO){
         BatchStock batchStock = updateBatchStockDTO.map();
         BatchStock updatedBatchStock = service.update(batchStock);
         return ResponseEntity.ok(UpdateBatchStockDTO.map(updatedBatchStock));
     }
 
-    @GetMapping
+    @GetMapping("/batchstock/list")
     public ResponseEntity<List<NewBatchStockDTO>> listAllBatchStocks(){
         List<BatchStock> batchStockList = service.findAll();
         List<NewBatchStockDTO> result = batchStockList.stream().map(NewBatchStockDTO::map).collect(Collectors.toList());
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<NewBatchStockDTO>> getAllBatchStockByProductId(@RequestParam Long productId,
+                                                                     @RequestParam(required = false) Category productCategory)
+    {
+        List<BatchStock> batchStockList = service.findAllByProductIdAndProductCategory(productId, productCategory);
+        List<NewBatchStockDTO> responseBody = batchStockList
+                .stream().map(NewBatchStockDTO::map).collect(Collectors.toList());;
+        return ResponseEntity.ok(responseBody);
     }
 
     @DeleteMapping("/{batchStockNumber}")
