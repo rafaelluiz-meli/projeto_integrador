@@ -6,6 +6,7 @@ import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyList
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.BatchStockRepository;
 import lombok.AllArgsConstructor;
+import org.hibernate.engine.jdbc.batch.spi.Batch;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -49,7 +50,7 @@ public class BatchStockServiceImpl implements BatchStockService{
         updatedBatchStock.setDueDate(batchStock.getDueDate());
         updatedBatchStock.setManufacturingDate(batchStock.getManufacturingDate());
         updatedBatchStock.setManufacturingTime(batchStock.getManufacturingTime());
-        return repository.save(batchStock);
+        return repository.save(updatedBatchStock);
     }
 
     @Override

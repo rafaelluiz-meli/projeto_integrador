@@ -1,7 +1,7 @@
 package com.mercadolivre.bootcamp.projeto_integrador.controller;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.NewBatchStockDTO;
-import com.mercadolivre.bootcamp.projeto_integrador.dto.UpdateBatchStockDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.batch_stock.NewBatchStockDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.batch_stock.UpdateBatchStockDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +40,6 @@ public class BatchStockController {
     public ResponseEntity<List<NewBatchStockDTO>> listAllBatchStocks(){
         List<BatchStock> batchStockList = service.findAll();
         List<NewBatchStockDTO> result = batchStockList.stream().map(NewBatchStockDTO::map).collect(Collectors.toList());
-        return ResponseEntity.ok(result);
-    }
-
-    @GetMapping("{batchNumber}")
-    public ResponseEntity<NewBatchStockDTO> getBatchStockById(@RequestParam(value = "batchNumber") Long id){
-        BatchStock batchStock = service.findById(id);
-        NewBatchStockDTO result = NewBatchStockDTO.map(batchStock);
         return ResponseEntity.ok(result);
     }
 
