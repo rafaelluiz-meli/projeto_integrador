@@ -45,7 +45,7 @@ public class InBoundOrderFactory {
      * @param newInBoundOrderDTO RequestBody received at controller level
      * @return The entity updated @ database level
      */
-    public InBoundOrder updateInboundOrder(NewInBoundOrderDTO newInBoundOrderDTO) {
+    public InBoundOrder updateInboundOrder(Long id, NewInBoundOrderDTO newInBoundOrderDTO) {
 
         // Create appropriate inboundOrderDTO
         InboundOrderDTO inboundOrderDTO = this.updateInboundOrderDTO(newInBoundOrderDTO);
@@ -55,8 +55,7 @@ public class InBoundOrderFactory {
         this.validateInboundOrderValid(newInBoundOrderDTO);
         this.validateStockValid(inboundOrderDTO.getBatchStock(), inboundOrderDTO.getSection().getSectionId());
 
-        Long inboundOrderId = newInBoundOrderDTO.getOrderNumber();
-        inBoundOrderService.findById(inboundOrderId);
+        inBoundOrderService.findById(id);
 
         return inBoundOrderService.addInBoundOrder(inboundOrderDTO);
     }

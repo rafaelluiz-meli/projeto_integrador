@@ -21,9 +21,9 @@ public class InBoundOrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdInboundOrder);
     }
 
-    @PutMapping
-    public ResponseEntity<InBoundOrder> updateInboundOrder(@RequestBody NewInBoundOrderDTO newInBoundOrderDTO) {
-        InBoundOrder updatedInboundOrder = inBoundOrderFactory.updateInboundOrder(newInBoundOrderDTO);
+    @PutMapping("/{id}")
+    public ResponseEntity<InBoundOrder> updateInboundOrder(@PathVariable Long id, @RequestBody NewInBoundOrderDTO newInBoundOrderDTO) {
+        InBoundOrder updatedInboundOrder = inBoundOrderFactory.updateInboundOrder(id, newInBoundOrderDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(updatedInboundOrder);
     }
 }
