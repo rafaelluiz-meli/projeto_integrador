@@ -97,7 +97,7 @@ public class RepresentativeServiceTest {
         //Act
         Mockito.when(representativeRepository.save(any())).thenReturn(representative);
         Mockito.when(representativeRepository.findById(any())).thenReturn(Optional.of(representative));
-        Representative result = representativeService.updateRepresentative(1L, representative);
+        Representative result = representativeService.updateRepresentative(representative);
 
         //Assert
         assertEquals(representative, result);
