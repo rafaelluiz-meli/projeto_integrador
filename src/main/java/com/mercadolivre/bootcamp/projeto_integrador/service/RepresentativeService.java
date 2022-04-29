@@ -11,7 +11,7 @@ public interface RepresentativeService {
 
     public Representative createRepresentative(Representative representative);
 
-    public Representative updateRepresentative(Long representativeId, Representative representative);
+    public Representative updateRepresentative(Representative representative);
 
     public void deleteRepresentative(Long representativeId);
 

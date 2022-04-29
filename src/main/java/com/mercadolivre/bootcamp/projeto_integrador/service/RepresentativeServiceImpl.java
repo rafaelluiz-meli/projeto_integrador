@@ -25,7 +25,9 @@ public class RepresentativeServiceImpl implements RepresentativeService {
 
     @Override
     public Representative getRepresentativeById(Long representativeId) {
-        return representativeRepository.findById(representativeId).orElseThrow(() -> new IdNotFoundException(representativeId));
+        return representativeRepository
+                .findById(representativeId)
+                .orElseThrow(() -> new IdNotFoundException(representativeId));
     }
 
     @Override
@@ -34,20 +36,16 @@ public class RepresentativeServiceImpl implements RepresentativeService {
     }
 
     @Override
-    public Representative updateRepresentative(Long representativeId, Representative representative) {
-
-        Representative representativeAux = getRepresentativeById(representativeId);
-
-        representativeAux.setFullName(representative.getFullName());
-        representativeAux.setSectionId(representative.getSectionId());
-
-        return representativeRepository.save(representativeAux);
+    public Representative updateRepresentative(Representative representative) {
+        Representative updateRepresentative = getRepresentativeById(representative.getId());
+        updateRepresentative.setFullName(representative.getFullName());
+        updateRepresentative.setSectionId(representative.getSectionId());
+        return representativeRepository.save(updateRepresentative);
     }
 
     @Override
     public void deleteRepresentative(Long representativeId) {
-        Representative representative = getRepresentativeById(representativeId);
-        representativeRepository.delete(representative);
+        representativeRepository.delete(getRepresentativeById((representativeId)));
     }
 
     public boolean isRepresentativeAssociatedWithSection(Long representativeId, Long sectionId) {
