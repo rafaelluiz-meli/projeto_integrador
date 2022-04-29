@@ -84,37 +84,23 @@ public class BatchStockServiceImpl implements BatchStockService {
 
         Integer totalQuantityBatchsotck = productBatchstock.stream().map(BatchStock::getCurrentQuantity).reduce(0, Integer::sum);
 
-        if (totalQuantityBatchsotck > requestedQuantity) {
+        return totalQuantityBatchsotck >= requestedQuantity;
+    }
+
+    public Boolean availableStockQuantity(Long productId, int requestedQuantity, List<BatchStock> filtredProductList){
+
+        Integer totalQuantityBatchsotck = filtredProductList.stream().map(BatchStock::getCurrentQuantity).reduce(0, Integer::sum);
+        return totalQuantityBatchsotck >= requestedQuantity;
+
+    }
+
+    public  Boolean returnListProductWithValidatedDueDateAndQuantity(Long productId, int requestedQuantity) {
+
+        List<BatchStock> filtredProduct = repository.findByDueDateIsGreaterThanEqual(LocalDate.now().plusDays(21));
+
+        if(availableStockQuantity(productId, requestedQuantity, filtredProduct)){
             return true;
         }
-        return false;
-    }
-
-    public Boolean validateProductDueDate(Long productId) {
-
-        LocalDate today = LocalDate.now();
-        LocalDate date = today.plusDays(21);
-
-        List<BatchStock> productsList = findAllByDueDate(date);
-
-        if (productsList.isEmpty()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public List<BatchStock> returnListProductWithValidatedDueDateAndQuantity(Long productId, int requestedQuantity) {
-
-        List<BatchStock> filtredProduct = findaAllProductIdAndDueDate(productId, LocalDate.now().plusDays(21));
-
-        int totalQuantityProducts = filtredProduct.stream().map(BatchStock::getCurrentQuantity).reduce(0, Integer::sum);
-
-        if(totalQuantityProducts >= requestedQuantity){
-            return filtredProduct;
-        }
-
         throw new EmptyListException();
     }
-
 }
