@@ -9,10 +9,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
+
 @AllArgsConstructor
 @Service
-public class BatchStockServiceImpl implements BatchStockService{
+public class BatchStockServiceImpl implements BatchStockService {
 
     private final BatchStockRepository repository;
 
@@ -37,7 +39,7 @@ public class BatchStockServiceImpl implements BatchStockService{
     @Override
     public List<BatchStock> findAllByProductId(Long id) {
         List<BatchStock> batchStockList = repository.findAllByProduct_Id(id);
-        if(batchStockList.isEmpty()) throw new InvalidProductException(id);
+        if (batchStockList.isEmpty()) throw new InvalidProductException(id);
         return batchStockList;
     }
 
@@ -65,4 +67,54 @@ public class BatchStockServiceImpl implements BatchStockService{
         // Multiply currentQuantity per volumePerProduct to calculate batch total volume
         return volumePerProduct.multiply(BigDecimal.valueOf(productQuantity));
     }
+
+    @Override
+    public List<BatchStock> findAllByDueDate(LocalDate dueDate) {
+        return repository.findAllByDueDate(dueDate);
+    }
+
+    @Override
+    public List<BatchStock> findaAllProductIdAndDueDate(Long productId, LocalDate dueDate) {
+        return repository.findAllByProduct_IdAndAndDueDate(productId, dueDate);
+    }
+
+    public Boolean availableStockQuantity(Long productId, int requestedQuantity) {
+
+        List<BatchStock> productBatchstock = findAllByProductId(productId);
+
+        Integer totalQuantityBatchsotck = productBatchstock.stream().map(BatchStock::getCurrentQuantity).reduce(0, Integer::sum);
+
+        if (totalQuantityBatchsotck > requestedQuantity) {
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean validateProductDueDate(Long productId) {
+
+        LocalDate today = LocalDate.now();
+        LocalDate date = today.plusDays(21);
+
+        List<BatchStock> productsList = findAllByDueDate(date);
+
+        if (productsList.isEmpty()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public List<BatchStock> returnListProductWithValidatedDueDateAndQuantity(Long productId, int requestedQuantity) {
+
+        List<BatchStock> filtredProduct = findaAllProductIdAndDueDate(productId, LocalDate.now().plusDays(21));
+
+        int totalQuantityProducts = filtredProduct.stream().map(BatchStock::getCurrentQuantity).reduce(0, Integer::sum);
+
+        if(totalQuantityProducts >= requestedQuantity){
+            return filtredProduct;
+        }
+
+        throw new EmptyListException();
+    }
+
 }
