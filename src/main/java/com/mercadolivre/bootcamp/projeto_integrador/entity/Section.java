@@ -21,8 +21,6 @@ public class Section {
     private Long sectionId;
     private BigDecimal capacity;
     private float currentTemperature;
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    private List<InBoundOrder> listInBoundOrder;
     @Enumerated(EnumType.STRING)
     private Category category;
     private Long warehouseId;
