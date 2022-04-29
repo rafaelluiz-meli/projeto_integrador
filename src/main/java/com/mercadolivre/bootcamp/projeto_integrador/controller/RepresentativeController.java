@@ -33,8 +33,8 @@ public class RepresentativeController {
     }
 
     @PutMapping("/representative/{id}")
-    public ResponseEntity<?> updateRepresentative(@PathVariable(value = "id") Long representativeId, @Valid @RequestBody Representative representative) {
-        Representative representativeAux = representativeService.updateRepresentative(representativeId, representative);
+    public ResponseEntity<?> updateRepresentative(@PathVariable(value = "id") @Valid @RequestBody Representative representative) {
+        Representative representativeAux = representativeService.updateRepresentative(representative);
         return ResponseEntity.ok().body(representativeAux);
     }
 
