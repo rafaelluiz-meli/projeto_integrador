@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface BatchStockRepository extends JpaRepository<BatchStock, Long> {
 
-    List<BatchStock> findByProduct_IdAndProduct_Category(Long id, @Nullable Category category);
+    List<BatchStock> findByProduct_Id(Long id);
 }

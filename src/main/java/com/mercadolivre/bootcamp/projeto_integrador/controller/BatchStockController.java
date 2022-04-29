@@ -43,9 +43,9 @@ public class BatchStockController {
 
     @GetMapping("/list")
     public ResponseEntity<List<NewBatchStockDTO>> getAllBatchStockByProductId(@RequestParam Long productId,
-                                                                     @RequestParam(required = false) Category productCategory)
+                                                                     @RequestParam(required = false) String orderBy)
     {
-        List<BatchStock> batchStockList = service.findAllByProductIdAndProductCategory(productId, productCategory);
+        List<BatchStock> batchStockList = service.findAllByProductId(productId);
         List<NewBatchStockDTO> responseBody = batchStockList
                 .stream().map(NewBatchStockDTO::map).collect(Collectors.toList());;
         return ResponseEntity.ok(responseBody);

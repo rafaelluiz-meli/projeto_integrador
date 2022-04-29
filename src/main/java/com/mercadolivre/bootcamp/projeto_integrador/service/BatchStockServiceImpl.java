@@ -37,8 +37,8 @@ public class BatchStockServiceImpl implements BatchStockService{
     }
 
     @Override
-    public List<BatchStock> findAllByProductIdAndProductCategory(Long id, Category category) {
-        List<BatchStock> batchStockList = repository.findByProduct_IdAndProduct_Category(id, category);
+    public List<BatchStock> findAllByProductId(Long id) {
+        List<BatchStock> batchStockList = repository.findByProduct_Id(id);
         if(batchStockList.isEmpty()) throw new InvalidProductException(id);
         return batchStockList;
     }

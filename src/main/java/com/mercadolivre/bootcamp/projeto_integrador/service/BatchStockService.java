@@ -10,7 +10,7 @@ public interface BatchStockService {
     BatchStock create(BatchStock batchStock);
     List<BatchStock> findAll();
     BatchStock findById(Long id);
-    List<BatchStock> findAllByProductIdAndProductCategory(Long productId, Category category);
+    List<BatchStock> findAllByProductId(Long productId);
     BatchStock update(BatchStock batchStock);
     void remove(Long id);
     BigDecimal calculateTotalVolume(BatchStock batchStock);

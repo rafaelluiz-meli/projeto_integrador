@@ -1,7 +1,6 @@
 package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
-import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.product.InvalidProductException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
@@ -35,13 +34,11 @@ public class BatchStockServiceTest {
 
     Long id = 1L;
     Long productId = 1L;
-    BatchStock batchStock1 = BatchStock.builder().batchNumber(1L).product(Product.builder()
-            .id(productId).build()).build();
-    BatchStock batchStock2 = BatchStock.builder().batchNumber(2L).product(Product.builder()
-            .id(productId).build()).build();
-    BatchStock batchStock3 = BatchStock.builder().batchNumber(3L).product(Product.builder()
-            .id(productId).build()).build();
+    BatchStock batchStock1 = BatchStock.builder().batchNumber(1L).product(Product.builder().id(productId).build()).build();
+    BatchStock batchStock2 = BatchStock.builder().batchNumber(2L).product(Product.builder().id(productId).build()).build();
+    BatchStock batchStock3 = BatchStock.builder().batchNumber(3L).product(Product.builder().id(productId).build()).build();
     List<BatchStock> batchStockList = Arrays.asList(batchStock1,batchStock2,batchStock3);
+
 
     @Test
     @DisplayName("it should calculate totalVolume of given BatchStock")
@@ -130,20 +127,20 @@ public class BatchStockServiceTest {
     }
 
     @Test
-    @DisplayName("It should do list all BatchStocks by product id and product category.")
+    @DisplayName("It should do list all BatchStocks by product id.")
     public void shouldListBatchStockByProductId(){
 
-        Mockito.when(repository.findByProduct_IdAndProduct_Category(anyLong(),Category.valueOf(anyString()))).thenReturn(batchStockList);
+        Mockito.when(repository.findByProduct_Id(anyLong())).thenReturn(batchStockList);
 
-        List<BatchStock> result = service.findAllByProductIdAndProductCategory(productId, Category.valueOf("fresco"));
+        List<BatchStock> result = service.findAllByProductId(productId);
 
         assertEquals(batchStockList, result);
         assertEquals(3, result.size());
     }
 
     @Test
-    @DisplayName("It should not do list all BatchStocks by product id and product category when it not exists.")
+    @DisplayName("It should not do list all BatchStocks by product id when it not exists.")
     public void shouldNotListBatchStockByProductIdWhenProductIdNotExists(){
-        assertThrows(InvalidProductException.class, () -> service.findAllByProductIdAndProductCategory(anyLong(),Category.valueOf(anyString())));
+        assertThrows(InvalidProductException.class, () -> service.findAllByProductId(anyLong()));
     }
 }
