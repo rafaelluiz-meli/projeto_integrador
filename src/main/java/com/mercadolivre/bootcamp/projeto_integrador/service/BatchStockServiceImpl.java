@@ -75,5 +75,6 @@ public class BatchStockServiceImpl implements BatchStockService{
 //        if(orderBy == "L") return beforeOrderingList.sort();
 //        if(orderBy == "C") return beforeOrderingList.sort();
 //        return beforeOrderingList.sort();
+        return null;
     };
 }
