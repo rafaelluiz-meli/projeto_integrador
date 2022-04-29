@@ -1,8 +1,6 @@
 package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.InboundOrderDTO;
-import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.NewInBoundOrderDTO;
-import com.mercadolivre.bootcamp.projeto_integrador.dto.section.SectionDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.InboundOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.InBoundOrder;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;

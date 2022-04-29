@@ -1,7 +1,6 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.InboundOrderDTO;
-import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.NewInBoundOrderDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.InboundOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.InBoundOrderRepository;

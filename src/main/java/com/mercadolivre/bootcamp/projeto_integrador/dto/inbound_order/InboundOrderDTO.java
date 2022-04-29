@@ -1,4 +1,4 @@
-package com.mercadolivre.bootcamp.projeto_integrador.dto;
+package com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;

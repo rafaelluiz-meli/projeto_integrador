@@ -1,8 +1,8 @@
 package com.mercadolivre.bootcamp.projeto_integrador.factory;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.InboundOrderDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.InboundOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.*;
-import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.NewInBoundOrderDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.RequestInBoundOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.InBoundOrder;
@@ -24,13 +24,13 @@ public class InBoundOrderFactory {
 
     /**
      *
-     * @param newInBoundOrderDTO RequestBody received at controller level
+     * @param requestInBoundOrderDTO RequestBody received at controller level
      * @return The entity created @ database level
      */
-    public InBoundOrder createInBoundOrder(NewInBoundOrderDTO newInBoundOrderDTO) {
-        InboundOrderDTO inboundOrderDTO = this.createInboundOrderDTO(newInBoundOrderDTO);
+    public InBoundOrder createInBoundOrder(RequestInBoundOrderDTO requestInBoundOrderDTO) {
+        InboundOrderDTO inboundOrderDTO = this.createInboundOrderDTO(requestInBoundOrderDTO);
 
-        this.validateInboundOrder(newInBoundOrderDTO);
+        this.validateInboundOrder(requestInBoundOrderDTO);
         this.validateBatchStock(inboundOrderDTO.getBatchStock(), inboundOrderDTO.getSection().getSectionId());
 
         return inBoundOrderService.addInBoundOrder(inboundOrderDTO);
@@ -38,17 +38,17 @@ public class InBoundOrderFactory {
 
     /**
      *
-     * @param newInBoundOrderDTO RequestBody received at controller level
+     * @param requestInBoundOrderDTO RequestBody received at controller level
      * @return The entity updated @ database level
      */
-    public InBoundOrder updateInboundOrder(Long id, NewInBoundOrderDTO newInBoundOrderDTO) {
+    public InBoundOrder updateInboundOrder(Long id, RequestInBoundOrderDTO requestInBoundOrderDTO) {
 
         // Create appropriate inboundOrderDTO
-        InboundOrderDTO inboundOrderDTO = this.updateInboundOrderDTO(newInBoundOrderDTO);
-        inboundOrderDTO.setOrderNumber(newInBoundOrderDTO.getOrderNumber());
+        InboundOrderDTO inboundOrderDTO = this.updateInboundOrderDTO(requestInBoundOrderDTO);
+        inboundOrderDTO.setOrderNumber(requestInBoundOrderDTO.getOrderNumber());
 
         // Run validations
-        this.validateInboundOrder(newInBoundOrderDTO);
+        this.validateInboundOrder(requestInBoundOrderDTO);
         this.validateBatchStock(inboundOrderDTO.getBatchStock(), inboundOrderDTO.getSection().getSectionId());
 
         inBoundOrderService.findById(id);
@@ -58,54 +58,54 @@ public class InBoundOrderFactory {
 
     /**
      *
-     * @param newInBoundOrderDTO
+     * @param requestInBoundOrderDTO
      * @return InboundOrderDTO
      * Runs the conversions needed to create an entity composed of a
      * BatchStock, Section and Product. It's needed to simplify the requestbody at controller level
      */
-    private InboundOrderDTO createInboundOrderDTO(NewInBoundOrderDTO newInBoundOrderDTO) {
-        BatchStock batchStock = newInBoundOrderDTO.getBatchStock().map();
-        batchStock.setProduct(productService.findByProductId(newInBoundOrderDTO.getBatchStock().getProductId()));
+    private InboundOrderDTO createInboundOrderDTO(RequestInBoundOrderDTO requestInBoundOrderDTO) {
+        BatchStock batchStock = requestInBoundOrderDTO.getBatchStock().map();
+        batchStock.setProduct(productService.findByProductId(requestInBoundOrderDTO.getBatchStock().getProductId()));
 
-        Section section = sectionService.getSectionById(newInBoundOrderDTO.getSection().getSectionId());
+        Section section = sectionService.getSectionById(requestInBoundOrderDTO.getSection().getSectionId());
 
         return InboundOrderDTO.builder()
                 .section(section)
                 .batchStock(batchStock)
-                .representativeId(newInBoundOrderDTO.getRepresentativeId())
+                .representativeId(requestInBoundOrderDTO.getRepresentativeId())
                 .build();
     }
 
 
     /**
      *
-     * @param newInBoundOrderDTO RequestBody received at controller level
+     * @param requestInBoundOrderDTO RequestBody received at controller level
      * @return InboundOrderDTO
      * Runs the conversions needed to create an entity composed of a BatchStock, Section and Product.
      * It will only update the allowed parameters of a BatchStock.
      */
-    private InboundOrderDTO updateInboundOrderDTO(NewInBoundOrderDTO newInBoundOrderDTO) {
+    private InboundOrderDTO updateInboundOrderDTO(RequestInBoundOrderDTO requestInBoundOrderDTO) {
 
-        BatchStock currentBatchStock = inBoundOrderService.findById(newInBoundOrderDTO.getOrderNumber()).getBatchStock();
-        BatchStock batchStock = newInBoundOrderDTO.getBatchStock().map(currentBatchStock);
-        Section section = sectionService.getSectionById(newInBoundOrderDTO.getSection().getSectionId());
+        BatchStock currentBatchStock = inBoundOrderService.findById(requestInBoundOrderDTO.getOrderNumber()).getBatchStock();
+        BatchStock batchStock = requestInBoundOrderDTO.getBatchStock().map(currentBatchStock);
+        Section section = sectionService.getSectionById(requestInBoundOrderDTO.getSection().getSectionId());
 
         return InboundOrderDTO.builder()
-                .orderNumber(newInBoundOrderDTO.getOrderNumber())
+                .orderNumber(requestInBoundOrderDTO.getOrderNumber())
                 .section(section)
                 .batchStock(batchStock)
-                .representativeId(newInBoundOrderDTO.getRepresentativeId())
+                .representativeId(requestInBoundOrderDTO.getRepresentativeId())
                 .build();
     }
 
-    private void validateInboundOrder(NewInBoundOrderDTO newInBoundOrderDTO) {
+    private void validateInboundOrder(RequestInBoundOrderDTO requestInBoundOrderDTO) {
         /* Faz validação de sectionId, warehouseId e representativeId em seus respectivos
            services. Caso um deles não seja valido, a inboundOrder é inválida e o método retorna false.
          */
 
-        Long sectionId = newInBoundOrderDTO.getSection().getSectionId();
-        Long warehouseId = newInBoundOrderDTO.getSection().getWarehouseId();
-        Long representativeId = newInBoundOrderDTO.getRepresentativeId();
+        Long sectionId = requestInBoundOrderDTO.getSection().getSectionId();
+        Long warehouseId = requestInBoundOrderDTO.getSection().getWarehouseId();
+        Long representativeId = requestInBoundOrderDTO.getRepresentativeId();
 
         sectionService.isSectionValid(sectionId);
         warehouseService.isValidWarehouse(warehouseId);
