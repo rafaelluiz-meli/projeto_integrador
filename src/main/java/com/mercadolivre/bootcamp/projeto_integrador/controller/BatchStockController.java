@@ -48,10 +48,9 @@ public class BatchStockController {
 
     @PostMapping
     public ResponseEntity<NewBatchStockDTO> newBatchStock(@RequestBody NewBatchStockDTO batchStockDTO){
-        BatchStock batchStock = batchStockDTO.map();
-        batchStockService.create(batchStock);
-        NewBatchStockDTO d = NewBatchStockDTO.map(batchStock);
-        return new ResponseEntity(d, HttpStatus.CREATED);
+        BatchStock createdBatchStock = batchStockService.create(batchStockDTO.map());
+        NewBatchStockDTO responseCreatedBatchStock = NewBatchStockDTO.map(createdBatchStock);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseCreatedBatchStock);
     }
 
     @PutMapping
