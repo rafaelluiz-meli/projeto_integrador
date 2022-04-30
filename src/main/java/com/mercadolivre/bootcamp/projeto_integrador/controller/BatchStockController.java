@@ -1,7 +1,8 @@
 package com.mercadolivre.bootcamp.projeto_integrador.controller;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.NewBatchStockDTO;
-import com.mercadolivre.bootcamp.projeto_integrador.dto.UpdateBatchStockDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.batch_stock.NewBatchStockDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.batch_stock.ResponseBatchStockDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.batch_stock.UpdateBatchStockDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockService;
@@ -29,9 +30,10 @@ public class BatchStockController {
      * @return 200 OK
      */
     @GetMapping("/due-date/")
-    public ResponseEntity<List<BatchStock>> getByDueDateAndSectionId(@RequestParam int numberOfDays, @RequestParam Long sectionId) {
+    public ResponseEntity<List<ResponseBatchStockDTO>> getByDueDateAndSectionId(@RequestParam int numberOfDays, @RequestParam Long sectionId) {
         List<BatchStock> batchStockList = batchStockService.findAllBySectionIdAndDueDate(numberOfDays, sectionId);
-        return ResponseEntity.ok().body(batchStockList);
+        List<ResponseBatchStockDTO> responseBatchStockDTOList = ResponseBatchStockDTO.map(batchStockList);
+        return ResponseEntity.ok().body(responseBatchStockDTOList);
     }
 
     /**
@@ -40,9 +42,10 @@ public class BatchStockController {
      * @return 200 OK
      */
     @GetMapping("/due-date/list")
-    public ResponseEntity<List<BatchStock>> getByDueDateAndCategory(@RequestParam int numberOfDays, @RequestParam Category category) {
+    public ResponseEntity<List<ResponseBatchStockDTO>> getByDueDateAndCategory(@RequestParam int numberOfDays, @RequestParam Category category) {
         List<BatchStock> batchStockList = batchStockService.findAllByDueDateAndProductCategory(numberOfDays, category);
-        return ResponseEntity.ok().body(batchStockList);
+        List<ResponseBatchStockDTO> responseBatchStockDTOList = ResponseBatchStockDTO.map(batchStockList);
+        return ResponseEntity.ok().body(responseBatchStockDTOList);
     }
     // END DUE-DATE ENDPOINTS
 
