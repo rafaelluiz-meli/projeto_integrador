@@ -3,8 +3,9 @@ package com.mercadolivre.bootcamp.projeto_integrador.controller;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.NewBatchStockDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.UpdateBatchStockDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +15,13 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(BatchStockController.baseUri)
+@AllArgsConstructor
 public class BatchStockController {
 
     public static final String baseUri = "/api/v1/fresh-products/batchstock";
+    private final BatchStockService batchStockService;
+
+    // START DUE-DATE ENDPOINTS
 
     @Autowired
     private BatchStockService service;
