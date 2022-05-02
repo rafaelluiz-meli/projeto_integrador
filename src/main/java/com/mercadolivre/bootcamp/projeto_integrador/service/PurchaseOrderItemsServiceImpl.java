@@ -1,6 +1,6 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.NewPurchaseOrderItensDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order_items.NewPurchaseOrderItemsDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrderItems;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
@@ -16,9 +16,8 @@ public class PurchaseOrderItemsServiceImpl implements PurchaseOrderItemsService 
     private final PurchaseOrderItemsRepository purchaseOrderItemsRepository;
 
     @Override
-    public PurchaseOrderItems addPurchaseOrderItems(NewPurchaseOrderItensDTO purchaseOrderItemsDTO) {
+    public PurchaseOrderItems addPurchaseOrderItems(NewPurchaseOrderItemsDTO purchaseOrderItemsDTO) {
         PurchaseOrderItems purchaseOrderItems = PurchaseOrderItems.builder()
-                .purchaseOrderNumber(purchaseOrderItemsDTO.getPurchaseOrderNumber())
                 .productId(purchaseOrderItemsDTO.getProductId())
                 .quantity(purchaseOrderItemsDTO.getQuantity())
                 .build();
@@ -60,4 +59,6 @@ public class PurchaseOrderItemsServiceImpl implements PurchaseOrderItemsService 
         return purchaseOrderItemsRepository.findById(purchaseOrderItemsId).orElseThrow(()
                 -> new IdNotFoundException(purchaseOrderItemsId));
     }
+
+
 }

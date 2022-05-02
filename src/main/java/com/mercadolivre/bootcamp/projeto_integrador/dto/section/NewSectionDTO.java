@@ -1,18 +1,13 @@
-package com.mercadolivre.bootcamp.projeto_integrador.dto;
+package com.mercadolivre.bootcamp.projeto_integrador.dto.section;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
-import com.mercadolivre.bootcamp.projeto_integrador.entity.InBoundOrder;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Builder
 @Data
@@ -31,5 +26,13 @@ public class NewSectionDTO {
                 .currentTemperature(newSectionDTO.getCurrentTemperature())
                 .category(newSectionDTO.getCategory())
                 .warehouseId(newSectionDTO.getWarehouseId()).build();
+    }
+
+    public static NewSectionDTO convert(Section section){
+        return NewSectionDTO.builder()
+                .capacity(section.getCapacity())
+                .currentTemperature(section.getCurrentTemperature())
+                .category(section.getCategory())
+                .warehouseId(section.getWarehouseId()).build();
     }
 }

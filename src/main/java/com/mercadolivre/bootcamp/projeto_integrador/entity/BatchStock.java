@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter @Setter
 @Entity
+@ToString
 public class BatchStock {
 
     @Id
@@ -22,8 +23,13 @@ public class BatchStock {
     private BigDecimal price;
     private LocalDate dueDate;
     private LocalDate manufacturingDate;
+
     private LocalDateTime manufacturingTime;
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "section_id")
+    private Section section;
 }

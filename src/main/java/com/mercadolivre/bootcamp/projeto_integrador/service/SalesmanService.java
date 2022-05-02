@@ -8,6 +8,6 @@ public interface SalesmanService {
         Salesman createSalesman(Salesman salesman);
         List<Salesman> listSalesman();
         Salesman findSalesmanById(Long salesmanId);
-        public Salesman updateSalesman(Long salesmanId, Salesman salesman);
+        public Salesman updateSalesman(Salesman salesman);
         void removeSalesman(Long salesmanId);
 }

@@ -14,6 +14,6 @@ public class PurchaseOrderItems {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long PurchaseOrderItemsId;
     private Long purchaseOrderNumber;
-    private String productId;
+    private Long productId;
     private int quantity;
 }

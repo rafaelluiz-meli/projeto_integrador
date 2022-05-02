@@ -39,9 +39,9 @@ public class SalesmanServiceImpl implements SalesmanService {
     }
 
     @Override
-    public Salesman updateSalesman(Long salesmanId, Salesman salesman){
-        Salesman updatedSalesman = findSalesmanById(salesmanId);
+    public Salesman updateSalesman(Salesman salesman) {
+        Salesman updatedSalesman = findSalesmanById(salesman.getId());
         updatedSalesman.setFullName(salesman.getFullName());
         return salesmanRepository.save(updatedSalesman);
-        }
+    }
 }

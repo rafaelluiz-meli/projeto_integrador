@@ -1,6 +1,6 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.NewProductDto;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.product.NewProductDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Salesman;
@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -19,22 +20,9 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
-
-    @Override
-    public Boolean availableStockQuantity(Integer orderProductQuantity) {
-        // TODO: 25/04/22 Verify BatchStock by product id and return quantity available;
-        return null;
-    }
-
-    @Override
-    public Boolean validateProductDueDate(Long productId) {
-        // TODO: 26/04/22 validate product due date after batchstock endpoints are complete 
-        return null;
-    }
-
     // METHOD TO CREATE PRODUCT
     @Override
-    public Product create(NewProductDto newProductDto) {
+    public Product create(NewProductDTO newProductDto) {
 
         Salesman salesmanId = Salesman.builder().id(newProductDto.getSalesman_id()).build();
 
@@ -112,5 +100,11 @@ public class ProductServiceImpl implements ProductService {
         List<Product> productList = productRepository.findAll();
         if (productList.isEmpty()) throw new EmptyListException();
         return productList;
+    }
+
+    @Override
+    public Boolean isProductValid(Long productID) {
+        Optional<Product> isIdValid = productRepository.findById(productID);
+        return isIdValid.isPresent();
     }
 }

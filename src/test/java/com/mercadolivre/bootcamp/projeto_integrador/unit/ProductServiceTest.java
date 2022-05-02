@@ -1,6 +1,6 @@
 package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.NewProductDto;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.product.NewProductDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Salesman;
@@ -33,22 +33,6 @@ public class ProductServiceTest {
 
     @InjectMocks
     private ProductServiceImpl productService;
-
-    @Test
-    @DisplayName("it should validate that a product due date is valid")
-    public void shouldValidateProductDueDate() {
-        // TODO: 26/04/22 - Create test after finishing BatchStockService
-        productService.validateProductDueDate(5L);
-        assertTrue(true);
-    }
-
-    @Test
-    @DisplayName("it should validate that a stock quantity is valid")
-    public void availableStockQuantity() {
-        // TODO: 26/04/22 - Create test after finishing BatchStockService
-        productService.availableStockQuantity(5);
-        assertTrue(true);
-    }
 
     @Test
     @DisplayName("it should find a product by id")
@@ -194,7 +178,7 @@ public class ProductServiceTest {
     @DisplayName("it should create a new product")
     public void shouldCreateProduct() {
         // Arrange tests
-        NewProductDto productDto = NewProductDto.builder()
+        NewProductDTO productDto = NewProductDTO.builder()
                 .productName("Product")
                 .category(Category.FRESH)
                 .maxTemperature(1F)
@@ -258,5 +242,20 @@ public class ProductServiceTest {
 
         // Assert result
         assertEquals(productResponse, result);
+    }
+
+    @Test
+    @DisplayName("It should return true if product id is valid.")
+    public void shouldReturnTrueIfProductIdIsValid(){
+        // arrange
+        Long id = 23L;
+        Product product = Product.builder().id(id).build();
+
+        // act
+        Mockito.when(productRepository.findById(anyLong())).thenReturn(Optional.of(product));
+        Boolean test = productService.isProductValid(23L);
+
+        // assert
+        assertTrue(test);
     }
 }

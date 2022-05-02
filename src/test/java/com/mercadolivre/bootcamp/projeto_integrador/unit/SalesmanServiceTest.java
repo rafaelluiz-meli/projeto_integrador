@@ -134,7 +134,7 @@ public class SalesmanServiceTest {
         // act
         Mockito.when(repository.save(any())).thenReturn(salesman);
         Mockito.when(repository.findById(any())).thenReturn(Optional.of(salesman));
-        Salesman result = service.updateSalesman(1L, salesman);
+        Salesman result = service.updateSalesman(salesman);
 
         // assert
         assertEquals(salesman, result);

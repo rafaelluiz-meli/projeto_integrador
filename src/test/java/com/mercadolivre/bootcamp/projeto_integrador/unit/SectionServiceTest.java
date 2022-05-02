@@ -1,14 +1,18 @@
 package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.NewSectionDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.section.NewSectionDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.Warehouse;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.SectionRepository;
+import com.mercadolivre.bootcamp.projeto_integrador.repository.WarehouseRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.SectionServiceImpl;
+import com.mercadolivre.bootcamp.projeto_integrador.service.WarehouseServiceImpl;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,7 +21,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 
 
@@ -36,22 +42,23 @@ public class SectionServiceTest {
     @InjectMocks
     private SectionServiceImpl sectionService;
 
+    @Mock
+    private WarehouseRepository warehouseRepository;
+
+    @InjectMocks
+    private WarehouseServiceImpl warehouseService;
+
     @Test
+    @DisplayName("It should do create a new Section.")
     void shouldSaveNewSection() {
         //Arrange
-        NewSectionDTO sectionDTO = NewSectionDTO.builder()
-                .capacity(new BigDecimal(100))
-                .currentTemperature(10)
-                .category(Category.REFRIGERATED)
-                .warehouseId(5L).build();
-
         Section section = Section.builder().build();
 
         //Act
 
         Mockito.when(sectionRepository.save(any())).thenReturn(section);
 
-        Section sectionAdd = sectionService.addSection(sectionDTO);
+        Section sectionAdd = sectionService.addSection(section);
 
         //Assert
         Assertions.assertEquals(section, sectionAdd);
@@ -59,6 +66,7 @@ public class SectionServiceTest {
     }
 
     @Test
+    @DisplayName("It should return all Sections.")
     void shouldReturnAllSections() {
         //Arrange
         Section section = Section.builder().build();
@@ -78,6 +86,7 @@ public class SectionServiceTest {
     }
 
     @Test
+    @DisplayName("It should return a Section by id.")
     void shouldReturnSectionById() {
 
         //Arrange
@@ -102,6 +111,7 @@ public class SectionServiceTest {
 
 
     @Test
+    @DisplayName("It should update a Section.")
     void shouldUpdateSection(){
         //Arrange
         NewSectionDTO sectionDTO = NewSectionDTO.builder()
@@ -126,6 +136,7 @@ public class SectionServiceTest {
 
 
     @Test
+    @DisplayName("It should not return a Section by id.")
     void shouldReturnErrorWhenFindById() {
 
         //Arrange
@@ -141,6 +152,25 @@ public class SectionServiceTest {
                 });
     }
     @Test
+    @DisplayName("It should return true when the section is valid.")
+    void shouldReturnTrueWhenCallMethodIsValidSection() {
+
+        //Arrange
+        Section section = Section.builder().build();
+        Optional<Section> sectionOptional = Optional.of(section);
+        Long idToCompare = 5L;
+
+        //Act
+        Mockito.when(sectionRepository.findById(any())).thenReturn(sectionOptional);
+        boolean isValid = sectionService.isSectionValid(idToCompare);
+
+        //Assert
+        Assertions.assertTrue(isValid);
+
+    }
+
+    @Test
+    @DisplayName("It should throws a exception when we try to update a section and not found the id.")
     void shouldReturnErrorWhenUpdateSectionAndNotFoundId() {
 
         //Arrange
@@ -158,25 +188,11 @@ public class SectionServiceTest {
     }
 
     @Test
-    void shouldReturnTrueWhenCallMethodIsValidSection() {
-
+    @DisplayName("It should return true when a available section has capacity.")
+    void shouldReturnTrueWhenAvailableSectionHasCapacity(){
         //Arrange
-        Section section = Section.builder().build();
-        Optional<Section> sectionOptional = Optional.of(section);
-
-        //Act
-        Mockito.when(sectionRepository.findById(any())).thenReturn(sectionOptional);
-        boolean isValid = sectionService.isSectionValid(5L);
-
-        //Assert
-        Assertions.assertTrue(isValid);
-
-    }
-
-    @Test
-    void shouldReturnTrueWhenAvailableSectionHaveCapacity(){
-        //Arrange
-        Section section = Section.builder().capacity(new BigDecimal(10000)).build();
+        int capacity = 10000;
+        Section section = Section.builder().capacity(new BigDecimal(capacity)).build();
         Optional<Section> sectionOptional = Optional.of(section);
 
         //Act
@@ -189,9 +205,44 @@ public class SectionServiceTest {
     }
 
     @Test
-    void shouldReturnFalseWhenAvailableSectionDontHaveCapacity(){
+    @DisplayName("It should return true if the warehouse is valid.")
+    void shouldReturnTrueIfTheWarehouseIsValid(){
         //Arrange
-        Section section = Section.builder().capacity(new BigDecimal(10000)).build();
+        Long id = 1L;
+        Warehouse warehouse = Warehouse.builder().warehouseId(id).build();
+        //Act
+        Mockito.when(warehouseRepository.findById(any())).thenReturn(Optional.of(warehouse));
+        Boolean isValid = sectionService.isWarehouseValid(1L);
+
+        //Asserts
+        Assertions.assertTrue(isValid);
+    }
+
+    @Test
+    @DisplayName("it should return all sections if warehouse id exists.")
+    public void shouldReturnAllSectionsByWarehouseId(){
+        //arrange
+        Long id = 1L;
+        Warehouse warehouse = Warehouse.builder().warehouseId(id).build();
+        Section section = Section.builder().warehouseId(id).build();
+        List<Section> sectionList = Arrays.asList(section, section, section, section);
+
+        // act
+        Mockito.when(sectionRepository.findAllByWarehouseId(any())).thenReturn(sectionList);
+        Mockito.when(warehouseRepository.findById(any())).thenReturn(Optional.of(warehouse));
+        Warehouse warehouseId = warehouseService.findById(1L);
+        List<Section> result = sectionService.getAllSectionByWarehouseId(warehouseId.getWarehouseId());
+
+        // assert
+        assertEquals(sectionList, result);
+    }
+
+    @Test
+    @DisplayName("It should return false when a available section has no capacity.")
+    void shouldReturnFalseWhenAvailableSectionHasNotCapacity(){
+        //Arrange
+        int capacity = 10000;
+        Section section = Section.builder().capacity(new BigDecimal(capacity)).build();
         Optional<Section> sectionOptional = Optional.of(section);
 
         //Act
@@ -204,12 +255,15 @@ public class SectionServiceTest {
     }
 
     @Test
+    @DisplayName("It should delete a section.")
     public void shouldDeleteSection() {
         // Arrange
-        Section section = Section.builder().sectionId(100l).build();
+        Long sectionId = 100L;
+        Section section = Section.builder().sectionId(sectionId).build();
 
-        // Act
-        doNothing().when(sectionRepository).deleteById(any());
+        //Act
+        Mockito.when(sectionRepository.findById(anyLong())).thenReturn(Optional.ofNullable(section));
+        doNothing().when(sectionRepository).delete(any());
 
         // Assert
         assertDoesNotThrow(() -> {
@@ -218,6 +272,7 @@ public class SectionServiceTest {
     }
 
     @Test
+    @DisplayName("It should return true when a corresponds to a product type.")
     public void shouldReturnTrueWhenSectionCorrespondsProductType(){
 
         //Arrange
@@ -236,7 +291,8 @@ public class SectionServiceTest {
     }
 
     @Test
-    public void shouldReturnFalseWhenSectionDontCorrespondsProductType(){
+    @DisplayName("It should return false when a section does not corresponds to a product type.")
+    public void shouldReturnFalseWhenSectionDoesntCorrespondsProductType(){
         //Arrange
         Product product01 = Product.builder().category(Category.REFRIGERATED).build();
         BatchStock batchStock1 = BatchStock.builder().product(product01).build();
@@ -252,7 +308,8 @@ public class SectionServiceTest {
     }
 
     @Test
-    void shouldReturnErrorWhenVerifySectionCorrespondsProductTypeAndNotFoundId() {
+    @DisplayName("It should throws a exception when verify a section corresponds type and not found the id.")
+    public void shouldReturnErrorWhenVerifySectionCorrespondsProductTypeAndNotFoundId() {
 
         //Arrange
         Product product01 = Product.builder().category(Category.REFRIGERATED).build();
@@ -269,7 +326,5 @@ public class SectionServiceTest {
                     sectionService.sectionCorrespondsProductType(any(), batchStock1.getProduct().getCategory());
                 });
     }
-
-
 
 }
