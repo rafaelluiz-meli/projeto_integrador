@@ -37,6 +37,15 @@ public class PurchaseOrderFactory {
         return purchaseOrderService.create(createdPurchaseOrder);
     }
 
+    public PurchaseOrder setStatusOrderClosed(PurchaseOrder purchaseOrder){
+        purchaseOrder.setStatusOrder(StatusOrder.CLOSED);
+        return purchaseOrder;
+    }
+
+    public List<PurchaseOrderItens> getPurchaseOrderItems(Long orderNumber) {
+        return purchaseOrderService.findById(orderNumber).getPurchaseOrderItemsList();
+    }
+
 //    private void calculateTotalValue(NewPurchaseOrderDTO newPurchaseOrderDTO){
 //        List<PurchaseOrderItens> purchaseOrderItemsList = newPurchaseOrderDTO.getPurchaseOrderItemsList();
 //        List<Product> productList = purchaseOrderItemsList.stream()
@@ -51,10 +60,5 @@ public class PurchaseOrderFactory {
         purchaseOrderItemsList.forEach(product ->
                 batchStockService.isListProductWithValidatedDueDateAndQuantity(
                         product.getProductId(),product.getQuantity()));
-    }
-
-    public PurchaseOrder setStatusOrderClosed(PurchaseOrder purchaseOrder){
-        purchaseOrder.setStatusOrder(StatusOrder.CLOSED);
-        return purchaseOrder;
     }
 }
