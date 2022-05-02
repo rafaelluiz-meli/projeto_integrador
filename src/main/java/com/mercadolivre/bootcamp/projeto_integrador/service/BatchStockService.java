@@ -1,6 +1,7 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,6 +15,14 @@ public interface BatchStockService {
     BatchStock update(BatchStock batchStock);
     void remove(Long id);
     BigDecimal calculateTotalVolume(BatchStock batchStock);
+
+    List<BatchStock> orderBatchStockList(List<BatchStock> unorderedList);
+
+    List<BatchStock> findAllBySectionIdAndDueDate(int daysFromToday, long sectionId);
+
+    List<BatchStock> findAllByDueDateAndProductCategory(int daysFromToday, Category fresh);
+
     List<BatchStock> findAllByDueDate(LocalDate dueDate);
+
     List<BatchStock> findaAllProductIdAndDueDate(Long productId, LocalDate dueDate);
 }

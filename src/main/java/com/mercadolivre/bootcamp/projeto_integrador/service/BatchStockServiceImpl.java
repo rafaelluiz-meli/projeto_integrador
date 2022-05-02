@@ -1,6 +1,7 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.product.InvalidProductException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
@@ -10,36 +11,37 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 
 @AllArgsConstructor
 @Service
 public class BatchStockServiceImpl implements BatchStockService {
 
-    private final BatchStockRepository repository;
+    private final BatchStockRepository batchStockRepository;
 
     @Override
     public BatchStock create(BatchStock batchStock) {
         // Todo: Verify if Product exists in Entity Product
-        return repository.save(batchStock);
+        return batchStockRepository.save(batchStock);
     }
 
     @Override
     public List<BatchStock> findAll() {
-        List<BatchStock> batchStockList = repository.findAll();
+        List<BatchStock> batchStockList = batchStockRepository.findAll();
         if (batchStockList.isEmpty()) throw new EmptyListException();
-        return repository.findAll();
+        return batchStockRepository.findAll();
     }
 
     @Override
     public BatchStock findById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
+        return batchStockRepository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
     }
 
     @Override
     public List<BatchStock> findAllByProductId(Long id) {
-        List<BatchStock> batchStockList = repository.findAllByProduct_Id(id);
-        if (batchStockList.isEmpty()) throw new InvalidProductException(id);
+        List<BatchStock> batchStockList = batchStockRepository.findAllByProduct_Id(id);
+        if(batchStockList.isEmpty()) throw new InvalidProductException(id);
         return batchStockList;
     }
 
@@ -51,13 +53,13 @@ public class BatchStockServiceImpl implements BatchStockService {
         updatedBatchStock.setDueDate(batchStock.getDueDate());
         updatedBatchStock.setManufacturingDate(batchStock.getManufacturingDate());
         updatedBatchStock.setManufacturingTime(batchStock.getManufacturingTime());
-        return repository.save(batchStock);
+        return batchStockRepository.save(batchStock);
     }
 
     @Override
     public void remove(Long id) {
         BatchStock batchStock = findById(id);
-        repository.delete(batchStock);
+        batchStockRepository.delete(batchStock);
     }
 
     @Override
@@ -69,38 +71,60 @@ public class BatchStockServiceImpl implements BatchStockService {
     }
 
     @Override
+    public List<BatchStock> orderBatchStockList(List<BatchStock> batchStockList) throws EmptyListException {
+        if (batchStockList == null || batchStockList.isEmpty()) throw new EmptyListException();
+        // Sorts BatchStockList by dueDate
+        batchStockList.sort(Comparator.comparing(BatchStock::getDueDate));
+        return batchStockList;
+    }
+
+    @Override
+    public List<BatchStock> findAllBySectionIdAndDueDate(int daysFromToday, long sectionId) {
+        LocalDate limitDueDate = LocalDate.now().plusDays(daysFromToday);
+        List<BatchStock> filteredBatchStockList = batchStockRepository.findByDueDateIsLessThanEqualAndSection_SectionId(limitDueDate, sectionId);
+        filteredBatchStockList = this.orderBatchStockList(filteredBatchStockList);
+        return filteredBatchStockList;
+    }
+
+    @Override
+    public List<BatchStock> findAllByDueDateAndProductCategory(int daysFromToday, Category category) {
+        LocalDate limitDueDate = LocalDate.now().plusDays(daysFromToday);
+        List<BatchStock> filteredBatchStockList = batchStockRepository.findByDueDateLessThanEqualAndProduct_Category(limitDueDate, category);
+        filteredBatchStockList = this.orderBatchStockList(filteredBatchStockList);
+        return filteredBatchStockList;
+    }
+
+    @Override
     public List<BatchStock> findAllByDueDate(LocalDate dueDate) {
-        return repository.findAllByDueDate(dueDate);
+        return batchStockRepository.findAllByDueDate(dueDate);
     }
 
     @Override
     public List<BatchStock> findaAllProductIdAndDueDate(Long productId, LocalDate dueDate) {
-        return repository.findAllByProduct_IdAndAndDueDate(productId, dueDate);
+        return batchStockRepository.findAllByProduct_IdAndAndDueDate(productId, dueDate);
     }
 
     public Boolean availableStockQuantity(Long productId, int requestedQuantity) {
 
-        List<BatchStock> productBatchstock = findAllByProductId(productId);
+        List<BatchStock> productBatchStock = findAllByProductId(productId);
 
-        Integer totalQuantityBatchsotck = productBatchstock.stream().map(BatchStock::getCurrentQuantity).reduce(0, Integer::sum);
+        Integer totalQuantityBatchStock = productBatchStock.stream().map(BatchStock::getCurrentQuantity).reduce(0, Integer::sum);
 
-        return totalQuantityBatchsotck >= requestedQuantity;
+        return totalQuantityBatchStock >= requestedQuantity;
     }
 
     public Boolean availableStockQuantity(Long productId, int requestedQuantity, List<BatchStock> filtredProductList){
 
-        Integer totalQuantityBatchsotck = filtredProductList.stream().map(BatchStock::getCurrentQuantity).reduce(0, Integer::sum);
-        return totalQuantityBatchsotck >= requestedQuantity;
+        Integer totalQuantityBatchStock = filtredProductList.stream().map(BatchStock::getCurrentQuantity).reduce(0, Integer::sum);
+        return totalQuantityBatchStock >= requestedQuantity;
 
     }
 
     public  Boolean isProductWithValidatedDueDateAndQuantity(Long productId, int requestedQuantity) {
 
-        List<BatchStock> filtredProduct = repository.findByDueDateIsGreaterThanEqual(LocalDate.now().plusDays(21));
+        List<BatchStock> filteredProduct = batchStockRepository.findByDueDateIsGreaterThanEqual(LocalDate.now().plusDays(21));
 
-        if(availableStockQuantity(productId, requestedQuantity, filtredProduct)){
-            return true;
-        }
+        if(availableStockQuantity(productId, requestedQuantity, filteredProduct)) return true;
         throw new EmptyListException();
     }
 }
