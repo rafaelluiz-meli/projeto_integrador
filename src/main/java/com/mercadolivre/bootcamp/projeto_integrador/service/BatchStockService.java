@@ -3,6 +3,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface BatchStockService {
@@ -13,6 +14,7 @@ public interface BatchStockService {
     BatchStock update(BatchStock batchStock);
     void remove(Long id);
     BigDecimal calculateTotalVolume(BatchStock batchStock);
-
     Boolean isListProductWithValidatedDueDateAndQuantity(Long productId, Integer requestedQuantity);
+    List<BatchStock> findAllByDueDate(LocalDate dueDate);
+    List<BatchStock> findaAllProductIdAndDueDate(Long productId, LocalDate dueDate);
 }

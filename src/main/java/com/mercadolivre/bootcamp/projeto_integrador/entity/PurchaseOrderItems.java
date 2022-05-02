@@ -9,10 +9,11 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class PurchaseOrderItens {
+public class PurchaseOrderItems {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long PurchaseOrderItensId;
+    private Long PurchaseOrderItemsId;
+    private Long purchaseOrderNumber;
     private Long productId;
     private Integer quantity;
 }

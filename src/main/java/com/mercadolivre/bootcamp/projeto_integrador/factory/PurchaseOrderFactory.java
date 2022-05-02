@@ -42,12 +42,12 @@ public class PurchaseOrderFactory {
         return purchaseOrder;
     }
 
-    public List<PurchaseOrderItens> getPurchaseOrderItems(Long orderNumber) {
+    public List<PurchaseOrderItems> getPurchaseOrderItems(Long orderNumber) {
         return purchaseOrderService.findById(orderNumber).getPurchaseOrderItemsList();
     }
 
 //    private void calculateTotalValue(NewPurchaseOrderDTO newPurchaseOrderDTO){
-//        List<PurchaseOrderItens> purchaseOrderItemsList = newPurchaseOrderDTO.getPurchaseOrderItemsList();
+//        List<PurchaseOrderItems> purchaseOrderItemsList = newPurchaseOrderDTO.getPurchaseOrderItemsList();
 //        List<Product> productList = purchaseOrderItemsList.stream()
 //                .map(p -> productService.findByProductId(p.getProductId())).collect(Collectors.toList());
 //        productList.stream().map(Product::).reduce()
@@ -55,7 +55,7 @@ public class PurchaseOrderFactory {
 
     private void validateNewPurchaseOrder(NewPurchaseOrderDTO newPurchaseOrderDTO){
         Long buyerId = newPurchaseOrderDTO.getBuyerDTO().getBuyerId();
-        List<PurchaseOrderItens> purchaseOrderItemsList = newPurchaseOrderDTO.getPurchaseOrderItemsList();
+        List<PurchaseOrderItems> purchaseOrderItemsList = newPurchaseOrderDTO.getPurchaseOrderItemsList();
         buyerService.findById(buyerId);
         purchaseOrderItemsList.forEach(product ->
                 batchStockService.isListProductWithValidatedDueDateAndQuantity(

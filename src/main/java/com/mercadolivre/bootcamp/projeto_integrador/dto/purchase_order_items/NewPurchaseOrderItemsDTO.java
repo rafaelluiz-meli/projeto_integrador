@@ -10,4 +10,5 @@ public class NewPurchaseOrderItemsDTO {
     private Long productId;
     private Long purchaseOrderNumber;
     private Integer quantity;
+
 }
