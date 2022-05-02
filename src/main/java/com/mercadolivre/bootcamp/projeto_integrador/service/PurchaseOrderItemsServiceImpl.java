@@ -16,23 +16,23 @@ public class PurchaseOrderItemsServiceImpl implements PurchaseOrderItemsService 
     private final PurchaseOrderItemsRepository purchaseOrderItemsRepository;
 
     @Override
-    public PurchaseOrderItems addPurchaseOrderItens(NewPurchaseOrderItemsDTO purchaseOrderItensDTO) {
+    public PurchaseOrderItems addPurchaseOrderItems(NewPurchaseOrderItemsDTO purchaseOrderItemsDTO) {
         PurchaseOrderItems purchaseOrderItems = PurchaseOrderItems.builder()
-                .productId(purchaseOrderItensDTO.getProductId())
-                .quantity(purchaseOrderItensDTO.getQuantity())
+                .productId(purchaseOrderItemsDTO.getProductId())
+                .quantity(purchaseOrderItemsDTO.getQuantity())
                 .build();
 
         return purchaseOrderItemsRepository.save(purchaseOrderItems);
     }
 
     @Override
-    public List<PurchaseOrderItems> getAllPurchaseOrderItens() {
+    public List<PurchaseOrderItems> getAllPurchaseOrderItems() {
         return findAll();
     }
 
     @Override
-    public PurchaseOrderItems updatePurchaseOrderItens(PurchaseOrderItems purchaseOrderItems) {
-        PurchaseOrderItems updatePurchaseOrderItems = findById(purchaseOrderItems.getPurchaseOrderItensId());
+    public PurchaseOrderItems updatePurchaseOrderItems(PurchaseOrderItems purchaseOrderItems) {
+        PurchaseOrderItems updatePurchaseOrderItems = findById(purchaseOrderItems.getPurchaseOrderItemsId());
 
         updatePurchaseOrderItems.setPurchaseOrderNumber(purchaseOrderItems.getPurchaseOrderNumber());
         updatePurchaseOrderItems.setProductId(purchaseOrderItems.getProductId());
@@ -42,8 +42,8 @@ public class PurchaseOrderItemsServiceImpl implements PurchaseOrderItemsService 
     }
 
     @Override
-    public void deletePurchaseOrderItens(Long purchaseOrderItensId) {
-        PurchaseOrderItems purchaseOrderItems = findById(purchaseOrderItensId);
+    public void deletePurchaseOrderItems(Long purchaseOrderItemsId) {
+        PurchaseOrderItems purchaseOrderItems = findById(purchaseOrderItemsId);
         purchaseOrderItemsRepository.delete(purchaseOrderItems);
     }
 
@@ -55,9 +55,9 @@ public class PurchaseOrderItemsServiceImpl implements PurchaseOrderItemsService 
     }
 
     @Override
-    public PurchaseOrderItems findById(Long purchaseOrderItensId) {
-        return purchaseOrderItemsRepository.findById(purchaseOrderItensId).orElseThrow(()
-                -> new IdNotFoundException(purchaseOrderItensId));
+    public PurchaseOrderItems findById(Long purchaseOrderItemsId) {
+        return purchaseOrderItemsRepository.findById(purchaseOrderItemsId).orElseThrow(()
+                -> new IdNotFoundException(purchaseOrderItemsId));
     }
 
 

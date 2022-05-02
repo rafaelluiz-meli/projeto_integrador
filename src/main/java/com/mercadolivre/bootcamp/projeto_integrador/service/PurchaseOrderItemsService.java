@@ -6,10 +6,10 @@ import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrderItems;
 import java.util.List;
 
 public interface PurchaseOrderItemsService {
-    PurchaseOrderItems addPurchaseOrderItens(NewPurchaseOrderItemsDTO purchaseOrderItensDTO);
-    List<PurchaseOrderItems> getAllPurchaseOrderItens();
-    PurchaseOrderItems updatePurchaseOrderItens(PurchaseOrderItems purchaseOrderItems);
-    void deletePurchaseOrderItens(Long purchaseOrderItensId);
+    PurchaseOrderItems addPurchaseOrderItems(NewPurchaseOrderItemsDTO purchaseOrderItemsDTO);
+    List<PurchaseOrderItems> getAllPurchaseOrderItems();
+    PurchaseOrderItems updatePurchaseOrderItems(PurchaseOrderItems purchaseOrderItems);
+    void deletePurchaseOrderItems(Long purchaseOrderItemsId);
     List<PurchaseOrderItems> findAll();
-    PurchaseOrderItems findById(Long purchaseOrderItensId);
+    PurchaseOrderItems findById(Long purchaseOrderItemsId);
 }

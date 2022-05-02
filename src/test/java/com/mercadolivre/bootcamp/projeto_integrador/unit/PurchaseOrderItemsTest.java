@@ -7,6 +7,7 @@ import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoun
 import com.mercadolivre.bootcamp.projeto_integrador.repository.PurchaseOrderItemsRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.PurchaseOrderItemsServiceImpl;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,12 +28,13 @@ public class PurchaseOrderItemsTest {
     private PurchaseOrderItemsRepository purchaseOrderItemsRepository;
 
     @InjectMocks
-    private PurchaseOrderItemsServiceImpl purchaseOrderItensService;
+    private PurchaseOrderItemsServiceImpl purchaseOrderItemsService;
 
     @Test
-    void shouldCreatePurchaseOrderItens() {
+    @DisplayName("It should create new purchase order items.")
+    void shouldCreatePurchaseOrderItems() {
         //Arrange
-        NewPurchaseOrderItemsDTO purchaseOrderItensDTO = NewPurchaseOrderItemsDTO.builder()
+        NewPurchaseOrderItemsDTO purchaseOrderItemsDTO = NewPurchaseOrderItemsDTO.builder()
                 .productId(1L)
                 .quantity(10)
                 .build();
@@ -43,38 +45,41 @@ public class PurchaseOrderItemsTest {
         Mockito.when(purchaseOrderItemsRepository.save(any())).thenReturn(purchaseOrderItems);
 
         PurchaseOrderItems purchaseOrderItemsAdd =
-                purchaseOrderItensService.addPurchaseOrderItens(purchaseOrderItensDTO);
+                purchaseOrderItemsService.addPurchaseOrderItems(purchaseOrderItemsDTO);
 
         //Assert
         assertEquals(purchaseOrderItems, purchaseOrderItemsAdd);
     }
 
     @Test
-    void shouldFindPurchaseOrderItensById() {
+    @DisplayName("It should find purchase order items by id.")
+    void shouldFindPurchaseOrderItemsById() {
         //Arrange
-        PurchaseOrderItems purchaseOrderItems = PurchaseOrderItems.builder().PurchaseOrderItensId(1L).build();
+        PurchaseOrderItems purchaseOrderItems = PurchaseOrderItems.builder().PurchaseOrderItemsId(1L).build();
 
         //Act
         Mockito.when(purchaseOrderItemsRepository.findById(any())).thenReturn(Optional.of(purchaseOrderItems));
-        PurchaseOrderItems foundedPurchaseOrderItems = purchaseOrderItensService.findById(1L);
+        PurchaseOrderItems foundedPurchaseOrderItems = purchaseOrderItemsService.findById(1L);
 
         //Assert
         assertEquals(purchaseOrderItems, foundedPurchaseOrderItems);
     }
 
     @Test
-    void shouldNotFindPurchaseOrderItensById() {
+    @DisplayName("It should not find purchase order items by id.")
+    void shouldNotFindPurchaseOrderItemsById() {
         //Act
         Mockito.when(purchaseOrderItemsRepository.findById(any())).thenReturn(Optional.empty());
 
         //Assert
         assertThrows(IdNotFoundException.class, ()
-                -> purchaseOrderItensService.findById(1L)
+                -> purchaseOrderItemsService.findById(1L)
         );
     }
 
     @Test
-    void shouldReturnAllPurchaseOrderItens() {
+    @DisplayName("It should list all purchase order items.")
+    void shouldReturnAllPurchaseOrderItems() {
         //Arrange
         PurchaseOrderItems purchaseOrderItems1 = PurchaseOrderItems.builder().build();
         PurchaseOrderItems purchaseOrderItems2 = PurchaseOrderItems.builder().build();
@@ -87,14 +92,15 @@ public class PurchaseOrderItemsTest {
         Mockito.when(purchaseOrderItemsRepository.findAll()).thenReturn(purchaseOrderItemsList);
 
         List<PurchaseOrderItems> purchaseOrderItemsListTest =
-                purchaseOrderItensService.getAllPurchaseOrderItens();
+                purchaseOrderItemsService.getAllPurchaseOrderItems();
 
         //Assert
         assertEquals(purchaseOrderItemsList, purchaseOrderItemsListTest);
     }
 
     @Test
-    void shouldNotReturnAllPurchaseOrderItens() {
+    @DisplayName("It should not list all purchase order items")
+    void shouldNotReturnAllPurchaseOrderItems() {
         //Arrange
         List<PurchaseOrderItems> purchaseOrderItemsList = Arrays.asList();
 
@@ -103,35 +109,37 @@ public class PurchaseOrderItemsTest {
 
         //Assert
         assertThrows(EmptyListException.class, ()
-                -> purchaseOrderItensService.getAllPurchaseOrderItens()
+                -> purchaseOrderItemsService.getAllPurchaseOrderItems()
         );
     }
 
     @Test
-    void shouldUpdatePurchaseOrderItens() {
+    @DisplayName("It should update purchase order items.")
+    void shouldUpdatePurchaseOrderItems() {
         //Arrange
-        NewPurchaseOrderItemsDTO purchaseOrderItensDTO = NewPurchaseOrderItemsDTO.builder()
+        NewPurchaseOrderItemsDTO purchaseOrderItemsDTO = NewPurchaseOrderItemsDTO.builder()
                 .productId(1L)
                 .quantity(10)
                 .build();
 
         PurchaseOrderItems purchaseOrderItems = PurchaseOrderItems.builder().build();
-        Optional<PurchaseOrderItems> purchaseOrderItensOptional = Optional.of(purchaseOrderItems);
+        Optional<PurchaseOrderItems> purchaseOrderItemsOptional = Optional.of(purchaseOrderItems);
 
 
-        Mockito.when(purchaseOrderItemsRepository.findById(any())).thenReturn(purchaseOrderItensOptional);
+        Mockito.when(purchaseOrderItemsRepository.findById(any())).thenReturn(purchaseOrderItemsOptional);
         Mockito.when(purchaseOrderItemsRepository.save(any())).thenReturn(purchaseOrderItems);
         PurchaseOrderItems updatedPurchaseOrderItems =
-                purchaseOrderItensService.updatePurchaseOrderItens(purchaseOrderItems);
+                purchaseOrderItemsService.updatePurchaseOrderItems(purchaseOrderItems);
 
         //Assert
-        Assertions.assertEquals(purchaseOrderItensOptional.get(), updatedPurchaseOrderItems);
+        Assertions.assertEquals(purchaseOrderItemsOptional.get(), updatedPurchaseOrderItems);
     }
 
     @Test
-    void shouldDeletePurchaseOrderItens() {
+    @DisplayName("It should delete purchase order items by id.")
+    void shouldDeletePurchaseOrderItems() {
         //Arrange
-        PurchaseOrderItems purchaseOrderItems = PurchaseOrderItems.builder().PurchaseOrderItensId(1L).build();
+        PurchaseOrderItems purchaseOrderItems = PurchaseOrderItems.builder().PurchaseOrderItemsId(1L).build();
 
         //Act
         Mockito.when(purchaseOrderItemsRepository.findById(any())).thenReturn(Optional.of(purchaseOrderItems));
@@ -139,18 +147,19 @@ public class PurchaseOrderItemsTest {
 
         //Assert
         assertDoesNotThrow(() -> {
-            purchaseOrderItensService.deletePurchaseOrderItens(1L);
+            purchaseOrderItemsService.deletePurchaseOrderItems(1L);
         });
     }
 
     @Test
-    void shouldNotDeletePurchaseOrderItens() {
+    @DisplayName("It should not delete purchase order items by id.")
+    void shouldNotDeletePurchaseOrderItems() {
         //Act
         Mockito.when(purchaseOrderItemsRepository.findById(any())).thenReturn(Optional.empty());
 
         //Assert
         assertThrows(IdNotFoundException.class, ()
-                -> purchaseOrderItensService.deletePurchaseOrderItens(1L)
+                -> purchaseOrderItemsService.deletePurchaseOrderItems(1L)
         );
     }
 }

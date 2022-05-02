@@ -1,10 +1,11 @@
 package com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order_items;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Builder
-@Data
+@Getter @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class NewPurchaseOrderItemsDTO {
     private Long productId;
     private int quantity;
