@@ -19,19 +19,6 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
-
-    @Override
-    public Boolean availableStockQuantity(Integer orderProductQuantity) {
-        // TODO: 25/04/22 Verify BatchStock by product id and return quantity available;
-        return null;
-    }
-
-    @Override
-    public Boolean validateProductDueDate(Long productId) {
-        // TODO: 26/04/22 validate product due date after batchstock endpoints are complete 
-        return null;
-    }
-
     // METHOD TO CREATE PRODUCT
     @Override
     public Product create(NewProductDTO newProductDto) {

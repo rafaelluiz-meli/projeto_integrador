@@ -13,9 +13,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+
 @AllArgsConstructor
 @Service
-public class BatchStockServiceImpl implements BatchStockService{
+public class BatchStockServiceImpl implements BatchStockService {
 
     private final BatchStockRepository batchStockRepository;
 
@@ -91,5 +92,39 @@ public class BatchStockServiceImpl implements BatchStockService{
         List<BatchStock> filteredBatchStockList = batchStockRepository.findByDueDateLessThanEqualAndProduct_Category(limitDueDate, category);
         filteredBatchStockList = this.orderBatchStockList(filteredBatchStockList);
         return filteredBatchStockList;
+    }
+
+    @Override
+    public List<BatchStock> findAllByDueDate(LocalDate dueDate) {
+        return batchStockRepository.findAllByDueDate(dueDate);
+    }
+
+    @Override
+    public List<BatchStock> findaAllProductIdAndDueDate(Long productId, LocalDate dueDate) {
+        return batchStockRepository.findAllByProduct_IdAndAndDueDate(productId, dueDate);
+    }
+
+    public Boolean availableStockQuantity(Long productId, int requestedQuantity) {
+
+        List<BatchStock> productBatchStock = findAllByProductId(productId);
+
+        Integer totalQuantityBatchStock = productBatchStock.stream().map(BatchStock::getCurrentQuantity).reduce(0, Integer::sum);
+
+        return totalQuantityBatchStock >= requestedQuantity;
+    }
+
+    public Boolean availableStockQuantity(Long productId, int requestedQuantity, List<BatchStock> filtredProductList){
+
+        Integer totalQuantityBatchStock = filtredProductList.stream().map(BatchStock::getCurrentQuantity).reduce(0, Integer::sum);
+        return totalQuantityBatchStock >= requestedQuantity;
+
+    }
+
+    public  Boolean isProductWithValidatedDueDateAndQuantity(Long productId, int requestedQuantity) {
+
+        List<BatchStock> filteredProduct = batchStockRepository.findByDueDateIsGreaterThanEqual(LocalDate.now().plusDays(21));
+
+        if(availableStockQuantity(productId, requestedQuantity, filteredProduct)) return true;
+        throw new EmptyListException();
     }
 }
