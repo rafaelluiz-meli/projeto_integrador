@@ -70,10 +70,11 @@ public class BatchStockServiceImpl implements BatchStockService{
     }
 
     @Override
-    public List<BatchStock> orderBatchStockList(List<BatchStock> unorderedList) throws EmptyListException {
-        if (unorderedList == null || unorderedList.isEmpty()) throw new EmptyListException();
-        unorderedList.sort(Comparator.comparing(BatchStock::getDueDate));
-        return unorderedList;
+    public List<BatchStock> orderBatchStockList(List<BatchStock> batchStockList) throws EmptyListException {
+        if (batchStockList == null || batchStockList.isEmpty()) throw new EmptyListException();
+        // Sorts BatchStockList by dueDate
+        batchStockList.sort(Comparator.comparing(BatchStock::getDueDate));
+        return batchStockList;
     }
 
     @Override

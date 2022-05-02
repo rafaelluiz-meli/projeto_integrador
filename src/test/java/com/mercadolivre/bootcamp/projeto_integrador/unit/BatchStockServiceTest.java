@@ -47,14 +47,17 @@ public class BatchStockServiceTest {
     @DisplayName("it should calculate totalVolume of given BatchStock")
     public void shouldCalculateTotalVolume() {
         // Arrange
-        Product product = Product.builder().volume(BigDecimal.valueOf(10)).build();
-        BatchStock batchStock = BatchStock.builder().currentQuantity(5).product(product).build();
+        Integer currentQuantity = 5;
+        BigDecimal volume = BigDecimal.valueOf(10);
+        BigDecimal expectedVolume = volume.multiply(BigDecimal.valueOf(currentQuantity));
+        Product product = Product.builder().volume(volume).build();
+        BatchStock batchStock = BatchStock.builder().currentQuantity(currentQuantity).product(product).build();
 
         // Exec
         BigDecimal result = batchStockService.calculateTotalVolume(batchStock);
 
         // Assert
-        assertEquals(BigDecimal.valueOf(50), result);
+        assertEquals(expectedVolume, result);
     }
 
     @Test
