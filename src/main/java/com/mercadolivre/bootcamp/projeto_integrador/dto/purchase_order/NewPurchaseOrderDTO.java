@@ -8,6 +8,7 @@ import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrderItens;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.StatusOrder;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package com.mercadolivre.bootcamp.projeto_integrador.controller;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order.NewPurchaseOrderDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order.PurchaseOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrder;
 import com.mercadolivre.bootcamp.projeto_integrador.factory.PurchaseOrderFactory;
 import lombok.AllArgsConstructor;
