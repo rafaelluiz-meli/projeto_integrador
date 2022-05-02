@@ -13,7 +13,6 @@ public class PurchaseOrderItens {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long PurchaseOrderItensId;
-    private Long purchaseOrderNumber;
     private Long productId;
-    private int quantity;
+    private Integer quantity;
 }

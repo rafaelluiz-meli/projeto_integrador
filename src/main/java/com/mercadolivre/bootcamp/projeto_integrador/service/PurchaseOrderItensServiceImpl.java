@@ -18,7 +18,7 @@ public class PurchaseOrderItensServiceImpl implements PurchaseOrderItensService{
     @Override
     public PurchaseOrderItens addPurchaseOrderItens(NewPurchaseOrderItemsDTO purchaseOrderItensDTO) {
         PurchaseOrderItens purchaseOrderItens = PurchaseOrderItens.builder()
-                .purchaseOrderNumber(purchaseOrderItensDTO.getPurchaseOrderNumber())
+                //.purchaseOrderNumber(purchaseOrderItensDTO.getPurchaseOrderNumber())
                 .productId(purchaseOrderItensDTO.getProductId())
                 .quantity(purchaseOrderItensDTO.getQuantity())
                 .build();
@@ -35,7 +35,7 @@ public class PurchaseOrderItensServiceImpl implements PurchaseOrderItensService{
     public PurchaseOrderItens updatePurchaseOrderItens(PurchaseOrderItens purchaseOrderItens) {
         PurchaseOrderItens updatePurchaseOrderItens = findById(purchaseOrderItens.getPurchaseOrderItensId());
 
-        updatePurchaseOrderItens.setPurchaseOrderNumber(purchaseOrderItens.getPurchaseOrderNumber());
+        //updatePurchaseOrderItens.setPurchaseOrderNumber(purchaseOrderItens.getPurchaseOrderNumber());
         updatePurchaseOrderItens.setProductId(purchaseOrderItens.getProductId());
         updatePurchaseOrderItens.setQuantity(purchaseOrderItens.getQuantity());
 

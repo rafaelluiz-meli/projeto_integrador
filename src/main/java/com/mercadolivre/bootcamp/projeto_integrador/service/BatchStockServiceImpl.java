@@ -65,4 +65,9 @@ public class BatchStockServiceImpl implements BatchStockService{
         // Multiply currentQuantity per volumePerProduct to calculate batch total volume
         return volumePerProduct.multiply(BigDecimal.valueOf(productQuantity));
     }
+
+    @Override
+    public Boolean isListProductWithValidatedDueDateAndQuantity(Long productId, Integer requestedQuantity) {
+        return null;
+    }
 }

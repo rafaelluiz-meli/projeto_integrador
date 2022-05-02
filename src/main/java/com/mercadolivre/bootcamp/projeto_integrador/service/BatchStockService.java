@@ -13,4 +13,6 @@ public interface BatchStockService {
     BatchStock update(BatchStock batchStock);
     void remove(Long id);
     BigDecimal calculateTotalVolume(BatchStock batchStock);
+
+    Boolean isListProductWithValidatedDueDateAndQuantity(Long productId, Integer requestedQuantity);
 }
