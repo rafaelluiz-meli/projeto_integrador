@@ -1,3 +1,5 @@
+INSERT INTO salesman (full_name) VALUES ('Rafael'), ('Fernando'), ('Vinicius'), ('Alan'), ('Kleber'), ('Romário'), ('Ronaldo');
+
 INSERT INTO Product (product_name, volume, minimum_temperature, max_temperature, category, salesman_id) VALUES ('Banana', 10, 0, 15, 'FRESH', 1);
 INSERT INTO Product (product_name, volume, minimum_temperature, max_temperature, category, salesman_id) VALUES ('Maca', 15, 0, 15,'FRESH',1 );
 INSERT INTO Product (product_name, volume, minimum_temperature, max_temperature, category, salesman_id) VALUES ('Laranja', 25, 10, 20,'FRESH',1 );
