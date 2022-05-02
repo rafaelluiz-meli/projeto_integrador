@@ -4,9 +4,11 @@ import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.Nullable;
+
 import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
 
 import java.time.LocalDate;
 import java.util.List;

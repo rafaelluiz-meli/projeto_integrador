@@ -2,6 +2,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Representative;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.inbound_order.RepresentativeNotAssociatedWithSectionException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.RepresentativeRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.RepresentativeServiceImpl;
 import org.junit.jupiter.api.DisplayName;
@@ -153,10 +154,11 @@ public class RepresentativeServiceTest {
 
         //Act
         Mockito.when(representativeRepository.findById(any())).thenReturn(Optional.of(representative));
-        boolean result = representativeService.isRepresentativeAssociatedWithSection(1L, 2L);
 
         //Assert
-        assertFalse(result);
+        assertThrows(RepresentativeNotAssociatedWithSectionException.class,
+                () -> representativeService.isRepresentativeAssociatedWithSection(1L, 2L)
+        );
     }
 
 

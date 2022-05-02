@@ -1,11 +1,11 @@
 package com.mercadolivre.bootcamp.projeto_integrador.factory;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.NewInBoundOrderDTO;
-import com.mercadolivre.bootcamp.projeto_integrador.dto.section.SectionDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.InboundOrderDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.*;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.RequestInBoundOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.InBoundOrder;
-import com.mercadolivre.bootcamp.projeto_integrador.exception.inbound_order.InvalidInboundOrderException;
 import com.mercadolivre.bootcamp.projeto_integrador.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -20,44 +20,103 @@ public class InBoundOrderFactory {
     private final WarehouseService warehouseService;
     private final RepresentativeService representativeService;
     private final BatchStockService batchStockService;
+    private final ProductService productService;
 
-    public InBoundOrder createInBoundOrder(NewInBoundOrderDTO newInBoundOrderDTO) {
-        SectionDTO inboundOrderSection = newInBoundOrderDTO.getSectionDTO();
-        boolean isInboundOrderValid = this.isInboundOrderValid(newInBoundOrderDTO);
-        boolean isBatchStockValid = this.isBatchStockValid(newInBoundOrderDTO.getBatchStock(), inboundOrderSection.getSectionId());
+    /**
+     *
+     * @param requestInBoundOrderDTO RequestBody received at controller level
+     * @return The entity created @ database level
+     */
+    public InBoundOrder createInBoundOrder(RequestInBoundOrderDTO requestInBoundOrderDTO) {
+        InboundOrderDTO inboundOrderDTO = this.createInboundOrderDTO(requestInBoundOrderDTO);
 
-        if(!isInboundOrderValid || !isBatchStockValid) {
-            // TODO: 27/04/22 MAKE A BETTER EXCEPTION HANDLING FOR EACH VALIDATION
-            throw new InvalidInboundOrderException();
-        }
+        this.validateInboundOrder(requestInBoundOrderDTO);
+        this.validateBatchStock(inboundOrderDTO.getBatchStock(), inboundOrderDTO.getSection().getSectionId());
 
-        return inBoundOrderService.addInBoundOrder(newInBoundOrderDTO);
+        return inBoundOrderService.addInBoundOrder(inboundOrderDTO);
     }
 
-    private boolean isInboundOrderValid(NewInBoundOrderDTO newInBoundOrderDTO) {
+    /**
+     *
+     * @param requestInBoundOrderDTO RequestBody received at controller level
+     * @return The entity updated @ database level
+     */
+    public InBoundOrder updateInboundOrder(Long id, RequestInBoundOrderDTO requestInBoundOrderDTO) {
+
+        // Create appropriate inboundOrderDTO
+        InboundOrderDTO inboundOrderDTO = this.updateInboundOrderDTO(requestInBoundOrderDTO);
+        inboundOrderDTO.setOrderNumber(requestInBoundOrderDTO.getOrderNumber());
+
+        // Run validations
+        this.validateInboundOrder(requestInBoundOrderDTO);
+        this.validateBatchStock(inboundOrderDTO.getBatchStock(), inboundOrderDTO.getSection().getSectionId());
+
+        inBoundOrderService.findById(id);
+
+        return inBoundOrderService.addInBoundOrder(inboundOrderDTO);
+    }
+
+    /**
+     *
+     * @param requestInBoundOrderDTO
+     * @return InboundOrderDTO
+     * Runs the conversions needed to create an entity composed of a
+     * BatchStock, Section and Product. It's needed to simplify the requestbody at controller level
+     */
+    private InboundOrderDTO createInboundOrderDTO(RequestInBoundOrderDTO requestInBoundOrderDTO) {
+        BatchStock batchStock = requestInBoundOrderDTO.getBatchStock().map();
+        batchStock.setProduct(productService.findByProductId(requestInBoundOrderDTO.getBatchStock().getProductId()));
+
+        Section section = sectionService.getSectionById(requestInBoundOrderDTO.getSection().getSectionId());
+
+        return InboundOrderDTO.builder()
+                .section(section)
+                .batchStock(batchStock)
+                .representativeId(requestInBoundOrderDTO.getRepresentativeId())
+                .build();
+    }
+
+
+    /**
+     *
+     * @param requestInBoundOrderDTO RequestBody received at controller level
+     * @return InboundOrderDTO
+     * Runs the conversions needed to create an entity composed of a BatchStock, Section and Product.
+     * It will only update the allowed parameters of a BatchStock.
+     */
+    private InboundOrderDTO updateInboundOrderDTO(RequestInBoundOrderDTO requestInBoundOrderDTO) {
+
+        BatchStock currentBatchStock = inBoundOrderService.findById(requestInBoundOrderDTO.getOrderNumber()).getBatchStock();
+        BatchStock batchStock = requestInBoundOrderDTO.getBatchStock().map(currentBatchStock);
+        Section section = sectionService.getSectionById(requestInBoundOrderDTO.getSection().getSectionId());
+
+        return InboundOrderDTO.builder()
+                .orderNumber(requestInBoundOrderDTO.getOrderNumber())
+                .section(section)
+                .batchStock(batchStock)
+                .representativeId(requestInBoundOrderDTO.getRepresentativeId())
+                .build();
+    }
+
+    private void validateInboundOrder(RequestInBoundOrderDTO requestInBoundOrderDTO) {
         /* Faz validação de sectionId, warehouseId e representativeId em seus respectivos
            services. Caso um deles não seja valido, a inboundOrder é inválida e o método retorna false.
          */
 
-        Long sectionId = newInBoundOrderDTO.getSectionDTO().getSectionId();
-        Long warehouseId = newInBoundOrderDTO.getSectionDTO().getWarehouseId();
-        Long representativeId = newInBoundOrderDTO.getRepresentativeId();
+        Long sectionId = requestInBoundOrderDTO.getSection().getSectionId();
+        Long warehouseId = requestInBoundOrderDTO.getSection().getWarehouseId();
+        Long representativeId = requestInBoundOrderDTO.getRepresentativeId();
 
-        boolean isSectionValid = sectionService.isSectionValid(sectionId);
-        boolean isWarehouseValid = warehouseService.isValidWarehouse(warehouseId);
-        boolean isRepresentativeAssociatedWithSection = representativeService
-                .isRepresentativeAssociatedWithSection(representativeId, sectionId);
-
-        return isSectionValid && isWarehouseValid && isRepresentativeAssociatedWithSection;
+        sectionService.isSectionValid(sectionId);
+        warehouseService.isValidWarehouse(warehouseId);
+        representativeService.isRepresentativeAssociatedWithSection(representativeId, sectionId);
     }
 
-    private boolean isBatchStockValid(BatchStock batchStock, Long sectionId) {
+    private void validateBatchStock(BatchStock batchStock, Long sectionId) {
         Category productCategory = batchStock.getProduct().getCategory();
         BigDecimal totalVolume = batchStockService.calculateTotalVolume(batchStock);
 
-        boolean isSectionAppropriateForProductCategory = sectionService.sectionCorrespondsProductType(sectionId, productCategory);
-        boolean sectionHasEnoughCapacity = sectionService.availableSectionCapacity(totalVolume, sectionId);
-
-        return isSectionAppropriateForProductCategory && sectionHasEnoughCapacity;
+        sectionService.sectionCorrespondsProductType(sectionId, productCategory);
+        sectionService.availableSectionCapacity(totalVolume, sectionId);
     }
 }
