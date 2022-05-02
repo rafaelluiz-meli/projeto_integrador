@@ -45,8 +45,12 @@ public class PurchaseOrderFactory {
                         product.getProductId(),product.getQuantity()));
     }
 
-    public PurchaseOrder setStatusOrderClosed(PurchaseOrder purchaseOrder){
+    private PurchaseOrder setStatusOrderClosed(PurchaseOrder purchaseOrder){
         purchaseOrder.setStatusOrder(StatusOrder.CLOSED);
         return purchaseOrder;
+    }
+    public PurchaseOrder updatePurchaseOrder(PurchaseOrder purchaseOrder){
+        PurchaseOrder updatedPurchaseOrder = this.setStatusOrderClosed(purchaseOrder);
+        return purchaseOrderService.update(updatedPurchaseOrder);
     }
 }
