@@ -94,7 +94,7 @@ public class BatchStockServiceImpl implements BatchStockService {
 
     }
 
-    public  Boolean returnListProductWithValidatedDueDateAndQuantity(Long productId, int requestedQuantity) {
+    public  Boolean isListProductWithValidatedDueDateAndQuantity(Long productId, int requestedQuantity) {
 
         List<BatchStock> filtredProduct = repository.findByDueDateIsGreaterThanEqual(LocalDate.now().plusDays(21));
 
