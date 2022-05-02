@@ -311,7 +311,7 @@ public class SectionServiceTest {
 
     @Test
     @DisplayName("It should throws a exception when verify a section corresponds type and not found the id.")
-    void shouldReturnErrorWhenVerifySectionCorrespondsProductTypeAndNotFoundId() {
+    public void shouldReturnErrorWhenVerifySectionCorrespondsProductTypeAndNotFoundId() {
 
         //Arrange
         Product product01 = Product.builder().category(Category.REFRIGERATED).build();
@@ -328,7 +328,5 @@ public class SectionServiceTest {
                     sectionService.sectionCorrespondsProductType(any(), batchStock1.getProduct().getCategory());
                 });
     }
-
-
 
 }
