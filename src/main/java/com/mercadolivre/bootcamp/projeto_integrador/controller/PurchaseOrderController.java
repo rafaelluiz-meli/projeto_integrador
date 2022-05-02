@@ -1,7 +1,6 @@
 package com.mercadolivre.bootcamp.projeto_integrador.controller;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order.NewPurchaseOrderDTO;
-import com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order.PurchaseOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrder;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrderItems;
 import com.mercadolivre.bootcamp.projeto_integrador.factory.PurchaseOrderFactory;
@@ -24,6 +23,7 @@ public class PurchaseOrderController {
     @PostMapping
     public ResponseEntity<PurchaseOrder> createNewPurchaseOrder(@RequestBody NewPurchaseOrderDTO newPurchaseOrderDTO){
         PurchaseOrder purchaseOrder = purchaseOrderFactory.createNewPurchaseOrder(newPurchaseOrderDTO);
+        System.out.println(purchaseOrderFactory.calculateTotalValue(newPurchaseOrderDTO));
         return ResponseEntity.status(HttpStatus.CREATED).body(purchaseOrder);
     }
 

@@ -9,9 +9,9 @@ import com.mercadolivre.bootcamp.projeto_integrador.service.PurchaseOrderService
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
@@ -46,12 +46,11 @@ public class PurchaseOrderFactory {
         return purchaseOrderService.findById(orderNumber).getPurchaseOrderItemsList();
     }
 
-//    private void calculateTotalValue(NewPurchaseOrderDTO newPurchaseOrderDTO){
-//        List<PurchaseOrderItems> purchaseOrderItemsList = newPurchaseOrderDTO.getPurchaseOrderItemsList();
-//        List<Product> productList = purchaseOrderItemsList.stream()
-//                .map(p -> productService.findByProductId(p.getProductId())).collect(Collectors.toList());
-//        productList.stream().map(Product::).reduce()
-//    }
+    public BigDecimal calculateTotalValue(NewPurchaseOrderDTO newPurchaseOrderDTO){
+        List<PurchaseOrderItems> purchaseOrderItemsList = newPurchaseOrderDTO.getPurchaseOrderItemsList();
+        BigDecimal totalValue = BigDecimal.ZERO;
+        return totalValue;
+    }
 
     private void validateNewPurchaseOrder(NewPurchaseOrderDTO newPurchaseOrderDTO){
         Long buyerId = newPurchaseOrderDTO.getBuyerDTO().getBuyerId();
