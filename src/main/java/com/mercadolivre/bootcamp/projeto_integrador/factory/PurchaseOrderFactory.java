@@ -14,20 +14,11 @@ public class PurchaseOrderFactory {
 
     private final BuyerService buyerService;
 
-    private final ProductService productService;
-
     private final BatchStockService batchStockService;
 
-    public boolean isBuyerRegistered(Long buyerId){
-        Long result = buyerService.findById(buyerId).getBuyerId();
-        return result > 1;
-    }
-
-    public boolean isProductInStock(Long productId, Integer quantity) {
-        return productService.availableStockQuantity(quantity);
-    }
-
-    public boolean isProductValidForNextThreeWeeks(Long productId){
-        return productService.validateProductDueDate(productId);
+    private boolean validateNewPurchaseOrder(Long buyerId, Long productId, Integer requestedQuantity){
+        buyerService.findById(buyerId);
+        batchStockService.isListProductWithValidatedDueDateAndQuantity(productId, requestedQuantity);
+        return true;
     }
 }
