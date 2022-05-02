@@ -21,25 +21,25 @@ public class RepresentativeController {
     }
 
     @GetMapping("/representatives/{id}")
-    public ResponseEntity<?> getByRepresentativeId(@PathVariable(value = "id") Long representativeId) {
+    public ResponseEntity<Representative> getByRepresentativeId(@PathVariable(value = "id") Long representativeId) {
         Representative representative = representativeService.getRepresentativeById(representativeId);
         return ResponseEntity.ok().body(representative);
     }
 
     @PostMapping("/representatives")
-    public ResponseEntity<?> createRepresentative(@Valid @RequestBody Representative representative) {
+    public ResponseEntity<Representative> createRepresentative(@Valid @RequestBody Representative representative) {
         Representative representativeAux = representativeService.createRepresentative(representative);
         return ResponseEntity.ok().body(representativeAux);
     }
 
     @PutMapping("/representative/{id}")
-    public ResponseEntity<?> updateRepresentative(@PathVariable(value = "id") Long representativeId, @Valid @RequestBody Representative representative) {
+    public ResponseEntity<Representative> updateRepresentative(@PathVariable(value = "id") Long representativeId, @Valid @RequestBody Representative representative) {
         Representative representativeAux = representativeService.updateRepresentative(representativeId, representative);
         return ResponseEntity.ok().body(representativeAux);
     }
 
     @DeleteMapping("/representative/{id}")
-    public ResponseEntity<?> deleteRepresentative(@PathVariable(value = "id") Long representativeId) {
+    public ResponseEntity deleteRepresentative(@PathVariable(value = "id") Long representativeId) {
         representativeService.deleteRepresentative(representativeId);
         return ResponseEntity.ok().body("success");
     }
