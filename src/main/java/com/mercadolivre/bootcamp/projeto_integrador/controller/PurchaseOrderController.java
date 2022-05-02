@@ -1,7 +1,9 @@
 package com.mercadolivre.bootcamp.projeto_integrador.controller;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order.NewPurchaseOrderDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order.PurchaseOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrder;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrderItems;
 import com.mercadolivre.bootcamp.projeto_integrador.factory.PurchaseOrderFactory;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,8 +28,9 @@ public class PurchaseOrderController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PurchaseOrder>>listPurchaseOrders(){
-        return ResponseEntity.ok().build();
+    public ResponseEntity<List<PurchaseOrderItems>>listPurchaseOrders(@RequestParam Long orderNumber){
+        List<PurchaseOrderItems> purchaseOrderItems = purchaseOrderFactory.getPurchaseOrderItems(orderNumber);
+        return ResponseEntity.ok().body(purchaseOrderItems);
     }
 
     @PutMapping
