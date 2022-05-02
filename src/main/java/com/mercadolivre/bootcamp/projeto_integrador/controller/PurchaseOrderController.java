@@ -32,7 +32,8 @@ public class PurchaseOrderController {
     }
 
     @PutMapping
-    public ResponseEntity<PurchaseOrder> updatePurchaseOrder(){
-        return ResponseEntity.ok().build();
+    public ResponseEntity<PurchaseOrder> updatePurchaseOrder(@RequestBody PurchaseOrder purchaseOrder){
+        purchaseOrder = purchaseOrderFactory.setStatusOrderClosed(purchaseOrder);
+        return ResponseEntity.ok(purchaseOrder);
     }
 }

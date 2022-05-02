@@ -52,4 +52,9 @@ public class PurchaseOrderFactory {
                 batchStockService.isListProductWithValidatedDueDateAndQuantity(
                         product.getProductId(),product.getQuantity()));
     }
+
+    public PurchaseOrder setStatusOrderClosed(PurchaseOrder purchaseOrder){
+        purchaseOrder.setStatusOrder(StatusOrder.CLOSED);
+        return purchaseOrder;
+    }
 }
