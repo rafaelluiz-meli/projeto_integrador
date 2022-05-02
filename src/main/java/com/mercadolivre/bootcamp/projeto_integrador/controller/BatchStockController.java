@@ -43,12 +43,23 @@ public class BatchStockController {
 
     @GetMapping("/list")
     public ResponseEntity<List<NewBatchStockDTO>> getAllBatchStockByProductId(@RequestParam Long productId,
-                                                                     @RequestParam(required = false) String orderBy)
+                                                                              @RequestParam(required = false,
+                                                                                            defaultValue = "L")
+                                                                              String orderBy)
     {
         List<BatchStock> batchStockList = service.findAllByProductId(productId);
+        batchStockList = service.orderBatchStockList(orderBy, batchStockList);
         List<NewBatchStockDTO> responseBody = batchStockList
-                .stream().map(NewBatchStockDTO::map).collect(Collectors.toList());;
+                .stream().map(NewBatchStockDTO::map).collect(Collectors.toList());
         return ResponseEntity.ok(responseBody);
+    }
+
+    @GetMapping("/warehouse")
+    public ResponseEntity getProductInAllWarehouse(@RequestParam Long productId) {
+        List<BatchStock> batchStockList = service.findAllByProductId(productId);
+        batchStockList = service.groupByWarehouse(batchStockList);
+//      Todo: DTO
+        return null;
     }
 
     @DeleteMapping("/{batchStockNumber}")

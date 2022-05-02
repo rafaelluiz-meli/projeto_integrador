@@ -14,5 +14,6 @@ public interface BatchStockService {
     BatchStock update(BatchStock batchStock);
     void remove(Long id);
     BigDecimal calculateTotalVolume(BatchStock batchStock);
-    List<BatchStock> orderBatchStockList(Long productId, String orderBy);
+    List<BatchStock> orderBatchStockList(String orderBy, List<BatchStock> beforeOrderingList);
+    List<BatchStock> groupByWarehouse(List<BatchStock> batchStockListList);
 }

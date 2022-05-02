@@ -1,7 +1,7 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
-import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.batch_stock.orderByNotValidException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.product.InvalidProductException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
@@ -9,10 +9,15 @@ import com.mercadolivre.bootcamp.projeto_integrador.repository.BatchStockReposit
 import lombok.AllArgsConstructor;
 import org.hibernate.engine.jdbc.batch.spi.Batch;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.fasterxml.jackson.databind.type.LogicalType.Map;
+import static java.util.stream.Collectors.groupingBy;
+
 @AllArgsConstructor
 @Service
 public class BatchStockServiceImpl implements BatchStockService{
@@ -70,11 +75,24 @@ public class BatchStockServiceImpl implements BatchStockService{
     }
 
     @Override
-    public List<BatchStock> orderBatchStockList(Long productId, String orderBy) {
-        List<BatchStock> beforeOrderingList = this.findAllByProductId(productId);
-//        if(orderBy == "L") return beforeOrderingList.sort();
-//        if(orderBy == "C") return beforeOrderingList.sort();
-//        return beforeOrderingList.sort();
-        return null;
+    public List<BatchStock> orderBatchStockList(String orderBy, List<BatchStock> beforeOrderingList) {
+        if(orderBy.equals("L")) return beforeOrderingList.stream()
+                .sorted(Comparator.comparing(BatchStock::getBatchNumber)).collect(Collectors.toList());
+
+        if(orderBy.equals("C")) return beforeOrderingList.stream()
+                .sorted(Comparator.comparing(BatchStock::getCurrentQuantity)).collect(Collectors.toList());
+
+        if(orderBy.equals("F")) return beforeOrderingList.stream()
+                .sorted(Comparator.comparing(BatchStock::getDueDate)).collect(Collectors.toList());
+
+        else throw new orderByNotValidException(orderBy);
     };
+
+    @Override
+    public List<BatchStock> groupByWarehouse(List<BatchStock> batchStockListList) {
+//        return batchStockListList.stream()
+//                .collect(groupingBy(BatchStock::getSection::getWarehouse.getId));
+//        Map<BatchStock::getSection::getWarehouse::getId, BatchStock::getCurrentQuantity>
+        return null;
+    }
 }
