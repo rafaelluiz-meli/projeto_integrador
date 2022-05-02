@@ -37,11 +37,6 @@ public class PurchaseOrderFactory {
         return purchaseOrderService.create(createdPurchaseOrder);
     }
 
-    public PurchaseOrder setStatusOrderClosed(PurchaseOrder purchaseOrder){
-        purchaseOrder.setStatusOrder(StatusOrder.CLOSED);
-        return purchaseOrder;
-    }
-
     public List<PurchaseOrderItems> getPurchaseOrderItems(Long orderNumber) {
         return purchaseOrderService.findById(orderNumber).getPurchaseOrderItemsList();
     }
@@ -61,7 +56,6 @@ public class PurchaseOrderFactory {
                 batchStockService.isListProductWithValidatedDueDateAndQuantity(
                         product.getProductId(),product.getQuantity()));
     }
-<<<<<<< HEAD
 
     private PurchaseOrder setStatusOrderClosed(PurchaseOrder purchaseOrder){
         purchaseOrder.setStatusOrder(StatusOrder.CLOSED);
@@ -71,6 +65,4 @@ public class PurchaseOrderFactory {
         PurchaseOrder updatedPurchaseOrder = this.setStatusOrderClosed(purchaseOrder);
         return purchaseOrderService.update(updatedPurchaseOrder);
     }
-=======
->>>>>>> 26522e62d7bc2238c5cd36f71aed69df6f25f8eb
 }
