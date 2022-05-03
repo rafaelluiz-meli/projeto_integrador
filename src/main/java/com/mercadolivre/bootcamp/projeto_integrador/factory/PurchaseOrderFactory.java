@@ -26,69 +26,117 @@ public class PurchaseOrderFactory {
 
     private final PurchaseOrderService purchaseOrderService;
 
-    public PurchaseOrder createNewPurchaseOrder(NewPurchaseOrderDTO newPurchaseOrderDTO){
+    public PurchaseOrderDTO createNewPurchaseOrder(NewPurchaseOrderDTO newPurchaseOrderDTO){
         this.validateNewPurchaseOrder(newPurchaseOrderDTO);
-        Buyer buyer = buyerService.findById(newPurchaseOrderDTO.getBuyerDTO().getBuyerId());
-        PurchaseOrder createdPurchaseOrder = PurchaseOrder.builder()
-                .buyer(buyer)
-                .purchaseOrderDate(LocalDate.now())
-                .purchaseOrderItemsList(newPurchaseOrderDTO.getPurchaseOrderItemsList())
-                .statusOrder(StatusOrder.CART)
-                .build();
+        PurchaseOrder createdPurchaseOrder = purchaseOrderService.create(convertToPurchaseOrder(newPurchaseOrderDTO));
 
-        return purchaseOrderService.create(createdPurchaseOrder);
+        PurchaseOrderDTO createdPurchaseOrderDTO = PurchaseOrderDTO.map(createdPurchaseOrder);
+
+        BigDecimal totalValue = this.calculateTotalValue(newPurchaseOrderDTO);
+        createdPurchaseOrderDTO.setTotalValue(totalValue);
+
+        return createdPurchaseOrderDTO;
+    }
+
+    public PurchaseOrderDTO updatePurchaseOrder(NewPurchaseOrderDTO newPurchaseOrderDTO){
+        // Update batchStock when finishing a purchaseOrder (setting status to closed)
+        this.updateBatchStockQuantity(newPurchaseOrderDTO);
+
+        // Update purchaseOrder
+        newPurchaseOrderDTO.setStatusOrder(StatusOrder.CLOSED);
+        PurchaseOrder updatedPurchaseOrder = this.convertToPurchaseOrder(newPurchaseOrderDTO);
+        updatedPurchaseOrder = purchaseOrderService.update(updatedPurchaseOrder);
+
+        return PurchaseOrderDTO.map(updatedPurchaseOrder);
+    }
+
+    private void updateBatchStockQuantity(NewPurchaseOrderDTO newPurchaseOrderDTO) {
+        List<PurchaseOrderItems> purchaseOrderItemsList = newPurchaseOrderDTO.getPurchaseOrderItemsList();
+        List<BatchStock> batchStockList = this.selectAvailableBatchStock(newPurchaseOrderDTO);
+
+        List<BatchStock> updatedBatchStockList = batchStockList.stream().peek(batchStock -> {
+            Long productId = batchStock.getProduct().getId();
+            Integer currentQuantity = batchStock.getCurrentQuantity();
+
+            PurchaseOrderItems purchaseOrder = purchaseOrderItemsList
+                    .stream()
+                    .filter(p -> productId.equals(p.getProductId()))
+                    .findFirst()
+                    .orElseThrow(EmptyListException::new);
+
+            batchStock.setCurrentQuantity(currentQuantity - purchaseOrder.getQuantity());
+
+        }).collect(Collectors.toList());
+        updatedBatchStockList.forEach(batchStockService::update);
     }
 
     public List<PurchaseOrderItems> getPurchaseOrderItems(Long orderNumber) {
         return purchaseOrderService.findById(orderNumber).getPurchaseOrderItemsList();
     }
 
-    public List<List<BatchStock>> calculateTotalValue(NewPurchaseOrderDTO newPurchaseOrderDTO){
+    private PurchaseOrder convertToPurchaseOrder(NewPurchaseOrderDTO newPurchaseOrderDTO) {
+        Buyer buyer = buyerService.findById(newPurchaseOrderDTO.getBuyerDTO().getBuyerId());
+
+        if (newPurchaseOrderDTO.getStatusOrder() == null) {
+            newPurchaseOrderDTO.setStatusOrder(StatusOrder.CART);
+        }
+
+        PurchaseOrder createdPurchaseOrder = PurchaseOrder.builder()
+                .buyer(buyer)
+                .purchaseOrderDate(LocalDate.now())
+                .purchaseOrderItemsList(newPurchaseOrderDTO.getPurchaseOrderItemsList())
+                .statusOrder(newPurchaseOrderDTO.getStatusOrder())
+                .build();
+
+        return createdPurchaseOrder;
+    }
+
+    private BigDecimal calculateTotalValue(NewPurchaseOrderDTO newPurchaseOrderDTO){
         List<PurchaseOrderItems> purchaseOrderItemsList = newPurchaseOrderDTO.getPurchaseOrderItemsList();
-        List<List<BatchStock>> result = purchaseOrderItemsList.stream().map(p ->
-                batchStockService.isProductWithValidatedDueDateAndQuantity(
-                        p.getProductId(), p.getQuantity())).collect(Collectors.toList());
 
-        BigDecimal totalValue;
-        result.forEach(batchStock -> {
-            batchStock.forEach(product -> {
-                BigDecimal price = product.getPrice();
-                Integer quantity = product.getCurrentQuantity();
-                if( >= product.getCurrentQuantity()){
-                    totalValue = price.multiply(BigDecimal.valueOf(quantity));
-                }
-            });
-        });
-        //        purchaseOrderItemsList.stream().map(product -> {
-//                List<BatchStock> batchStockList =
-//                    batchStockService.isProductWithValidatedDueDateAndQuantity(
-//                            product.getProductId(), product.getQuantity());
-//
-//                List<BigDecimal> listPrices =
-//                        batchStockList.stream().map(BatchStock::getPrice).collect(Collectors.toList());
+        // Retorna lista de produtos disponíveis para purchaseOrder
+        // Faz validação de (Quantity, ProductId e DueDate)
+        List<BatchStock> availableBatchStockList = this.selectAvailableBatchStock(newPurchaseOrderDTO);
 
-// Todo: filtrar por quantidade de produto 
-// TODO: 02/05/22 multiplicar valor por quantidade             
 
-        //});
-        return result;
+        // Itera sobre lista de lotes disponíveis para aquele produto
+        // Faz soma de (preço do lote * quantidade) para cada produto
+        BigDecimal sumTotalValue = availableBatchStockList.stream().map(batchStock -> {
+            Long productId = batchStock.getProduct().getId();
+
+            PurchaseOrderItems purchaseOrder = purchaseOrderItemsList
+                    .stream()
+                    .filter(p -> productId.equals(p.getProductId()))
+                    .findFirst()
+                    .orElseThrow(EmptyListException::new);
+
+            return batchStock.getPrice().multiply(BigDecimal.valueOf(purchaseOrder.getQuantity()));
+        }).reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return sumTotalValue;
+    }
+
+    private List<BatchStock> selectAvailableBatchStock(NewPurchaseOrderDTO newPurchaseOrderDTO) {
+        List<PurchaseOrderItems> purchaseOrderItemsList = newPurchaseOrderDTO.getPurchaseOrderItemsList();
+
+        return purchaseOrderItemsList
+                        .stream()
+                        .map(batchStockService::selectBatchStock)
+                        .collect(Collectors.toList());
     }
 
     private void validateNewPurchaseOrder(NewPurchaseOrderDTO newPurchaseOrderDTO){
+
+        // Validates buyer
         Long buyerId = newPurchaseOrderDTO.getBuyerDTO().getBuyerId();
+        buyerService.findById(buyerId); // throws exception if can'' find buyer
+
+        // Validates products
         List<PurchaseOrderItems> purchaseOrderItemsList = newPurchaseOrderDTO.getPurchaseOrderItemsList();
-        buyerService.findById(buyerId);
+
         purchaseOrderItemsList.forEach(product ->
                 batchStockService.isProductWithValidatedDueDateAndQuantity(
                         product.getProductId(),product.getQuantity()));
     }
 
-    private PurchaseOrder setStatusOrderClosed(PurchaseOrder purchaseOrder){
-        purchaseOrder.setStatusOrder(StatusOrder.CLOSED);
-        return purchaseOrder;
-    }
-    public PurchaseOrder updatePurchaseOrder(PurchaseOrder purchaseOrder){
-        PurchaseOrder updatedPurchaseOrder = this.setStatusOrderClosed(purchaseOrder);
-        return purchaseOrderService.update(updatedPurchaseOrder);
-    }
 }
