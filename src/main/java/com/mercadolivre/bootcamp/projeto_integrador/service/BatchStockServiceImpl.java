@@ -1,18 +1,25 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.batch_stock.orderByNotValidException;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.product.InvalidProductException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.BatchStockRepository;
 import lombok.AllArgsConstructor;
+import org.hibernate.engine.jdbc.batch.spi.Batch;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
+import java.util.*;
+import java.util.stream.Collectors;
+import static com.fasterxml.jackson.databind.type.LogicalType.Map;
+import static java.util.stream.Collectors.groupingBy;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+
 
 @AllArgsConstructor
 @Service
@@ -53,6 +60,7 @@ public class BatchStockServiceImpl implements BatchStockService {
         updatedBatchStock.setDueDate(batchStock.getDueDate());
         updatedBatchStock.setManufacturingDate(batchStock.getManufacturingDate());
         updatedBatchStock.setManufacturingTime(batchStock.getManufacturingTime());
+
         return batchStockRepository.save(batchStock);
     }
 
@@ -68,6 +76,25 @@ public class BatchStockServiceImpl implements BatchStockService {
         BigDecimal volumePerProduct = batchStock.getProduct().getVolume();
         // Multiply currentQuantity per volumePerProduct to calculate batch total volume
         return volumePerProduct.multiply(BigDecimal.valueOf(productQuantity));
+    }
+
+    @Override
+    public List<BatchStock> orderBatchStockList(String orderBy, List<BatchStock> beforeOrderingList) {
+        if(orderBy.equals("L")) return beforeOrderingList.stream()
+                .sorted(Comparator.comparing(BatchStock::getBatchNumber)).collect(Collectors.toList());
+
+        if(orderBy.equals("C")) return beforeOrderingList.stream()
+                .sorted(Comparator.comparing(BatchStock::getCurrentQuantity)).collect(Collectors.toList());
+
+        if(orderBy.equals("F")) return beforeOrderingList.stream()
+                .sorted(Comparator.comparing(BatchStock::getDueDate)).collect(Collectors.toList());
+
+        else throw new orderByNotValidException(orderBy);
+    }
+
+    @Override
+    public List groupByWarehouse(Long productId) {
+        return batchStockRepository.findProductInAllWarehouse(productId);
     }
 
     @Override
@@ -104,6 +131,15 @@ public class BatchStockServiceImpl implements BatchStockService {
         return batchStockRepository.findAllByProduct_IdAndAndDueDate(productId, dueDate);
     }
 
+    @Override
+    public List<Section> findSectionListByProductId(Long productId) {
+        List<BatchStock> batchStockList = this.findAllByProductId(productId);
+        List<Section> sectionList = batchStockList.stream().map(batchStock -> batchStock.getSection()).collect(Collectors.toList());
+        List<Section> removeDuplicate = new ArrayList<>(new LinkedHashSet<>(sectionList));
+        return removeDuplicate;
+    }
+
+
     public Boolean availableStockQuantity(Long productId, int requestedQuantity) {
 
         List<BatchStock> productBatchStock = findAllByProductId(productId);
@@ -117,7 +153,6 @@ public class BatchStockServiceImpl implements BatchStockService {
 
         Integer totalQuantityBatchStock = filtredProductList.stream().map(BatchStock::getCurrentQuantity).reduce(0, Integer::sum);
         return totalQuantityBatchStock >= requestedQuantity;
-
     }
 
     public  Boolean isProductWithValidatedDueDateAndQuantity(Long productId, int requestedQuantity) {
