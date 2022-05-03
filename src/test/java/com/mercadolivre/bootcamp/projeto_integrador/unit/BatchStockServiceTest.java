@@ -1,13 +1,11 @@
 package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
-import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
-import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
-import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
-import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.*;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.product.InvalidProductException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.BatchStockRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockServiceImpl;
+import org.hibernate.engine.jdbc.batch.spi.Batch;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -213,5 +212,30 @@ public class BatchStockServiceTest {
 
         //Assert
         assertEquals(batchStockList, result);
+    }
+
+    @Test
+    @DisplayName("it should select a valid batchStock by product quantity and price")
+    public void shouldSelectAValidBatchStockByQuantityAndPrice() {
+        // Arrange
+        Long productId = 1L;
+        Integer quantity = 10;
+        BigDecimal price = BigDecimal.valueOf(50);
+        Product product = Product.builder().id(productId).build();
+
+        BatchStock batchStock = BatchStock.builder().price(price).currentQuantity(quantity).product(product).build();
+
+        PurchaseOrderItems purchaseOrderItems = PurchaseOrderItems.builder()
+                .productId(productId)
+                .quantity(quantity)
+                .build();
+        
+        // Act
+        Mockito.when(batchStockRepository.findByCurrentQuantityIsGreaterThanEqualAndProduct_IdAndDueDateIsGreaterThanEqual(any(), any(), any())).thenReturn(batchStock);
+        BatchStock result = batchStockService.selectBatchStock(purchaseOrderItems);
+
+        // Assert
+        assertEquals(batchStock.getPrice(), result.getPrice());
+
     }
 }
