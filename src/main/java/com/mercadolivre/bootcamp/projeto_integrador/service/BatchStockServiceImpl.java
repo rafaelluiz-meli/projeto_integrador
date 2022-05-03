@@ -1,7 +1,9 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
+import com.mercadolivre.bootcamp.projeto_integrador.dto.warehouse.WarehouseDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.Warehouse;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.batch_stock.orderByNotValidException;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.product.InvalidProductException;
@@ -93,7 +95,7 @@ public class BatchStockServiceImpl implements BatchStockService {
     }
 
     @Override
-    public List groupByWarehouse(Long productId) {
+    public List<WarehouseDTO> groupByWarehouse(Long productId) {
         return batchStockRepository.findProductInAllWarehouse(productId);
     }
 

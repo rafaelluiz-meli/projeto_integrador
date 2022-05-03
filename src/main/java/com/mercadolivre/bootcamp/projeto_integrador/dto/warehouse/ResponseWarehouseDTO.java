@@ -11,9 +11,9 @@ import java.util.List;
 public class ResponseWarehouseDTO {
 
     private Long productId;
-    private List<Warehouse> listWarehouse;
+    private List<WarehouseDTO> listWarehouse;
 
-    public static ResponseWarehouseDTO convert(Long productId, List<Warehouse> listWarehouse) {
+    public static ResponseWarehouseDTO convert(Long productId, List<WarehouseDTO> listWarehouse) {
         return ResponseWarehouseDTO.builder()
                 .productId(productId)
                 .listWarehouse(listWarehouse)
