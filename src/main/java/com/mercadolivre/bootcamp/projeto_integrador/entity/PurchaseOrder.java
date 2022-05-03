@@ -22,6 +22,6 @@ public class PurchaseOrder {
     private Buyer buyer;
     private LocalDate purchaseOrderDate;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "purchase_order_items", nullable = false)
+    @JoinColumn(name = "purchase_order_number", nullable = false)
     private List<PurchaseOrderItems> purchaseOrderItemsList;
 }
