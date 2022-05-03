@@ -51,8 +51,8 @@ INSERT INTO representative (full_name, section_id) VALUES ('FLAVIO', 5);
 INSERT INTO representative (full_name, section_id) VALUES ('RAFA', 6);
 
 
-INSERT INTO batch_stock (initial_quantity, current_quantity, price, due_date, manufacturing_date, manufacturing_time, product_id, section_id) VALUES ( 400, 400, 10, '2022/01/15','2021/01/10' ,'1999-01-08 23:00:00', 1, 1);
-INSERT INTO batch_stock (initial_quantity, current_quantity, price, due_date, manufacturing_date, manufacturing_time, product_id, section_id) VALUES (1000, 1000, 20, '2022/01/16', '2022/01/13' ,'1999-01-08 14:30:00', 3, 1);
-INSERT INTO batch_stock (initial_quantity, current_quantity, price, due_date, manufacturing_date, manufacturing_time, product_id, section_id) VALUES (2000, 2000, 30, '2022/05/15', '2022/05/10', '1999-01-08 14:30:00', 2, 1);
-INSERT INTO batch_stock (initial_quantity, current_quantity, price, due_date, manufacturing_date, manufacturing_time, product_id, section_id) VALUES (250, 250, 40, '2022/05/21', '2022/05/10', '1999-01-08 17:45:00', 5, 1);
-INSERT INTO batch_stock (initial_quantity, current_quantity, price, due_date, manufacturing_date, manufacturing_time, product_id, section_id) VALUES (750, 250, 50, '2022/07/03', '2022/07/01', '1999-01-08 14:35:00', 7, 1);
+INSERT INTO batch_stock (initial_quantity, current_quantity, price, due_date, manufacturing_date, manufacturing_time, product_id, section_id) VALUES ( 400, 400, 10, '2023/01/15','2021/01/10' ,'1999-01-08 23:00:00', 1, 1);
+INSERT INTO batch_stock (initial_quantity, current_quantity, price, due_date, manufacturing_date, manufacturing_time, product_id, section_id) VALUES (1000, 1000, 20, '2023/01/16', '2022/01/13' ,'1999-01-08 14:30:00', 3, 1);
+INSERT INTO batch_stock (initial_quantity, current_quantity, price, due_date, manufacturing_date, manufacturing_time, product_id, section_id) VALUES (2000, 2000, 30, '2023/05/15', '2022/05/10', '1999-01-08 14:30:00', 2, 1);
+INSERT INTO batch_stock (initial_quantity, current_quantity, price, due_date, manufacturing_date, manufacturing_time, product_id, section_id) VALUES (250, 250, 40, '2023/05/21', '2022/05/10', '1999-01-08 17:45:00', 5, 1);
+INSERT INTO batch_stock (initial_quantity, current_quantity, price, due_date, manufacturing_date, manufacturing_time, product_id, section_id) VALUES (750, 250, 50, '2023/07/03', '2022/07/01', '1999-01-08 14:35:00', 7, 1);
