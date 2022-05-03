@@ -15,7 +15,7 @@ public class BatchStockWithSectionDTO {
     private Long productId;
     private List<BatchStockDTO> listBatchStock;
 
-    static BatchStockWithSectionDTO convert(BatchStock batchStock){
+    public static BatchStockWithSectionDTO convert(BatchStock batchStock){
         return BatchStockWithSectionDTO.builder()
                 .sectionDTO(SectionDTO.builder()
                         .sectionId(batchStock.getSection().getSectionId())

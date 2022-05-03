@@ -17,7 +17,7 @@ public class BatchStockDTO {
     private int currentQuantity;
     private LocalDate dueDate;
 
-    static BatchStockDTO convert(BatchStock batchStock) {
+    public static BatchStockDTO convert(BatchStock batchStock) {
         return BatchStockDTO.builder()
                 .batchNumber(batchStock.getBatchNumber())
                 .currentQuantity(batchStock.getCurrentQuantity())
@@ -25,7 +25,7 @@ public class BatchStockDTO {
                 .build();
     }
 
-    static List<BatchStockDTO> convert(List<BatchStock> batchStockList) {
+    public static List<BatchStockDTO> convert(List<BatchStock> batchStockList) {
         return batchStockList.stream().map(BatchStockDTO::convert).collect(Collectors.toList());
     }
 
