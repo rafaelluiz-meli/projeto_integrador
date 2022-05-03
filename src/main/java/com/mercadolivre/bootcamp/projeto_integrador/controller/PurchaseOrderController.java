@@ -1,7 +1,7 @@
 package com.mercadolivre.bootcamp.projeto_integrador.controller;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order.NewPurchaseOrderDTO;
-import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrder;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order.PurchaseOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrderItems;
 import com.mercadolivre.bootcamp.projeto_integrador.factory.PurchaseOrderFactory;
 import lombok.AllArgsConstructor;
@@ -21,9 +21,8 @@ public class PurchaseOrderController {
     private final PurchaseOrderFactory purchaseOrderFactory;
 
     @PostMapping
-    public ResponseEntity<PurchaseOrder> createNewPurchaseOrder(@RequestBody NewPurchaseOrderDTO newPurchaseOrderDTO){
-        PurchaseOrder purchaseOrder = purchaseOrderFactory.createNewPurchaseOrder(newPurchaseOrderDTO);
-        System.out.println(purchaseOrderFactory.calculateTotalValue(newPurchaseOrderDTO));
+    public ResponseEntity<PurchaseOrderDTO> createNewPurchaseOrder(@RequestBody NewPurchaseOrderDTO newPurchaseOrderDTO){
+        PurchaseOrderDTO purchaseOrder = purchaseOrderFactory.createNewPurchaseOrder(newPurchaseOrderDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(purchaseOrder);
     }
 
@@ -34,8 +33,8 @@ public class PurchaseOrderController {
     }
 
     @PutMapping
-    public ResponseEntity<PurchaseOrder> updatePurchaseOrder(@RequestBody PurchaseOrder purchaseOrder){
-        PurchaseOrder updatepurchaseOrder = purchaseOrderFactory.updatePurchaseOrder(purchaseOrder);
-        return ResponseEntity.status(HttpStatus.OK).body(updatepurchaseOrder);
+    public ResponseEntity<PurchaseOrderDTO> updatePurchaseOrder(@RequestBody NewPurchaseOrderDTO newPurchaseOrderDTO){
+        PurchaseOrderDTO updatePurchaseOrder = purchaseOrderFactory.updatePurchaseOrder(newPurchaseOrderDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(updatePurchaseOrder);
     }
 }
