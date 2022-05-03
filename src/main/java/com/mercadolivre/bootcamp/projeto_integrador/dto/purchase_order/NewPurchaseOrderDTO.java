@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NewPurchaseOrderDTO {
+    private Long purchaseOrderNumber;
     private BuyerDTO buyerDTO;
     private List<PurchaseOrderItems> purchaseOrderItemsList;
     private StatusOrder statusOrder = StatusOrder.CART;
