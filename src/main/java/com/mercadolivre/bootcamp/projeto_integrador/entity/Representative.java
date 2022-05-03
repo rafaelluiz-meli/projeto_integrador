@@ -2,10 +2,9 @@ package com.mercadolivre.bootcamp.projeto_integrador.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @Getter
@@ -19,5 +18,12 @@ public class Representative {
     private Long representativeId;
     private String fullName;
     private Long sectionId;
+
+    // Security
+    private String username;
+    private String password;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<Role> roles = new ArrayList<>();
 
 }
