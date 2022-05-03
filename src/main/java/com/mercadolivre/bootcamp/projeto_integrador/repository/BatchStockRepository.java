@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface BatchStockRepository extends JpaRepository<BatchStock, Long> {
 
@@ -19,4 +20,12 @@ public interface BatchStockRepository extends JpaRepository<BatchStock, Long> {
     List<BatchStock> findAllByProduct_IdAndAndDueDate(Long productId, LocalDate dueDate);
     @Query("select b from BatchStock b where b.dueDate >= ?1")
     List<BatchStock> findByDueDateIsGreaterThanEqual(LocalDate dueDate);
+    @Query("select w.warehouseId, sum(bs.currentQuantity)\n" +
+            "from Warehouse w\n" +
+            "inner join Section s on w.warehouseId = s.warehouseId\n" +
+            "inner join BatchStock bs on s.sectionId = bs.section.sectionId\n" +
+            "inner join Product p on bs.product.id = p.id\n" +
+            "where p.id = ?1\n" +
+            "group by w.warehouseId")
+    List findProductInAllWarehouse(Long productId);
 }

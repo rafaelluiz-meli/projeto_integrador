@@ -32,7 +32,6 @@ public class BatchStock {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private Product product;
-
     @ManyToOne
     @JoinColumn(name = "section_id")
     private Section section;

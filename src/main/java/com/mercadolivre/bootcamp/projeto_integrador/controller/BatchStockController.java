@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -83,11 +84,10 @@ public class BatchStockController {
     }
 
     @GetMapping("/warehouse")
-    public ResponseEntity getProductInAllWarehouse(@RequestParam Long productId) {
-        List<BatchStock> batchStockList = batchStockService.findAllByProductId(productId);
-        batchStockList = batchStockService.groupByWarehouse(batchStockList);
+    public List getProductInAllWarehouse(@RequestParam Long productId) {
+        List result = batchStockService.groupByWarehouse(productId);
 //      Todo: DTO
-        return null;
+        return result;
     }
 
     @GetMapping("{batchNumber}")

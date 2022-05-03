@@ -20,6 +20,8 @@ import static java.util.stream.Collectors.groupingBy;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+
 
 @AllArgsConstructor
 @Service
@@ -90,19 +92,11 @@ public class BatchStockServiceImpl implements BatchStockService {
                 .sorted(Comparator.comparing(BatchStock::getDueDate)).collect(Collectors.toList());
 
         else throw new orderByNotValidException(orderBy);
-    };
+    }
 
     @Override
-    public List<BatchStock> groupByWarehouse(List<BatchStock> batchStockListList) {
-//        Map < BatchStock::getSection::getWarehouse.getId, List < Integer >> totalQuatityByWarehouse =
-//                batchStockListList.stream()
-//                        .collect(
-//                                Collectors.groupingBy(
-//                                        BatchStock::getSection::getWarehouse.getId,
-//                                        Collectors.reducing(0, BatchStock::getCurrentQuantity, Integer::sum)
-//                                )
-//                        );
-        return null;
+    public List groupByWarehouse(Long productId) {
+        return batchStockRepository.findProductInAllWarehouse(productId);
     }
 
     @Override
