@@ -70,11 +70,6 @@ public class BatchStockServiceImpl implements BatchStockService {
         return volumePerProduct.multiply(BigDecimal.valueOf(productQuantity));
     }
 
-    @Override
-    public Boolean isListProductWithValidatedDueDateAndQuantity(Long productId, Integer requestedQuantity) {
-        return null;
-    }
-
     public List<BatchStock> orderBatchStockList(List<BatchStock> batchStockList) throws EmptyListException {
         if (batchStockList == null || batchStockList.isEmpty()) throw new EmptyListException();
         // Sorts BatchStockList by dueDate
@@ -124,11 +119,12 @@ public class BatchStockServiceImpl implements BatchStockService {
 
     }
 
-    public  Boolean isProductWithValidatedDueDateAndQuantity(Long productId, int requestedQuantity) {
+    @Override
+    public List<BatchStock> isProductWithValidatedDueDateAndQuantity(Long productId, Integer requestedQuantity) {
 
         List<BatchStock> filteredProduct = batchStockRepository.findByDueDateIsGreaterThanEqual(LocalDate.now().plusDays(21));
 
-        if(availableStockQuantity(productId, requestedQuantity, filteredProduct)) return true;
+        if(availableStockQuantity(productId, requestedQuantity, filteredProduct)) return filteredProduct;
         throw new EmptyListException();
     }
 }

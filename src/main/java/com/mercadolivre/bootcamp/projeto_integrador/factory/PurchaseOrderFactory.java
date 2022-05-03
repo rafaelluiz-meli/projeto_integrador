@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
@@ -41,10 +42,35 @@ public class PurchaseOrderFactory {
         return purchaseOrderService.findById(orderNumber).getPurchaseOrderItemsList();
     }
 
-    public BigDecimal calculateTotalValue(NewPurchaseOrderDTO newPurchaseOrderDTO){
+    public List<List<BatchStock>> calculateTotalValue(NewPurchaseOrderDTO newPurchaseOrderDTO){
         List<PurchaseOrderItems> purchaseOrderItemsList = newPurchaseOrderDTO.getPurchaseOrderItemsList();
-        BigDecimal totalValue = BigDecimal.ZERO;
-        return totalValue;
+        List<List<BatchStock>> result = purchaseOrderItemsList.stream().map(p ->
+                batchStockService.isProductWithValidatedDueDateAndQuantity(
+                        p.getProductId(), p.getQuantity())).collect(Collectors.toList());
+
+        BigDecimal totalValue;
+        result.forEach(batchStock -> {
+            batchStock.forEach(product -> {
+                BigDecimal price = product.getPrice();
+                Integer quantity = product.getCurrentQuantity();
+                if( >= product.getCurrentQuantity()){
+                    totalValue = price.multiply(BigDecimal.valueOf(quantity));
+                }
+            });
+        });
+        //        purchaseOrderItemsList.stream().map(product -> {
+//                List<BatchStock> batchStockList =
+//                    batchStockService.isProductWithValidatedDueDateAndQuantity(
+//                            product.getProductId(), product.getQuantity());
+//
+//                List<BigDecimal> listPrices =
+//                        batchStockList.stream().map(BatchStock::getPrice).collect(Collectors.toList());
+
+// Todo: filtrar por quantidade de produto 
+// TODO: 02/05/22 multiplicar valor por quantidade             
+
+        //});
+        return result;
     }
 
     private void validateNewPurchaseOrder(NewPurchaseOrderDTO newPurchaseOrderDTO){
@@ -52,7 +78,7 @@ public class PurchaseOrderFactory {
         List<PurchaseOrderItems> purchaseOrderItemsList = newPurchaseOrderDTO.getPurchaseOrderItemsList();
         buyerService.findById(buyerId);
         purchaseOrderItemsList.forEach(product ->
-                batchStockService.isListProductWithValidatedDueDateAndQuantity(
+                batchStockService.isProductWithValidatedDueDateAndQuantity(
                         product.getProductId(),product.getQuantity()));
     }
 
