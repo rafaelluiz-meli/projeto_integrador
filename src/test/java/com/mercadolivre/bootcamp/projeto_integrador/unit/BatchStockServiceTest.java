@@ -136,11 +136,7 @@ public class BatchStockServiceTest {
     @DisplayName("It should do list all BatchStocks by product id.")
     public void shouldListBatchStockByProductId(){
 
-<<<<<<< HEAD
-        Mockito.when(repository.findByProduct_Id(anyLong())).thenReturn(batchStockList);
-=======
         Mockito.when(batchStockRepository.findAllByProduct_Id(anyLong())).thenReturn(batchStockList);
->>>>>>> 7b51f5220bdf64ed66e4c619dbe8693af0c47e55
 
         List<BatchStock> result = batchStockService.findAllByProductId(productId);
 
