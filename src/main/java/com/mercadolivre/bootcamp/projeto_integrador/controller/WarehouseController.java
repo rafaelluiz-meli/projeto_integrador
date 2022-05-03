@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @RestController
 public class WarehouseController {
-    private WarehouseService warehouseService;
+    private final WarehouseService warehouseService;
     @RequestMapping("api/v1/fresh-products/warehouse")
 
 
