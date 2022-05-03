@@ -22,4 +22,5 @@ public interface BatchStockRepository extends JpaRepository<BatchStock, Long> {
     List<BatchStock> findAllByProduct_IdAndAndDueDate(Long productId, LocalDate dueDate);
     @Query("select b from BatchStock b where b.dueDate >= ?1")
     List<BatchStock> findByDueDateIsGreaterThanEqual(LocalDate dueDate);
+    BatchStock findByCurrentQuantityIsGreaterThanEqualAndProduct_IdAndDueDateIsGreaterThanEqual(Integer currentQuantity, Long id, LocalDate dueDate);
 }
