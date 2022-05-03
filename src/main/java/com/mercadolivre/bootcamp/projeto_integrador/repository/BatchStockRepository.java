@@ -28,4 +28,8 @@ public interface BatchStockRepository extends JpaRepository<BatchStock, Long> {
             "where p.id = ?1\n" +
             "group by w.warehouseId")
     List findProductInAllWarehouse(Long productId);
+
+    List<BatchStock> findBySection_SectionIdAndProduct_Id(Long sectionId, Long id);
+
+
 }

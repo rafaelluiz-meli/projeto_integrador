@@ -139,6 +139,11 @@ public class BatchStockServiceImpl implements BatchStockService {
         return removeDuplicate;
     }
 
+    @Override
+    public List<BatchStock> findBatchStockListByProductIdAndSectionId(Long productId, Long sectionId) {
+        return batchStockRepository.findBySection_SectionIdAndProduct_Id(productId, sectionId);
+    }
+
 
     public Boolean availableStockQuantity(Long productId, int requestedQuantity) {
 

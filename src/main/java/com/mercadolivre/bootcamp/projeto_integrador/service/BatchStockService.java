@@ -25,4 +25,7 @@ public interface BatchStockService {
     List<BatchStock> findAllByDueDate(LocalDate dueDate);
     List<BatchStock> findaAllProductIdAndDueDate(Long productId, LocalDate dueDate);
     List<Section> findSectionListByProductId(Long productId);
+    List<BatchStock> findBatchStockListByProductIdAndSectionId(Long productId, Long sectionId);
+
+
 }

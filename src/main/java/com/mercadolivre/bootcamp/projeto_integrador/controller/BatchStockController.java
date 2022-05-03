@@ -72,26 +72,33 @@ public class BatchStockController {
     }
 
     @GetMapping("/list")
-    //Section e Warehouse do productId
-    //Lista de section a partir do productId (Ok)
-    //Criar BatchstockWithSectionDTO
-    //Lista batchstock a partir da Section e productId
-    //Atribuir a lista de BatchstockDTO para a lista BatchstockWithSectionDTO
-    public List<Section> getAllBatchStockByProductId(@RequestParam Long productId,
+    public ResponseEntity<List<BatchStockWithSectionDTO>> getAllBatchStockByProductId(@RequestParam Long productId,
                                                                               @RequestParam(required = false,
                                                                                       defaultValue = "L")
                                                                               String orderBy)
     {
-        List<Section> batchStockList = batchStockService.findSectionListByProductId(productId);
-//        batchStockList = batchStockService.orderBatchStockList(orderBy, batchStockList);
-//        List<BatchStockDTO> convertKleber = batchStockList
-//                .stream().map(BatchStockDTO::convert).collect(Collectors.toList());
+        List<Section> sectionList = batchStockService.findSectionListByProductId(productId);
 
-//        BatchStockWithSectionDTO responseBody = BatchStockWithSectionDTO.builder().sectionDTO(SectionDTO.builder().sectionId(
-//                batchStockList.get(0).getSection()
-//        ).build())
+        List<BatchStockWithSectionDTO> batchStockWithSectionDTOS = sectionList
+                .stream()
+                .map(b -> {
+                    Long sectionId = b.getSectionId();
+                    Long warehouseId = b.getWarehouseId();
 
-        return batchStockList;
+                    SectionDTO sectionDTO = SectionDTO.builder()
+                            .sectionId(sectionId)
+                            .warehouseId(warehouseId).build();
+
+                    List<BatchStock> batchStockList = batchStockService.findBatchStockListByProductIdAndSectionId(productId, sectionId);
+                    List<BatchStockDTO> batchStockDTOS = BatchStockDTO.convert(batchStockList);
+
+                    return BatchStockWithSectionDTO.builder()
+                            .sectionDTO(sectionDTO)
+                            .listBatchStock(batchStockDTOS)
+                            .build();
+                }).collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(batchStockWithSectionDTOS);
     }
 
     @GetMapping("/warehouse")
