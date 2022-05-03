@@ -4,7 +4,6 @@ import com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order.NewPurcha
 import com.mercadolivre.bootcamp.projeto_integrador.entity.*;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockService;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BuyerService;
-import com.mercadolivre.bootcamp.projeto_integrador.service.ProductService;
 import com.mercadolivre.bootcamp.projeto_integrador.service.PurchaseOrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PurchaseOrderFactory {
 
-    private final ProductService productService;
+
     private final BuyerService buyerService;
 
     private final BatchStockService batchStockService;
