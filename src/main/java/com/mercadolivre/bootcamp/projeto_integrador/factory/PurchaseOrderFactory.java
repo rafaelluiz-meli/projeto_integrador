@@ -1,7 +1,9 @@
 package com.mercadolivre.bootcamp.projeto_integrador.factory;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order.NewPurchaseOrderDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order.PurchaseOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.*;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockService;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BuyerService;
 import com.mercadolivre.bootcamp.projeto_integrador.service.PurchaseOrderService;
