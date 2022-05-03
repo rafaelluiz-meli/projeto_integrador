@@ -44,7 +44,7 @@ public class BatchStockController {
     @GetMapping("/list")
     public ResponseEntity<List<NewBatchStockDTO>> getAllBatchStockByProductId(@RequestParam Long productId,
                                                                               @RequestParam(required = false,
-                                                                                            defaultValue = "L")
+                                                                                      defaultValue = "L")
                                                                               String orderBy)
     {
         List<BatchStock> batchStockList = service.findAllByProductId(productId);

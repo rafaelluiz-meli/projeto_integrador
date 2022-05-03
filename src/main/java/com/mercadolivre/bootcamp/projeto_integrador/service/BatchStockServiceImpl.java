@@ -90,9 +90,14 @@ public class BatchStockServiceImpl implements BatchStockService{
 
     @Override
     public List<BatchStock> groupByWarehouse(List<BatchStock> batchStockListList) {
-//        return batchStockListList.stream()
-//                .collect(groupingBy(BatchStock::getSection::getWarehouse.getId));
-//        Map<BatchStock::getSection::getWarehouse::getId, BatchStock::getCurrentQuantity>
+        Map<BatchStock::getSection::getWarehouse.getId , List<Integer>> totalQuatityByWarehouse =
+        batchStockListList.stream()
+                .collect(
+                  Collectors.groupingBy(
+                      BatchStock::getSection::getWarehouse.getId,
+                      Collectors.reducing(0, BatchStock::getCurrentQuantity, Integer::sum)
+                      )
+                );
         return null;
     }
 }
