@@ -17,7 +17,7 @@ public class NewPurchaseOrderDTO {
     private Long purchaseOrderNumber;
     private BuyerDTO buyerDTO;
     private List<PurchaseOrderItems> purchaseOrderItemsList;
-    private StatusOrder statusOrder = StatusOrder.CART;
+    private StatusOrder statusOrder;
     private LocalDate purchaseOrderDate;
 
     public PurchaseOrder map(){
