@@ -2,6 +2,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrderItems;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -27,4 +28,6 @@ public interface BatchStockService {
     List<BatchStock> findAllByDueDate(LocalDate dueDate);
 
     List<BatchStock> findaAllProductIdAndDueDate(Long productId, LocalDate dueDate);
+
+    BatchStock selectBatchStock(PurchaseOrderItems purchaseOrderItems);
 }
