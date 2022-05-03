@@ -21,6 +21,7 @@ public class InBoundOrder {
     private BatchStock batchStock;
     //Todo: JoinColumn @ManyToOne
     private Long representativeId;
+
     @ManyToOne
     @JoinColumn(name = "section_id")
     private Section section;

@@ -35,22 +35,6 @@ public class ProductServiceTest {
     private ProductServiceImpl productService;
 
     @Test
-    @DisplayName("it should validate that a product due date is valid")
-    public void shouldValidateProductDueDate() {
-        // TODO: 26/04/22 - Create test after finishing BatchStockService
-        productService.validateProductDueDate(5L);
-        assertTrue(true);
-    }
-
-    @Test
-    @DisplayName("it should validate that a stock quantity is valid")
-    public void availableStockQuantity() {
-        // TODO: 26/04/22 - Create test after finishing BatchStockService
-        productService.availableStockQuantity(5);
-        assertTrue(true);
-    }
-
-    @Test
     @DisplayName("it should find a product by id")
     public void shouldFindProductById() {
         // Arrange tests
@@ -258,5 +242,20 @@ public class ProductServiceTest {
 
         // Assert result
         assertEquals(productResponse, result);
+    }
+
+    @Test
+    @DisplayName("It should return true if product id is valid.")
+    public void shouldReturnTrueIfProductIdIsValid(){
+        // arrange
+        Long id = 23L;
+        Product product = Product.builder().id(id).build();
+
+        // act
+        Mockito.when(productRepository.findById(anyLong())).thenReturn(Optional.of(product));
+        Boolean test = productService.isProductValid(23L);
+
+        // assert
+        assertTrue(test);
     }
 }

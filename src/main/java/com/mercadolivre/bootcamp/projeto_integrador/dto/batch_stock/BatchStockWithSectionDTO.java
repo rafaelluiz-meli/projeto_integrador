@@ -19,11 +19,12 @@ public class BatchStockWithSectionDTO {
         return BatchStockWithSectionDTO.builder()
                 .sectionDTO(SectionDTO.builder()
                         .sectionId(batchStock.getSection().getSectionId())
-                        .warehouseId(batchStock.getSection().getWarehouse().getWarehouseId())
-                        .build()
+                        .warehouseId(batchStock.getSection().getWarehouseId())
+                        .build())
                 .productId(batchStock.getProduct().getId())
-                .listBatchStock(BatchStockDTO.convert(batchStock))
-                .build());
+                // TODO: 03/05/22 aguardando a criacao da lista. --Flavio Germano 
+                //.listBatchStock(batchStock.)
+                .build();
     }
 
 
