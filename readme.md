@@ -1,39 +1,61 @@
 # Projeto Integrador - Grupo 4
 
-Lorem ipsum
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
+![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 
-## Documentation
+[![Build Status](https://travis-ci.org/codecentric/springboot-sample-app.svg?branch=master)](https://travis-ci.org/codecentric/springboot-sample-app)
+[![Coverage Status](https://coveralls.io/repos/github/codecentric/springboot-sample-app/badge.svg?branch=master)](https://coveralls.io/github/codecentric/springboot-sample-app?branch=master)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[Documentation can be found here](/document)
-or
-[Access our changelog clicking here](/document/changelog.md)
+O objetivo deste desafio é aplicar e consolidar os conteúdos ministrados durante o Programa de aceleração MeLi.
+Ao longo do desafio, implementamos um sistema que simula uma situação real vivida no mercado livre, coordenando compras, estoques, produtos e depósitos.
+
+O sistema foi implementado uilizando Java + SpringBoot, além de Postgres como SGBD.
+## Documentação
+
+[Documentação](/document/readme.md)
 
 
-## Installation
+[Changelog](/document/changelog.md)
+
+
+## Instalação
 
 ```bash
-pip install foobar
+git clone https://github.com/alansiq/projeto_integrador
+cd projeto_integrador
 ```
 
-## Usage
+## Uso
 
-```python
-import foobar
-
-# returns 'words'
-foobar.pluralize('word')
-
-# returns 'geese'
-foobar.pluralize('goose')
-
-# returns 'phenomenon'
-foobar.singularize('phenomena')
+```
+mvnw spring-boot:run
 ```
 
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+Para inicializar o banco de dados:
 
-Please make sure to update tests as appropriate.
+```
+docker run --name postgres-db -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres
+```
+
+Para testar os endpoints contidos na documentação, as coleções o postman podem ser acessadas no [seguinte link](/document).
+As requisições devem ser feitas em:
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/485bb945b088c6fd471e)
+```
+localhost:8080
+```
+
+## Quem fez
+
+- [Alan Siqueira](https://github.com/alansiq)
+- [Flávio Germano](https://github.com/fgnanni)
+- [Hugo Fellipe](https://github.com/hugofellipecruz)
+- [Marianna Rodrigues](https://github.com/marianna-meli)
+- [Rafael Luiz](https://github.com/rafaelluiz-meli)
+- [Victor Santos](https://github.com/victosantos)
+
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
