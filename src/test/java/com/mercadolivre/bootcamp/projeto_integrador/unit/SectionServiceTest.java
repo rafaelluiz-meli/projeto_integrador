@@ -7,6 +7,8 @@ import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Warehouse;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.inbound_order.SectionDoesNotHaveEnoughCapacityException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.inbound_order.SectionNotAppropriateForProductException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.SectionRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.WarehouseRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.SectionServiceImpl;
@@ -20,8 +22,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
@@ -95,8 +96,7 @@ public class SectionServiceTest {
                 .capacity(new BigDecimal(100))
                 .category(Category.REFRIGERATED)
                 .currentTemperature(15)
-                .warehouseId(1L)
-                .listInBoundOrder(new ArrayList<>()).build();
+                .warehouseId(1L).build();
 
         Optional<Section> sectionOptional = Optional.of(section);
 
@@ -247,10 +247,11 @@ public class SectionServiceTest {
 
         //Act
         Mockito.when(sectionRepository.findById(any())).thenReturn(sectionOptional);
-        Boolean isCapacity = sectionService.availableSectionCapacity(new BigDecimal(12000), any());
 
         //Asserts
-        Assertions.assertFalse(isCapacity);
+        assertThrows(SectionDoesNotHaveEnoughCapacityException.class, () ->
+                sectionService.availableSectionCapacity(new BigDecimal(12000), any())
+        );
 
     }
 
@@ -301,15 +302,16 @@ public class SectionServiceTest {
 
         //Act
         Mockito.when(sectionRepository.findById(any())).thenReturn(sectionOptional);
-        boolean correspondsProductType = sectionService.sectionCorrespondsProductType(any(), batchStock1.getProduct().getCategory());
 
         //Asserts
-        Assertions.assertFalse(correspondsProductType);
+        assertThrows(SectionNotAppropriateForProductException.class,
+                () -> sectionService.sectionCorrespondsProductType(any(), batchStock1.getProduct().getCategory())
+        );
     }
 
     @Test
     @DisplayName("It should throws a exception when verify a section corresponds type and not found the id.")
-    void shouldReturnErrorWhenVerifySectionCorrespondsProductTypeAndNotFoundId() {
+    public void shouldReturnErrorWhenVerifySectionCorrespondsProductTypeAndNotFoundId() {
 
         //Arrange
         Product product01 = Product.builder().category(Category.REFRIGERATED).build();
@@ -326,7 +328,5 @@ public class SectionServiceTest {
                     sectionService.sectionCorrespondsProductType(any(), batchStock1.getProduct().getCategory());
                 });
     }
-
-
 
 }

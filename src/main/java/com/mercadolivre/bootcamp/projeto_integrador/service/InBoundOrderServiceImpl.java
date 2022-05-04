@@ -1,6 +1,6 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.NewInBoundOrderDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.InboundOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.InBoundOrderRepository;
@@ -17,10 +17,13 @@ public class InBoundOrderServiceImpl implements InBoundOrderService{
     private final InBoundOrderRepository inBoundOrderrepository;
 
     @Override
-    public InBoundOrder addInBoundOrder(NewInBoundOrderDTO inBoundOrderDTO){
+    public InBoundOrder addInBoundOrder(InboundOrderDTO inBoundOrderDTO){
         InBoundOrder inBoundOrder = InBoundOrder.builder()
+                .inBoundOrderNumber(inBoundOrderDTO.getOrderNumber())
                 .inBoundOrderDate(LocalDateTime.now())
                 .batchStock(inBoundOrderDTO.getBatchStock())
+                .representativeId(inBoundOrderDTO.getRepresentativeId())
+                .section(inBoundOrderDTO.getSection())
                 .build();
 
         return inBoundOrderrepository.save(inBoundOrder);

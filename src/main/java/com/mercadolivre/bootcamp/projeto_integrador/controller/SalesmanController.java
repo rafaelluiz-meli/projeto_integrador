@@ -16,13 +16,13 @@ public class SalesmanController {
 
     private final SalesmanService salesmanService;
 
-    @PostMapping("/addSalesman")
+    @PostMapping()
     public ResponseEntity<NewSalesmanDTO> createSalesman(@RequestBody Salesman salesman) {
         salesmanService.createSalesman(salesman);
         return ResponseEntity.status(HttpStatus.CREATED).body(NewSalesmanDTO.map(salesman));
     }
 
-    @PutMapping("/updateSalesman")
+    @PutMapping()
     public ResponseEntity<UpdateSalesmanDTO> updateSalesman(@RequestBody UpdateSalesmanDTO updateSalesmanDTO) {
         Salesman salesman = updateSalesmanDTO.map();
         Salesman updateSalesman = salesmanService.updateSalesman(salesman);

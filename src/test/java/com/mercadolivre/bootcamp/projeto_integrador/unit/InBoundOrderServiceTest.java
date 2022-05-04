@@ -1,10 +1,10 @@
 package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.NewInBoundOrderDTO;
-import com.mercadolivre.bootcamp.projeto_integrador.dto.section.SectionDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.InboundOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.InBoundOrder;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.InBoundOrderRepository;
@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,15 +32,15 @@ public class InBoundOrderServiceTest {
     @InjectMocks
     private InBoundOrderServiceImpl inBoundOrderService;
 
-    SectionDTO sectionDTO = SectionDTO.builder()
+    Section section = Section.builder()
             .sectionId(5L)
             .warehouseId(5L).build();
 
     BatchStock batchStock = BatchStock.builder().batchNumber(1L).product(Product.builder().id(1L).build()).build();
 
-    NewInBoundOrderDTO inBoundOrderDTO = NewInBoundOrderDTO.builder()
+    InboundOrderDTO inBoundOrderDTO = InboundOrderDTO.builder()
             .representativeId(1L)
-            .sectionDTO(sectionDTO)
+            .section(section)
             .batchStock(batchStock)
             .build();
 
@@ -104,7 +105,7 @@ public class InBoundOrderServiceTest {
     @Test
     void shouldNotReturnAllInBoundOrder() {
         //Arrange
-        List<InBoundOrder> InBoundOrderList = Arrays.asList();
+        List<InBoundOrder> InBoundOrderList = Collections.emptyList();
 
         //Act
         Mockito.when(inBoundOrderRepository.findAll()).thenReturn(InBoundOrderList);

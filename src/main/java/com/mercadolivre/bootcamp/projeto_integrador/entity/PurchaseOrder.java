@@ -4,11 +4,12 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter @Setter
 @Entity
 public class PurchaseOrder {
 
@@ -20,4 +21,7 @@ public class PurchaseOrder {
     @JoinColumn(name = "buyer_id")
     private Buyer buyer;
     private LocalDate purchaseOrderDate;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "purchase_order_number", nullable = false)
+    private List<PurchaseOrderItems> purchaseOrderItemsList;
 }

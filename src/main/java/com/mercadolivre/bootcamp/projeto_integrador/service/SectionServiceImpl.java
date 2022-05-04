@@ -7,6 +7,9 @@ import com.mercadolivre.bootcamp.projeto_integrador.entity.Warehouse;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 
+import com.mercadolivre.bootcamp.projeto_integrador.exception.inbound_order.SectionDoesNotHaveEnoughCapacityException;
+import com.mercadolivre.bootcamp.projeto_integrador.exception.inbound_order.SectionNotAppropriateForProductException;
+
 import com.mercadolivre.bootcamp.projeto_integrador.repository.SectionRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.WarehouseRepository;
 import lombok.AllArgsConstructor;
@@ -75,28 +78,29 @@ public class SectionServiceImpl implements SectionService {
         getSectionId.setCapacity(section.getCapacity());
         getSectionId.setCategory(section.getCategory());
         getSectionId.setCapacity(section.getCapacity());
-        getSectionId.setListInBoundOrder(section.getListInBoundOrder());
         getSectionId.setWarehouseId(section.getWarehouseId());
 
         return sectionRepository.save(getSectionId);
     }
 
     @Override
-    public boolean isSectionValid(Long sectionID) {
-        Optional<Section> sectionOptional = sectionRepository.findById(sectionID);
-        return sectionOptional.isPresent();
+    public boolean isSectionValid(Long sectionID) throws IdNotFoundException {
+        sectionRepository.findById(sectionID).orElseThrow(() -> new IdNotFoundException(sectionID));
+        return true;
     }
 
     @Override
-    public boolean availableSectionCapacity(BigDecimal totalVolume, Long sectionId) {
+    public boolean availableSectionCapacity(BigDecimal totalVolume, Long sectionId) throws SectionDoesNotHaveEnoughCapacityException {
         Section getSection = getSectionById(sectionId);
-        return getSection.getCapacity().compareTo(totalVolume) != 0 && getSection.getCapacity().compareTo(totalVolume) >= 0;
+        if (getSection.getCapacity().compareTo(totalVolume) < 0) throw new SectionDoesNotHaveEnoughCapacityException(sectionId, totalVolume);
+        return true;
     }
 
     @Override
-    public boolean sectionCorrespondsProductType(Long sectionId, Category category) {
+    public boolean sectionCorrespondsProductType(Long sectionId, Category category) throws IdNotFoundException {
         Section getSection = sectionRepository.findById(sectionId).orElseThrow(
                 () -> new IdNotFoundException(sectionId));
-        return getSection.getCategory().equals(category);
+        if (!getSection.getCategory().equals(category)) throw new SectionNotAppropriateForProductException(sectionId, category);
+        return true;
     }
 }

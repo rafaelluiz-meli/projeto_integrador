@@ -1,11 +1,11 @@
 package com.mercadolivre.bootcamp.projeto_integrador.unit;
 
-import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
-import com.mercadolivre.bootcamp.projeto_integrador.entity.Product;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.*;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.product.InvalidProductException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.BatchStockRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockServiceImpl;
+import org.hibernate.engine.jdbc.batch.spi.Batch;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +14,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -27,10 +29,10 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class BatchStockServiceTest {
     @Mock
-    private BatchStockRepository repository;
+    private BatchStockRepository batchStockRepository;
 
     @InjectMocks
-    private BatchStockServiceImpl service;
+    private BatchStockServiceImpl batchStockService;
 
     Long id = 1L;
     Long productId = 1L;
@@ -44,23 +46,26 @@ public class BatchStockServiceTest {
     @DisplayName("it should calculate totalVolume of given BatchStock")
     public void shouldCalculateTotalVolume() {
         // Arrange
-        Product product = Product.builder().volume(BigDecimal.valueOf(10)).build();
-        BatchStock batchStock = BatchStock.builder().currentQuantity(5).product(product).build();
+        Integer currentQuantity = 5;
+        BigDecimal volume = BigDecimal.valueOf(10);
+        BigDecimal expectedVolume = volume.multiply(BigDecimal.valueOf(currentQuantity));
+        Product product = Product.builder().volume(volume).build();
+        BatchStock batchStock = BatchStock.builder().currentQuantity(currentQuantity).product(product).build();
 
         // Exec
-        BigDecimal result = service.calculateTotalVolume(batchStock);
+        BigDecimal result = batchStockService.calculateTotalVolume(batchStock);
 
         // Assert
-        assertEquals(BigDecimal.valueOf(50), result);
+        assertEquals(expectedVolume, result);
     }
 
     @Test
     @DisplayName("It should do create a new BatchStock.")
     public void shouldCreateBatchStock(){
 
-        Mockito.when(repository.save(Mockito.any(BatchStock.class))).thenReturn(batchStock1);
+        Mockito.when(batchStockRepository.save(Mockito.any(BatchStock.class))).thenReturn(batchStock1);
 
-        BatchStock result = service.create(batchStock1);
+        BatchStock result = batchStockService.create(batchStock1);
 
         assertEquals(batchStock1, result);
     }
@@ -69,9 +74,9 @@ public class BatchStockServiceTest {
     @DisplayName("It should do list all BatchStocks.")
     public void shouldListAllBatchStocks(){
 
-        Mockito.when(repository.findAll()).thenReturn(batchStockList);
+        Mockito.when(batchStockRepository.findAll()).thenReturn(batchStockList);
 
-        List<BatchStock> result = service.findAll();
+        List<BatchStock> result = batchStockService.findAll();
 
         assertEquals(batchStockList, result);
         assertEquals(3, result.size());
@@ -81,16 +86,16 @@ public class BatchStockServiceTest {
     @DisplayName("It should do delete BatchStock by id.")
     public void shouldDeleteBatchStockById(){
 
-        Mockito.when(repository.findById(anyLong())).thenReturn(Optional.ofNullable(batchStock1));
-        doNothing().when(repository).delete(any());
+        Mockito.when(batchStockRepository.findById(anyLong())).thenReturn(Optional.ofNullable(batchStock1));
+        doNothing().when(batchStockRepository).delete(any());
 
-        assertDoesNotThrow(()->service.remove(id));
+        assertDoesNotThrow(()-> batchStockService.remove(id));
     }
 
     @Test
     @DisplayName("It should not do delete BatchStock by id when it not exists.")
     public void shouldNotDeleteBatchStockByIdWhenIdNotExist(){
-        assertThrows(IdNotFoundException.class,()->service.remove(anyLong()));
+        assertThrows(IdNotFoundException.class,()-> batchStockService.remove(anyLong()));
     }
 
     @Test
@@ -101,10 +106,10 @@ public class BatchStockServiceTest {
                 .currentQuantity(20)
                 .build();
 
-        Mockito.when(repository.findById(anyLong())).thenReturn(Optional.ofNullable(batchStock1));
-        Mockito.when(repository.save(Mockito.any(BatchStock.class))).thenReturn(updatedBatchStock);
+        Mockito.when(batchStockRepository.findById(anyLong())).thenReturn(Optional.ofNullable(batchStock1));
+        Mockito.when(batchStockRepository.save(Mockito.any(BatchStock.class))).thenReturn(updatedBatchStock);
 
-        BatchStock result = service.update(updatedBatchStock);
+        BatchStock result = batchStockService.update(updatedBatchStock);
 
         assertEquals(updatedBatchStock, result);
     }
@@ -113,9 +118,9 @@ public class BatchStockServiceTest {
     @DisplayName("It should do find BatchStock by id.")
     public void shouldFindBatchStockById(){
 
-        Mockito.when(repository.findById(anyLong())).thenReturn(Optional.ofNullable(batchStock1));
+        Mockito.when(batchStockRepository.findById(anyLong())).thenReturn(Optional.ofNullable(batchStock1));
 
-        BatchStock result = service.findById(id);
+        BatchStock result = batchStockService.findById(id);
 
         assertEquals(batchStock1, result);
     }
@@ -123,16 +128,16 @@ public class BatchStockServiceTest {
     @Test
     @DisplayName("It should not do find BatchStock by id when it not exists.")
     public void shouldNotFindBatchStockByIdWhenIdNotExists(){
-        assertThrows(IdNotFoundException.class,()->service.findById(anyLong()));
+        assertThrows(IdNotFoundException.class,()-> batchStockService.findById(anyLong()));
     }
 
     @Test
     @DisplayName("It should do list all BatchStocks by product id.")
     public void shouldListBatchStockByProductId(){
 
-        Mockito.when(repository.findAllByProduct_Id(anyLong())).thenReturn(batchStockList);
+        Mockito.when(batchStockRepository.findAllByProduct_Id(anyLong())).thenReturn(batchStockList);
 
-        List<BatchStock> result = service.findAllByProductId(productId);
+        List<BatchStock> result = batchStockService.findAllByProductId(productId);
 
         assertEquals(batchStockList, result);
         assertEquals(3, result.size());
@@ -141,6 +146,96 @@ public class BatchStockServiceTest {
     @Test
     @DisplayName("It should not do list all BatchStocks by product id when it not exists.")
     public void shouldNotListBatchStockByProductIdWhenProductIdNotExists(){
-        assertThrows(InvalidProductException.class, () -> service.findAllByProductId(anyLong()));
+        assertThrows(InvalidProductException.class, () -> batchStockService.findAllByProductId(anyLong()));
+    }
+
+    @Test
+    @DisplayName("it should order batchstock list by product dueDate")
+    public void shouldOrderByDueDate() {
+        // Arrange
+        BatchStock batchStock1 = BatchStock.builder()
+                .dueDate(LocalDate.now().plusDays(10)).build();
+        BatchStock batchStock2 = BatchStock.builder()
+                .dueDate(LocalDate.now().plusDays(20)).build();
+        BatchStock batchStock3 = BatchStock.builder()
+                .dueDate(LocalDate.now().plusDays(30)).build();
+
+        List<BatchStock> unorderedList = Arrays.asList(batchStock3, batchStock1, batchStock2);
+        List<BatchStock> orderedList = Arrays.asList(batchStock1, batchStock2, batchStock3);
+
+        // Act
+        List<BatchStock> result = batchStockService.orderBatchStockList(unorderedList);
+
+        // Assert
+        assertEquals(orderedList, result);
+    }
+
+    @Test
+    @DisplayName("it should get batchstock list by sectionId and dueDate")
+    public void shouldGetBatchStockListFromSectionIdAndDueDate() {
+        // TODO: 30/04/22
+
+        // Arrange
+        int daysFromToday = 10;
+        LocalDate dueDate = LocalDate.now().plusDays(daysFromToday);
+        long sectionId = 1L;
+
+        Section section = Section.builder().sectionId(sectionId).build();
+        BatchStock batchStock = BatchStock.builder().section(section).dueDate(dueDate).build();
+        List<BatchStock> batchStockList = Arrays.asList(batchStock, batchStock, batchStock);
+
+        // Act
+        Mockito.when(batchStockRepository.findByDueDateIsLessThanEqualAndSection_SectionId(any(), any())).thenReturn(batchStockList);
+        List<BatchStock> result = batchStockService.findAllBySectionIdAndDueDate(daysFromToday, sectionId);
+
+        // Assert
+        assertEquals(sectionId, batchStockList.get(1).getSection().getSectionId());
+        assertEquals(batchStockList, result);
+    }
+
+    @Test
+    @DisplayName("it should get batchstock list by custom date and category")
+    public void shouldGetBatchstockListFromCustomDateAndProductCategory() {
+        // TODO: 30/04/22
+        // Arrange
+        int daysFromToday = 10;
+        LocalDate dueDate = LocalDate.now().plusDays(daysFromToday);
+        long sectionId = 1L;
+
+        Section section = Section.builder().sectionId(sectionId).build();
+        BatchStock batchStock = BatchStock.builder().section(section).dueDate(dueDate).build();
+        List<BatchStock> batchStockList = Arrays.asList(batchStock, batchStock, batchStock);
+
+        // Act
+        Mockito.when(batchStockRepository.findByDueDateLessThanEqualAndProduct_Category(any(), any())).thenReturn(batchStockList);
+        List<BatchStock> result = batchStockService.findAllByDueDateAndProductCategory(daysFromToday, Category.FRESH);
+
+        //Assert
+        assertEquals(batchStockList, result);
+    }
+
+    @Test
+    @DisplayName("it should select a valid batchStock by product quantity and price")
+    public void shouldSelectAValidBatchStockByQuantityAndPrice() {
+        // Arrange
+        Long productId = 1L;
+        Integer quantity = 10;
+        BigDecimal price = BigDecimal.valueOf(50);
+        Product product = Product.builder().id(productId).build();
+
+        BatchStock batchStock = BatchStock.builder().price(price).currentQuantity(quantity).product(product).build();
+
+        PurchaseOrderItems purchaseOrderItems = PurchaseOrderItems.builder()
+                .productId(productId)
+                .quantity(quantity)
+                .build();
+        
+        // Act
+        Mockito.when(batchStockRepository.findByCurrentQuantityIsGreaterThanEqualAndProduct_IdAndDueDateIsGreaterThanEqual(any(), any(), any())).thenReturn(batchStock);
+        BatchStock result = batchStockService.selectBatchStock(purchaseOrderItems);
+
+        // Assert
+        assertEquals(batchStock.getPrice(), result.getPrice());
+
     }
 }
