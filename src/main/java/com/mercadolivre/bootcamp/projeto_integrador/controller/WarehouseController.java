@@ -25,9 +25,9 @@ public class WarehouseController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteWarehouse(@PathVariable(value = "id") Long id) {
+    public ResponseEntity deleteWarehouse(@PathVariable Long warehouseId) {
         try{
-            warehouseService.delete(id);
+            warehouseService.delete(warehouseId);
             return ResponseEntity.ok().body("Deleted with Success");
         }catch(IdNotFoundException ex){
             return new ResponseEntity(ex.getMessage(),HttpStatus.NOT_FOUND);
@@ -35,9 +35,9 @@ public class WarehouseController {
 
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity getWarehouse(@PathVariable(value = "id") Long id) {
-        Warehouse wh = warehouseService.findById(id);
+    @GetMapping()
+    public ResponseEntity getWarehouse(@RequestParam Long warehouseId) {
+        Warehouse wh = warehouseService.findById(warehouseId);
         Warehouse finalWh = warehouseService.save(wh);
         return ResponseEntity.ok().body(finalWh);
     }
