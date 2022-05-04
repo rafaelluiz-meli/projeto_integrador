@@ -15,26 +15,26 @@ public class RepresentativeController {
     private final RepresentativeService representativeService;
 
     @GetMapping("/representatives")
-    public ResponseEntity<?> getAllRepresentatives() {
+    public ResponseEntity getAllRepresentatives() {
         List<Representative> representativeList = representativeService.getAllRepresentatives();
         return ResponseEntity.ok().body(representativeList);
     }
 
     @GetMapping("/representatives/{id}")
-    public ResponseEntity<Representative> getByRepresentativeId(@PathVariable(value = "id") Long representativeId) {
+    public ResponseEntity getByRepresentativeId(@PathVariable(value = "id") Long representativeId) {
         Representative representative = representativeService.getRepresentativeById(representativeId);
         return ResponseEntity.ok().body(representative);
     }
 
     @PostMapping("/representatives")
-    public ResponseEntity<Representative> createRepresentative(@Valid @RequestBody Representative representative) {
+    public ResponseEntity createRepresentative(@Valid @RequestBody Representative representative) {
         Representative representativeAux = representativeService.createRepresentative(representative);
         return ResponseEntity.ok().body(representativeAux);
     }
 
-    @PutMapping("/representative/{id}")
-    public ResponseEntity<Representative> updateRepresentative(@PathVariable(value = "id") Long representativeId, @Valid @RequestBody Representative representative) {
-        Representative representativeAux = representativeService.updateRepresentative(representativeId, representative);
+    @PutMapping("/representative")
+    public ResponseEntity updateRepresentative(@Valid @RequestBody Representative representative) {
+        Representative representativeAux = representativeService.updateRepresentative(representative);
         return ResponseEntity.ok().body(representativeAux);
     }
 
@@ -43,6 +43,7 @@ public class RepresentativeController {
         representativeService.deleteRepresentative(representativeId);
         return ResponseEntity.ok().body("success");
     }
+
 
 }
 

@@ -16,8 +16,7 @@ import javax.persistence.Id;
 public class Representative {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long representativeId;
+    private Long id;
     private String fullName;
     private Long sectionId;
-
 }
