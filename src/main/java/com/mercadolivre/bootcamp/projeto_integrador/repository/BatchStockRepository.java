@@ -1,6 +1,7 @@
 package com.mercadolivre.bootcamp.projeto_integrador.repository;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.warehouse.WarehouseDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.warehouse.WarehouseNewDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,6 +27,15 @@ public interface BatchStockRepository extends JpaRepository<BatchStock, Long> {
             "where p.id = ?1\n" +
             "group by w.warehouseId")
     List<WarehouseDTO> findProductInAllWarehouse(Long productId);
+
+    @Query("select new com.mercadolivre.bootcamp.projeto_integrador.dto.warehouse.WarehouseNewDTO(w.warehouseId, sum(bs.initialQuantity), sum(bs.currentQuantity))\n" +
+            "from Warehouse w\n" +
+            "inner join Section s on w.warehouseId = s.warehouseId\n" +
+            "inner join BatchStock bs on s.sectionId = bs.section.sectionId\n" +
+            "inner join Product p on bs.product.id = p.id\n" +
+            "where p.id = ?1\n" +
+            "group by w.warehouseId")
+    List<WarehouseNewDTO> findProductQuantityInAllWarehouse(Long productId);
 
     List<BatchStock> findBySection_SectionIdAndProduct_Id(Long sectionId, Long id);
 

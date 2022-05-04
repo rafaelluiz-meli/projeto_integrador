@@ -4,12 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-@Builder
 @Data
+@Builder
 @AllArgsConstructor
-public class WarehouseDTO {
-
+public class WarehouseNewDTO {
     private Long warehouseId;
+    private Long totalInitialQuantity;
     private Long totalQuantity;
-
 }

@@ -1,6 +1,7 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.dto.warehouse.WarehouseDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.warehouse.WarehouseNewDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Warehouse;
@@ -101,6 +102,11 @@ public class BatchStockServiceImpl implements BatchStockService {
     @Override
     public List<WarehouseDTO> groupByWarehouse(Long productId) {
         return batchStockRepository.findProductInAllWarehouse(productId);
+    }
+
+    @Override
+    public List<WarehouseNewDTO> groupByWarehouseNew(Long productId) {
+        return batchStockRepository.findProductQuantityInAllWarehouse(productId);
     }
 
 

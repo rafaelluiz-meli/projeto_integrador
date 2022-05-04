@@ -3,6 +3,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.controller;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.batch_stock.*;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.section.SectionDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.warehouse.ResponseWarehouseDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.warehouse.ResponseWarehouseNewDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
@@ -104,6 +105,13 @@ public class BatchStockController {
     @GetMapping("/batchstock/warehouse")
     public ResponseEntity<ResponseWarehouseDTO> getProductInAllWarehouse(@RequestParam Long productId) {
         ResponseWarehouseDTO result = ResponseWarehouseDTO.convert(productId, batchStockService.groupByWarehouse(productId));
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("/batchstock/warehouse/ware")
+    public ResponseEntity<ResponseWarehouseNewDTO> getProductInAllWarehouseQuantity(@RequestParam Long productId) {
+        ResponseWarehouseNewDTO result = ResponseWarehouseNewDTO.convert(productId, batchStockService.groupByWarehouseNew(productId));
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }

@@ -20,7 +20,9 @@ public interface BatchStockService {
     void remove(Long id);
     BigDecimal calculateTotalVolume(BatchStock batchStock);
     List<BatchStock> orderBatchStockList(String orderBy, List<BatchStock> beforeOrderingList);
+    // ESSA AQUI
     List groupByWarehouse(Long productId);
+    List groupByWarehouseNew(Long productId);
     List<BatchStock> isProductWithValidatedDueDateAndQuantity(Long productId, Integer requestedQuantity);
     List<BatchStock> orderBatchStockList(List<BatchStock> unorderedList);
     List<BatchStock> findAllBySectionIdAndDueDate(int daysFromToday, long sectionId);

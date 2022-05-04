@@ -89,7 +89,7 @@ public class InBoundOrderFactory {
         BatchStock currentBatchStock = inBoundOrderService.findById(requestInBoundOrderDTO.getOrderNumber()).getBatchStock();
         BatchStock batchStock = requestInBoundOrderDTO.getBatchStock().map(currentBatchStock);
         Section section = sectionService.getSectionById(requestInBoundOrderDTO.getSection().getSectionId());
-
+        batchStock.setSection(section);
         return InboundOrderDTO.builder()
                 .orderNumber(requestInBoundOrderDTO.getOrderNumber())
                 .section(section)
