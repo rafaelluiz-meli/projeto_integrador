@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class NewBatchStockDTO {
 
+    private Long batchNumber;
     private Integer initialQuantity;
     private Integer currentQuantity;
     private BigDecimal price;
@@ -38,6 +39,7 @@ public class NewBatchStockDTO {
 
     public static NewBatchStockDTO map(BatchStock batchStock){
         return NewBatchStockDTO.builder()
+                .batchNumber(batchStock.getBatchNumber())
                 .initialQuantity(batchStock.getInitialQuantity())
                 .currentQuantity(batchStock.getCurrentQuantity())
                 .price(batchStock.getPrice())
@@ -45,6 +47,19 @@ public class NewBatchStockDTO {
                 .manufacturingDate(batchStock.getManufacturingDate())
                 .manufacturingTime(batchStock.getManufacturingTime())
                 .product(batchStock.getProduct())
+                .build();
+    }
+
+    public BatchStock inboundMap(BatchStock currentBatchStock) {
+        return BatchStock.builder()
+                .batchNumber(currentBatchStock.getBatchNumber())
+                .initialQuantity(currentBatchStock.getInitialQuantity())
+                .currentQuantity(this.currentQuantity)
+                .price(this.price)
+                .dueDate(currentBatchStock.getDueDate())
+                .manufacturingDate(currentBatchStock.getManufacturingDate())
+                .manufacturingTime(currentBatchStock.getManufacturingTime())
+                .product(currentBatchStock.getProduct())
                 .build();
     }
 
