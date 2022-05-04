@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateBatchStockDTO {
-
+    private Long batchNumber;
     private Integer currentQuantity;
     private BigDecimal price;
     private LocalDate dueDate;
@@ -23,6 +23,7 @@ public class UpdateBatchStockDTO {
 
     public BatchStock map(){
         return BatchStock.builder()
+                .batchNumber(this.batchNumber)
                 .currentQuantity(this.currentQuantity)
                 .price(this.price)
                 .dueDate(this.dueDate)
@@ -34,6 +35,7 @@ public class UpdateBatchStockDTO {
 
     public static UpdateBatchStockDTO map(BatchStock batchStock){
         return UpdateBatchStockDTO.builder()
+                .batchNumber(batchStock.getBatchNumber())
                 .currentQuantity(batchStock.getCurrentQuantity())
                 .price(batchStock.getPrice())
                 .dueDate(batchStock.getDueDate())

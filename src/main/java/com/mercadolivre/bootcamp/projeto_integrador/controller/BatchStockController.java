@@ -1,27 +1,26 @@
 package com.mercadolivre.bootcamp.projeto_integrador.controller;
 
-import com.mercadolivre.bootcamp.projeto_integrador.dto.batch_stock.NewBatchStockDTO;
-import com.mercadolivre.bootcamp.projeto_integrador.dto.batch_stock.ResponseBatchStockDTO;
-import com.mercadolivre.bootcamp.projeto_integrador.dto.batch_stock.UpdateBatchStockDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.batch_stock.*;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.section.SectionDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.warehouse.ResponseWarehouseDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(BatchStockController.baseUri)
+@RequestMapping("/api/v1/fresh-products")
 @AllArgsConstructor
 public class BatchStockController {
 
-    public static final String baseUri = "/api/v1/fresh-products/batchstock";
     private final BatchStockService batchStockService;
-
     // START DUE-DATE ENDPOINTS
 
     /**
@@ -29,7 +28,7 @@ public class BatchStockController {
      * @param sectionId Id of the section to be evaluated
      * @return 200 OK
      */
-    @GetMapping("/due-date/")
+    @GetMapping("/batchstock/due-date/")
     public ResponseEntity<List<ResponseBatchStockDTO>> getByDueDateAndSectionId(@RequestParam int numberOfDays, @RequestParam Long sectionId) {
         List<BatchStock> batchStockList = batchStockService.findAllBySectionIdAndDueDate(numberOfDays, sectionId);
         List<ResponseBatchStockDTO> responseBatchStockDTOList = ResponseBatchStockDTO.map(batchStockList);
@@ -41,7 +40,7 @@ public class BatchStockController {
      * @param category Product category FROZEN_FOOD, FRESH or REFRIGERATED
      * @return 200 OK
      */
-    @GetMapping("/due-date/list")
+    @GetMapping("/batchstock/due-date/list")
     public ResponseEntity<List<ResponseBatchStockDTO>> getByDueDateAndCategory(@RequestParam int numberOfDays, @RequestParam Category category) {
         List<BatchStock> batchStockList = batchStockService.findAllByDueDateAndProductCategory(numberOfDays, category);
         List<ResponseBatchStockDTO> responseBatchStockDTOList = ResponseBatchStockDTO.map(batchStockList);
@@ -49,25 +48,64 @@ public class BatchStockController {
     }
     // END DUE-DATE ENDPOINTS
 
-    @PostMapping
+    @PostMapping("/batchstock")
     public ResponseEntity<NewBatchStockDTO> newBatchStock(@RequestBody NewBatchStockDTO batchStockDTO){
         BatchStock createdBatchStock = batchStockService.create(batchStockDTO.map());
         NewBatchStockDTO responseCreatedBatchStock = NewBatchStockDTO.map(createdBatchStock);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseCreatedBatchStock);
     }
 
-    @PutMapping
+    @PutMapping("/batchstock")
     public ResponseEntity<UpdateBatchStockDTO> updateBatchStock(@RequestBody UpdateBatchStockDTO updateBatchStockDTO){
         BatchStock batchStock = updateBatchStockDTO.map();
         BatchStock updatedBatchStock = batchStockService.update(batchStock);
         return ResponseEntity.ok(UpdateBatchStockDTO.map(updatedBatchStock));
     }
 
-    @GetMapping
+    @GetMapping("/batchstock/list")
     public ResponseEntity<List<NewBatchStockDTO>> listAllBatchStocks(){
         List<BatchStock> batchStockList = batchStockService.findAll();
         List<NewBatchStockDTO> result = batchStockList.stream().map(NewBatchStockDTO::map).collect(Collectors.toList());
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<BatchStockWithSectionDTO>> getAllBatchStockByProductId(@RequestParam Long productId,
+                                                                              @RequestParam(required = false,
+                                                                                      defaultValue = "L")
+                                                                              String orderBy)
+    {
+        List<Section> sectionList = batchStockService.findSectionListByProductId(productId);
+
+        List<BatchStockWithSectionDTO> batchStockWithSectionDTOS = sectionList
+                .stream()
+                .map(b -> {
+                    Long sectionId = b.getSectionId();
+                    Long warehouseId = b.getWarehouseId();
+
+                    SectionDTO sectionDTO = SectionDTO.builder()
+                            .sectionId(sectionId)
+                            .warehouseId(warehouseId).build();
+
+                    List<BatchStock> batchStockList = batchStockService.findBatchStockListByProductIdAndSectionId(productId, sectionId);
+                    batchStockList = batchStockService.orderBatchStockList(orderBy,batchStockList);
+                    List<BatchStockDTO> batchStockDTOS = BatchStockDTO.convert(batchStockList);
+
+                    return BatchStockWithSectionDTO.builder()
+                            .section(sectionDTO)
+                            .listBatchStock(batchStockDTOS)
+                            .productId(productId)
+                            .build();
+                }).collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(batchStockWithSectionDTOS);
+    }
+
+    @GetMapping("/warehouse")
+    public ResponseEntity<ResponseWarehouseDTO> getProductInAllWarehouse(@RequestParam Long productId) {
+        ResponseWarehouseDTO result = ResponseWarehouseDTO.convert(productId, batchStockService.groupByWarehouse(productId));
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @GetMapping("{batchNumber}")
