@@ -2,6 +2,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrderItems;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.product.InvalidProductException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
@@ -70,7 +71,6 @@ public class BatchStockServiceImpl implements BatchStockService {
         return volumePerProduct.multiply(BigDecimal.valueOf(productQuantity));
     }
 
-    @Override
     public List<BatchStock> orderBatchStockList(List<BatchStock> batchStockList) throws EmptyListException {
         if (batchStockList == null || batchStockList.isEmpty()) throw new EmptyListException();
         // Sorts BatchStockList by dueDate
@@ -104,27 +104,34 @@ public class BatchStockServiceImpl implements BatchStockService {
         return batchStockRepository.findAllByProduct_IdAndAndDueDate(productId, dueDate);
     }
 
-    public Boolean availableStockQuantity(Long productId, int requestedQuantity) {
+    @Override
+    public BatchStock selectBatchStock(PurchaseOrderItems purchaseOrderItems) {
 
-        List<BatchStock> productBatchStock = findAllByProductId(productId);
+        Long productId = purchaseOrderItems.getProductId();
+        Integer requestedQuantity = purchaseOrderItems.getQuantity();
+        LocalDate maxDueDate = LocalDate.now().plusDays(21);
 
-        Integer totalQuantityBatchStock = productBatchStock.stream().map(BatchStock::getCurrentQuantity).reduce(0, Integer::sum);
+        BatchStock foundBatchStock = batchStockRepository
+                .findByCurrentQuantityIsGreaterThanEqualAndProduct_IdAndDueDateIsGreaterThanEqual(requestedQuantity, productId , maxDueDate);
+        if (foundBatchStock == null) throw new EmptyListException(); // TODO: 03/05/22 REPLACE WITH PROPER EXCEPTION
 
-        return totalQuantityBatchStock >= requestedQuantity;
+        return foundBatchStock;
     }
 
-    public Boolean availableStockQuantity(Long productId, int requestedQuantity, List<BatchStock> filtredProductList){
+    @Override
+    public Boolean hasEnoughStockAvailable(Long productId, int requestedQuantity, List<BatchStock> filteredProductList){
 
-        Integer totalQuantityBatchStock = filtredProductList.stream().map(BatchStock::getCurrentQuantity).reduce(0, Integer::sum);
+        Integer totalQuantityBatchStock = filteredProductList.stream().map(BatchStock::getCurrentQuantity).reduce(0, Integer::sum);
         return totalQuantityBatchStock >= requestedQuantity;
 
     }
 
-    public  Boolean isProductWithValidatedDueDateAndQuantity(Long productId, int requestedQuantity) {
+    @Override
+    public List<BatchStock> isProductWithValidatedDueDateAndQuantity(Long productId, Integer requestedQuantity) {
 
         List<BatchStock> filteredProduct = batchStockRepository.findByDueDateIsGreaterThanEqual(LocalDate.now().plusDays(21));
 
-        if(availableStockQuantity(productId, requestedQuantity, filteredProduct)) return true;
+        if(hasEnoughStockAvailable(productId, requestedQuantity, filteredProduct)) return filteredProduct;
         throw new EmptyListException();
     }
 }
