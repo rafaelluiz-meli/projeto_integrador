@@ -29,5 +29,7 @@ public interface BatchStockService {
 
     List<BatchStock> findaAllProductIdAndDueDate(Long productId, LocalDate dueDate);
 
+    Boolean hasEnoughStockAvailable(Long productId, int requestedQuantity, List<BatchStock> filteredProductList)
+
     BatchStock selectBatchStock(PurchaseOrderItems purchaseOrderItems);
 }
