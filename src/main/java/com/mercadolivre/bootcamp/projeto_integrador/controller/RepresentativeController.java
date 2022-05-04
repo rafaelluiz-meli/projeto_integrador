@@ -11,34 +11,37 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping(PurchaseOrderController.baseUri)
 public class RepresentativeController {
     private final RepresentativeService representativeService;
 
-    @GetMapping("/representatives")
+    public static final String baseUri =  "/api/v1/fresh-products/representative";
+
+    @GetMapping
     public ResponseEntity<List<Representative>> getAllRepresentatives() {
         List<Representative> representativeList = representativeService.getAllRepresentatives();
         return ResponseEntity.ok().body(representativeList);
     }
 
-    @GetMapping("/representatives")
+    @GetMapping
     public ResponseEntity<Representative> getByRepresentativeId(@RequestParam(value = "id") Long representativeId) {
         Representative representative = representativeService.getRepresentativeById(representativeId);
         return ResponseEntity.ok().body(representative);
     }
 
-    @PostMapping("/representatives")
+    @PostMapping
     public ResponseEntity<Representative> createRepresentative(@Valid @RequestBody Representative representative) {
         Representative representativeAux = representativeService.createRepresentative(representative);
         return ResponseEntity.ok().body(representativeAux);
     }
 
-    @PutMapping("/representative")
+    @PutMapping
     public ResponseEntity<Representative> updateRepresentative(@Valid @RequestBody Representative representative) {
         Representative representativeAux = representativeService.updateRepresentative(representative);
         return ResponseEntity.ok().body(representativeAux);
     }
 
-    @DeleteMapping("/representative/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteRepresentative(@PathVariable(value = "id") Long representativeId) {
         representativeService.deleteRepresentative(representativeId);
         return ResponseEntity.ok().body("success");
