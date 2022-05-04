@@ -141,24 +141,16 @@ public class BatchStockServiceImpl implements BatchStockService {
     }
 
 
-    public Boolean availableStockQuantity(Long productId, int requestedQuantity) {
-
-        Long productId = purchaseOrderItems.getProductId();
-        Integer requestedQuantity = purchaseOrderItems.getQuantity();
-        LocalDate maxDueDate = LocalDate.now().plusDays(21);
-
-        BatchStock foundBatchStock = batchStockRepository
-                .findByCurrentQuantityIsGreaterThanEqualAndProduct_IdAndDueDateIsGreaterThanEqual(requestedQuantity, productId , maxDueDate);
-        if (foundBatchStock == null) throw new EmptyListException(); // TODO: 03/05/22 REPLACE WITH PROPER EXCEPTION
-
-        return foundBatchStock;
-    }
-
     @Override
     public Boolean hasEnoughStockAvailable(Long productId, int requestedQuantity, List<BatchStock> filteredProductList){
 
         Integer totalQuantityBatchStock = filteredProductList.stream().map(BatchStock::getCurrentQuantity).reduce(0, Integer::sum);
         return totalQuantityBatchStock >= requestedQuantity;
+    }
+
+    @Override
+    public BatchStock selectBatchStock(PurchaseOrderItems purchaseOrderItems) {
+        return null;
     }
 
     @Override
@@ -168,5 +160,10 @@ public class BatchStockServiceImpl implements BatchStockService {
 
         if(hasEnoughStockAvailable(productId, requestedQuantity, filteredProduct)) return filteredProduct;
         throw new EmptyListException();
+    }
+
+    @Override
+    public List<BatchStock> orderBatchStockList(List<BatchStock> unorderedList) {
+        return null;
     }
 }
