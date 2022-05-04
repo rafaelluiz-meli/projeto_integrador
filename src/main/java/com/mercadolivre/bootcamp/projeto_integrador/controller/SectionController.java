@@ -18,16 +18,16 @@ import java.util.List;
 public class SectionController {
     private final SectionService sectionService;
 
-    @GetMapping("/section/{id}")
-    public ResponseEntity<NewSectionDTO> getSectionById(@PathVariable("id") Long id){
-        Section sectionExistente = sectionService.getSectionById(id);
+    @GetMapping("/section")
+    public ResponseEntity<NewSectionDTO> getSectionById(@RequestParam Long sectionId){
+        Section sectionExistente = sectionService.getSectionById(sectionId);
         NewSectionDTO result = NewSectionDTO.convert(sectionExistente);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/section")
-    public ResponseEntity<List<Section>> getSectionsByWarehouseById(@RequestParam Long warehouse){
-        List<Section> allSectionsByWarehouseId = sectionService.getAllSectionByWarehouseId(warehouse);
+    public ResponseEntity<List<Section>> getSectionsByWarehouseById(@RequestParam Long warehouseId){
+        List<Section> allSectionsByWarehouseId = sectionService.getAllSectionByWarehouseId(warehouseId);
         return ResponseEntity.ok(allSectionsByWarehouseId);
     }
 
