@@ -9,13 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Getter
-@Setter
+@Getter @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Data
 public class Salesman {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

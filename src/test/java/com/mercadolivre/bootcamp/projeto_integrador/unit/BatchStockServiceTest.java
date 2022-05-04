@@ -5,7 +5,6 @@ import com.mercadolivre.bootcamp.projeto_integrador.exception.product.InvalidPro
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.BatchStockRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockServiceImpl;
-import org.hibernate.engine.jdbc.batch.spi.Batch;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,9 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +37,6 @@ public class BatchStockServiceTest {
     BatchStock batchStock2 = BatchStock.builder().batchNumber(2L).product(Product.builder().id(productId).build()).build();
     BatchStock batchStock3 = BatchStock.builder().batchNumber(3L).product(Product.builder().id(productId).build()).build();
     List<BatchStock> batchStockList = Arrays.asList(batchStock1,batchStock2,batchStock3);
-
 
     @Test
     @DisplayName("it should calculate totalVolume of given BatchStock")
@@ -99,6 +95,7 @@ public class BatchStockServiceTest {
     }
 
     @Test
+    @DisplayName("It should  do update a BatchStock.")
     public void shouldUpdateBatchStock(){
 
         BatchStock updatedBatchStock = BatchStock.builder()

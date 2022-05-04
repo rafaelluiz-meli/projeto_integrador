@@ -11,9 +11,8 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter @Setter
 @Entity
-@Getter
-@Data
 public class Warehouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

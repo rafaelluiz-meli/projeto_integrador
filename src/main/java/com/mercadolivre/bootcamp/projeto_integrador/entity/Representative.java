@@ -8,8 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-@Getter
-@Setter
+@Getter @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
