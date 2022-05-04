@@ -315,7 +315,7 @@
               }
             },
             "url": {
-              "raw": "{{$server}}/api/v1/fresh-products/inboundorder/{id}",
+              "raw": "{{$server}}/api/v1/fresh-products/inboundorder/1",
               "host": [
                 "{{$server}}"
               ],
