@@ -42,8 +42,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
             updatedPurchaseOrder.setStatusOrder(purchaseOrder.getStatusOrder());
         }
         if(purchaseOrder.getBuyer().getBuyerId() != null) {
-            updatedPurchaseOrder.getBuyer().setBuyerId(purchaseOrder.getBuyer().getBuyerId());
+            updatedPurchaseOrder.setBuyer(purchaseOrder.getBuyer());
         }
+        if(purchaseOrder.getPurchaseOrderItemsList() != null) {
+            updatedPurchaseOrder.setPurchaseOrderItemsList(purchaseOrder.getPurchaseOrderItemsList());
+        }
+
         return repository.save(updatedPurchaseOrder);
     }
 

@@ -8,5 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 public class NewPurchaseOrderItemsDTO {
     private Long productId;
-    private int quantity;
+    private Long purchaseOrderNumber;
+    private Integer quantity;
+
 }

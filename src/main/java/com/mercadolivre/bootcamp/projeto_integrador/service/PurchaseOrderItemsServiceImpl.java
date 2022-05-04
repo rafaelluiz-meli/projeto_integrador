@@ -34,7 +34,7 @@ public class PurchaseOrderItemsServiceImpl implements PurchaseOrderItemsService 
     public PurchaseOrderItems updatePurchaseOrderItems(PurchaseOrderItems purchaseOrderItems) {
         PurchaseOrderItems updatePurchaseOrderItems = findById(purchaseOrderItems.getPurchaseOrderItemsId());
 
-        updatePurchaseOrderItems.setPurchaseOrderNumber(purchaseOrderItems.getPurchaseOrderNumber());
+//        updatePurchaseOrderItems.setPurchaseOrderNumber(purchaseOrderItems.getPurchaseOrderNumber());
         updatePurchaseOrderItems.setProductId(purchaseOrderItems.getProductId());
         updatePurchaseOrderItems.setQuantity(purchaseOrderItems.getQuantity());
 

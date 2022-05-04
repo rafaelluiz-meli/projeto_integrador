@@ -29,5 +29,5 @@ public interface BatchStockRepository extends JpaRepository<BatchStock, Long> {
 
     List<BatchStock> findBySection_SectionIdAndProduct_Id(Long sectionId, Long id);
 
-
+    BatchStock findByCurrentQuantityIsGreaterThanEqualAndProduct_IdAndDueDateIsGreaterThanEqual(Integer currentQuantity, Long id, LocalDate dueDate);
 }

@@ -3,6 +3,8 @@ package com.mercadolivre.bootcamp.projeto_integrador.service;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
+import com.mercadolivre.bootcamp.projeto_integrador.entity.PurchaseOrderItems;
+
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -19,6 +21,7 @@ public interface BatchStockService {
     BigDecimal calculateTotalVolume(BatchStock batchStock);
     List<BatchStock> orderBatchStockList(String orderBy, List<BatchStock> beforeOrderingList);
     List groupByWarehouse(Long productId);
+    List<BatchStock> isProductWithValidatedDueDateAndQuantity(Long productId, Integer requestedQuantity);
     List<BatchStock> orderBatchStockList(List<BatchStock> unorderedList);
     List<BatchStock> findAllBySectionIdAndDueDate(int daysFromToday, long sectionId);
     List<BatchStock> findAllByDueDateAndProductCategory(int daysFromToday, Category fresh);
@@ -27,5 +30,7 @@ public interface BatchStockService {
     List<Section> findSectionListByProductId(Long productId);
     List<BatchStock> findBatchStockListByProductIdAndSectionId(Long productId, Long sectionId);
 
+    Boolean hasEnoughStockAvailable(Long productId, int requestedQuantity, List<BatchStock> filteredProductList);
 
+    BatchStock selectBatchStock(PurchaseOrderItems purchaseOrderItems);
 }
