@@ -68,6 +68,7 @@ public class InBoundOrderFactory {
         batchStock.setProduct(productService.findByProductId(requestInBoundOrderDTO.getBatchStock().getProductId()));
 
         Section section = sectionService.getSectionById(requestInBoundOrderDTO.getSection().getSectionId());
+        batchStock.setSection(section);
 
         return InboundOrderDTO.builder()
                 .section(section)
