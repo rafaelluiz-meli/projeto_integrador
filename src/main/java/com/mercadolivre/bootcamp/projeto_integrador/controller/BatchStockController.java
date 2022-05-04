@@ -89,6 +89,7 @@ public class BatchStockController {
                             .warehouseId(warehouseId).build();
 
                     List<BatchStock> batchStockList = batchStockService.findBatchStockListByProductIdAndSectionId(productId, sectionId);
+                    batchStockList = batchStockService.orderBatchStockList(orderBy,batchStockList);
                     List<BatchStockDTO> batchStockDTOS = BatchStockDTO.convert(batchStockList);
 
                     return BatchStockWithSectionDTO.builder()
