@@ -705,10 +705,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{
-                      "fullName": "Marianna Rodrigues",
-                      "sectionId": 1,
-              }",
+              "raw": "{\n    \"fullName\": \"Marianna Rodrigues\",\n    \"sectionId\": 1,\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -784,11 +781,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{
-                        "id": 1,
-                        "fullName": "Marianna Rodrigues",
-                        "sectionId": 1,
-              }",
+              "raw": "{\n    \"id\": 1,\n    \"fullName\": \"Marianna Rodrigues\",\n    \"sectionId\": 1,\n}",
               "options": {
                 "raw": {
                   "language": "json"
