@@ -25,8 +25,6 @@ public interface BatchStockService {
     List<BatchStock> orderBatchStockList(List<BatchStock> unorderedList);
     List<BatchStock> findAllBySectionIdAndDueDate(int daysFromToday, long sectionId);
     List<BatchStock> findAllByDueDateAndProductCategory(int daysFromToday, Category fresh);
-    List<BatchStock> findAllByDueDate(LocalDate dueDate);
-    List<BatchStock> findaAllProductIdAndDueDate(Long productId, LocalDate dueDate);
     List<Section> findSectionListByProductId(Long productId);
     List<BatchStock> findBatchStockListByProductIdAndSectionId(Long productId, Long sectionId);
 
