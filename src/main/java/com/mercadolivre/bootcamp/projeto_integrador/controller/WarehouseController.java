@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
+@RequestMapping("api/v1/fresh-products/warehouse")
 public class WarehouseController {
     private final WarehouseService warehouseService;
-    @RequestMapping("api/v1/fresh-products/warehouse")
+
 
 
     @PostMapping()
@@ -24,7 +25,7 @@ public class WarehouseController {
         return new ResponseEntity(finalWh, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{warehouseId}")
     public ResponseEntity deleteWarehouse(@PathVariable Long warehouseId) {
         try{
             warehouseService.delete(warehouseId);
@@ -38,7 +39,6 @@ public class WarehouseController {
     @GetMapping()
     public ResponseEntity getWarehouse(@RequestParam Long warehouseId) {
         Warehouse wh = warehouseService.findById(warehouseId);
-        Warehouse finalWh = warehouseService.save(wh);
-        return ResponseEntity.ok().body(finalWh);
+        return ResponseEntity.ok().body(wh);
     }
 }
