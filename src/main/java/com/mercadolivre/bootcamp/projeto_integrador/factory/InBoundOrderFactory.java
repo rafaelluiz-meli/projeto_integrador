@@ -65,7 +65,7 @@ public class InBoundOrderFactory {
      */
     private InboundOrderDTO createInboundOrderDTO(RequestInBoundOrderDTO requestInBoundOrderDTO) {
         BatchStock batchStock = requestInBoundOrderDTO.getBatchStock().map();
-        batchStock.setProduct(productService.findByProductId(requestInBoundOrderDTO.getBatchStock().getProduct().getId()));
+        batchStock.setProduct(productService.findByProductId(requestInBoundOrderDTO.getBatchStock().getProductId()));
 
         Section section = sectionService.getSectionById(requestInBoundOrderDTO.getSection().getSectionId());
 
@@ -87,7 +87,7 @@ public class InBoundOrderFactory {
     private InboundOrderDTO updateInboundOrderDTO(RequestInBoundOrderDTO requestInBoundOrderDTO) {
 
         BatchStock currentBatchStock = inBoundOrderService.findById(requestInBoundOrderDTO.getOrderNumber()).getBatchStock();
-        BatchStock batchStock = requestInBoundOrderDTO.getBatchStock().inboundMap(currentBatchStock);
+        BatchStock batchStock = requestInBoundOrderDTO.getBatchStock().map(currentBatchStock);
         Section section = sectionService.getSectionById(requestInBoundOrderDTO.getSection().getSectionId());
 
         return InboundOrderDTO.builder()
