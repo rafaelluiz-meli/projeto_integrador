@@ -25,7 +25,7 @@ public class SectionController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/section")
+    @GetMapping("/section/warehouse")
     public ResponseEntity<List<Section>> getSectionsByWarehouseById(@RequestParam Long warehouseId){
         List<Section> allSectionsByWarehouseId = sectionService.getAllSectionByWarehouseId(warehouseId);
         return ResponseEntity.ok(allSectionsByWarehouseId);
