@@ -52,6 +52,7 @@ localhost:8080
 - [Alan Siqueira](https://github.com/alansiq)
 - [Flávio Germano](https://github.com/fgnanni)
 - [Hugo Fellipe](https://github.com/hugofellipecruz)
+- [José Alves](https://github.com/josalves-meli)
 - [Marianna Rodrigues](https://github.com/marianna-meli)
 - [Rafael Luiz](https://github.com/rafaelluiz-meli)
 - [Victor Santos](https://github.com/victosantos)
