@@ -11,13 +11,13 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(PurchaseOrderController.baseUri)
+@RequestMapping(RepresentativeController.baseUri)
 public class RepresentativeController {
     private final RepresentativeService representativeService;
 
     public static final String baseUri =  "/api/v1/fresh-products/representative";
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<Representative>> getAllRepresentatives() {
         List<Representative> representativeList = representativeService.getAllRepresentatives();
         return ResponseEntity.ok().body(representativeList);

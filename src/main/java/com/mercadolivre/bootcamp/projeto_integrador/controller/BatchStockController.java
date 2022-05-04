@@ -101,7 +101,7 @@ public class BatchStockController {
         return ResponseEntity.ok().body(batchStockWithSectionDTOS);
     }
 
-    @GetMapping("/warehouse")
+    @GetMapping("/batchstock/warehouse")
     public ResponseEntity<ResponseWarehouseDTO> getProductInAllWarehouse(@RequestParam Long productId) {
         ResponseWarehouseDTO result = ResponseWarehouseDTO.convert(productId, batchStockService.groupByWarehouse(productId));
 
