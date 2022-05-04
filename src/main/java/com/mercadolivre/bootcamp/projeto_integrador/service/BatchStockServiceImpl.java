@@ -20,6 +20,7 @@ import java.util.List;
 public class BatchStockServiceImpl implements BatchStockService {
 
     private final BatchStockRepository batchStockRepository;
+    private static final int MINIMUM_DAYS_UNTIL_PRODUCT_IS_DUE = 21;
 
     @Override
     public BatchStock create(BatchStock batchStock) {
@@ -109,7 +110,7 @@ public class BatchStockServiceImpl implements BatchStockService {
 
         Long productId = purchaseOrderItems.getProductId();
         Integer requestedQuantity = purchaseOrderItems.getQuantity();
-        LocalDate maxDueDate = LocalDate.now().plusDays(21);
+        LocalDate maxDueDate = LocalDate.now().plusDays(MINIMUM_DAYS_UNTIL_PRODUCT_IS_DUE);
 
         BatchStock foundBatchStock = batchStockRepository
                 .findByCurrentQuantityIsGreaterThanEqualAndProduct_IdAndDueDateIsGreaterThanEqual(requestedQuantity, productId , maxDueDate);
