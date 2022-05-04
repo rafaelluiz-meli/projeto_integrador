@@ -7,6 +7,6 @@ import java.time.ZonedDateTime;
 
 public class orderByNotValidException extends BaseException {
     public orderByNotValidException(String orderBy) {
-        super("Não é possível ordernar por: "+ orderBy, HttpStatus.NOT_FOUND, ZonedDateTime.now());
+        super("Não é possível ordernar por: "+ orderBy, HttpStatus.BAD_REQUEST, ZonedDateTime.now());
     }
 }
