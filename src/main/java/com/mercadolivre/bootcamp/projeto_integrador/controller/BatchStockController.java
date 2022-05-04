@@ -19,9 +19,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/fresh-products")
 @AllArgsConstructor
 public class BatchStockController {
-    @Autowired
-    private final BatchStockService batchStockService;
 
+    private final BatchStockService batchStockService;
     // START DUE-DATE ENDPOINTS
 
     /**
