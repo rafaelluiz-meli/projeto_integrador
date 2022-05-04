@@ -42,7 +42,7 @@ docker run --name postgres-db -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgr
 Para testar os endpoints contidos na documentação, as coleções o postman podem ser acessadas no [seguinte link](/document).
 As requisições devem ser feitas em:
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/485bb945b088c6fd471e)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.postman.co/run-collection/573d9e1de1226be29b1b?action=collection%2Fimport)
 ```
 localhost:8080
 ```
@@ -52,6 +52,7 @@ localhost:8080
 - [Alan Siqueira](https://github.com/alansiq)
 - [Flávio Germano](https://github.com/fgnanni)
 - [Hugo Fellipe](https://github.com/hugofellipecruz)
+- [José Alves](https://github.com/josalves-meli)
 - [Marianna Rodrigues](https://github.com/marianna-meli)
 - [Rafael Luiz](https://github.com/rafaelluiz-meli)
 - [Victor Santos](https://github.com/victosantos)
