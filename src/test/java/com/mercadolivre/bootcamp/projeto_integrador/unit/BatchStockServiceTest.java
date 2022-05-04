@@ -149,4 +149,93 @@ public class BatchStockServiceTest {
         assertThrows(InvalidProductException.class, () -> batchStockService.findAllByProductId(anyLong()));
     }
 
+    @Test
+    @DisplayName("it should order batchstock list by product dueDate")
+    public void shouldOrderByDueDate() {
+        // Arrange
+        BatchStock batchStock1 = BatchStock.builder()
+                .dueDate(LocalDate.now().plusDays(10)).build();
+        BatchStock batchStock2 = BatchStock.builder()
+                .dueDate(LocalDate.now().plusDays(20)).build();
+        BatchStock batchStock3 = BatchStock.builder()
+                .dueDate(LocalDate.now().plusDays(30)).build();
+
+        List<BatchStock> unorderedList = Arrays.asList(batchStock3, batchStock1, batchStock2);
+        List<BatchStock> orderedList = Arrays.asList(batchStock1, batchStock2, batchStock3);
+
+        // Act
+        List<BatchStock> result = batchStockService.orderBatchStockList(unorderedList);
+
+        // Assert
+        assertEquals(orderedList, result);
+    }
+
+    @Test
+    @DisplayName("it should get batchstock list by sectionId and dueDate")
+    public void shouldGetBatchStockListFromSectionIdAndDueDate() {
+        // TODO: 30/04/22
+
+        // Arrange
+        int daysFromToday = 10;
+        LocalDate dueDate = LocalDate.now().plusDays(daysFromToday);
+        long sectionId = 1L;
+
+        Section section = Section.builder().sectionId(sectionId).build();
+        BatchStock batchStock = BatchStock.builder().section(section).dueDate(dueDate).build();
+        List<BatchStock> batchStockList = Arrays.asList(batchStock, batchStock, batchStock);
+
+        // Act
+        Mockito.when(batchStockRepository.findByDueDateIsLessThanEqualAndSection_SectionId(any(), any())).thenReturn(batchStockList);
+        List<BatchStock> result = batchStockService.findAllBySectionIdAndDueDate(daysFromToday, sectionId);
+
+        // Assert
+        assertEquals(sectionId, batchStockList.get(1).getSection().getSectionId());
+        assertEquals(batchStockList, result);
+    }
+
+    @Test
+    @DisplayName("it should get batchstock list by custom date and category")
+    public void shouldGetBatchstockListFromCustomDateAndProductCategory() {
+        // TODO: 30/04/22
+        // Arrange
+        int daysFromToday = 10;
+        LocalDate dueDate = LocalDate.now().plusDays(daysFromToday);
+        long sectionId = 1L;
+
+        Section section = Section.builder().sectionId(sectionId).build();
+        BatchStock batchStock = BatchStock.builder().section(section).dueDate(dueDate).build();
+        List<BatchStock> batchStockList = Arrays.asList(batchStock, batchStock, batchStock);
+
+        // Act
+        Mockito.when(batchStockRepository.findByDueDateLessThanEqualAndProduct_Category(any(), any())).thenReturn(batchStockList);
+        List<BatchStock> result = batchStockService.findAllByDueDateAndProductCategory(daysFromToday, Category.FRESH);
+
+        //Assert
+        assertEquals(batchStockList, result);
+    }
+
+    @Test
+    @DisplayName("it should select a valid batchStock by product quantity and price")
+    public void shouldSelectAValidBatchStockByQuantityAndPrice() {
+        // Arrange
+        Long productId = 1L;
+        Integer quantity = 10;
+        BigDecimal price = BigDecimal.valueOf(50);
+        Product product = Product.builder().id(productId).build();
+
+        BatchStock batchStock = BatchStock.builder().price(price).currentQuantity(quantity).product(product).build();
+
+        PurchaseOrderItems purchaseOrderItems = PurchaseOrderItems.builder()
+                .productId(productId)
+                .quantity(quantity)
+                .build();
+
+        // Act
+        Mockito.when(batchStockRepository.findByCurrentQuantityIsGreaterThanEqualAndProduct_IdAndDueDateIsGreaterThanEqual(any(), any(), any())).thenReturn(batchStock);
+        BatchStock result = batchStockService.selectBatchStock(purchaseOrderItems);
+
+        // Assert
+        assertEquals(batchStock.getPrice(), result.getPrice());
+
+    }
 }
