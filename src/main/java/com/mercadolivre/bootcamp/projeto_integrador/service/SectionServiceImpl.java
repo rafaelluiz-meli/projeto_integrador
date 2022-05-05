@@ -94,7 +94,6 @@ public class SectionServiceImpl implements SectionService {
                 new IdNotFoundException(sectionId));
     }
 
-    /**
      /**
      * Check if section id exists with {@link #getSectionById(Long)}  getSectionById} method. <br>
      * If exists then remove the section.
