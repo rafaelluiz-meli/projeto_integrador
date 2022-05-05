@@ -7,6 +7,8 @@ import com.mercadolivre.bootcamp.projeto_integrador.repository.BatchStockReposit
 import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockServiceImpl;
 import org.hibernate.engine.jdbc.batch.spi.Batch;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Tags;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,6 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
+@Tag("unit")
 @ExtendWith(MockitoExtension.class)
 public class BatchStockServiceTest {
     @Mock

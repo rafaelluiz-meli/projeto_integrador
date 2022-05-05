@@ -6,6 +6,7 @@ import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoun
 import com.mercadolivre.bootcamp.projeto_integrador.repository.SalesmanRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.SalesmanServiceImpl;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 
+@Tag("unit")
 @ExtendWith(MockitoExtension.class)
 public class SalesmanServiceTest {
 
