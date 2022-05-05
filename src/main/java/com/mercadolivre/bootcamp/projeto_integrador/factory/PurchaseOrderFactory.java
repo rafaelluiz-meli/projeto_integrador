@@ -103,6 +103,7 @@ public class PurchaseOrderFactory {
         }
 
         PurchaseOrder createdPurchaseOrder = PurchaseOrder.builder()
+                .purchaseOrderNumber(newPurchaseOrderDTO.getPurchaseOrderNumber())
                 .buyer(buyer)
                 .purchaseOrderDate(LocalDate.now())
                 .purchaseOrderItemsList(newPurchaseOrderDTO.getPurchaseOrderItemsList())

@@ -332,6 +332,95 @@
 			]
 		},
 		{
+			"name": "PurchaseOrder",
+			"item": [
+				{
+					"name": "list items in purchaseOrder",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{$server}}/api/v1/fresh-products/purchaseOrder?orderNumber=3",
+							"host": [
+								"{{$server}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"fresh-products",
+								"purchaseOrder"
+							],
+							"query": [
+								{
+									"key": "orderNumber",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create new purchaseOrder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"buyerDTO\": {\n        \"buyerId\" : 1\n    },\n    \"purchaseOrderItemsList\" : [\n        {\n            \"productId\": 1,\n            \"quantity\": 5\n        },\n        {\n            \"productId\": 1,\n            \"quantity\": 5\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{$server}}/api/v1/fresh-products/purchaseOrder",
+							"host": [
+								"{{$server}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"fresh-products",
+								"purchaseOrder"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update purchaseOrder status",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"purchaseOrderNumber\": 1,\n    \"buyerDTO\": {\n        \"buyerId\" : 1\n    },\n    \"purchaseOrderItemsList\": [\n        {\n            \"productId\": 1,\n            \"quantity\": 5,\n            \"purchaseOrderItemsId\": 1\n        },\n        {\n            \"productId\": 1,\n            \"quantity\": 5,\n            \"purchaseOrderItemsId\": 2\n        }\n    ],\n    \"statusOrder\": \"CLOSED\",\n    \"purchaseOrderDate\": \"2022-05-05\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{$server}}/api/v1/fresh-products/purchaseOrder",
+							"host": [
+								"{{$server}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"fresh-products",
+								"purchaseOrder"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Section",
 			"item": [
 				{
