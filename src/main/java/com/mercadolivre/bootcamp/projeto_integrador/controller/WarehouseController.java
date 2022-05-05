@@ -1,6 +1,5 @@
 package com.mercadolivre.bootcamp.projeto_integrador.controller;
 
-
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Warehouse;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.IdNotFoundException;
 import com.mercadolivre.bootcamp.projeto_integrador.service.WarehouseService;
@@ -9,14 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 @AllArgsConstructor
 @RestController
 @RequestMapping("api/v1/fresh-products/warehouse")
 public class WarehouseController {
     private final WarehouseService warehouseService;
-
-
 
     @PostMapping()
     public ResponseEntity createWarehouse(@RequestBody String name) {
@@ -33,7 +29,6 @@ public class WarehouseController {
         }catch(IdNotFoundException ex){
             return new ResponseEntity(ex.getMessage(),HttpStatus.NOT_FOUND);
         }
-
     }
 
     @GetMapping()

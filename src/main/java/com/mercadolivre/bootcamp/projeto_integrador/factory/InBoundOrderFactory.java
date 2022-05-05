@@ -1,5 +1,6 @@
 package com.mercadolivre.bootcamp.projeto_integrador.factory;
 
+import com.mercadolivre.bootcamp.projeto_integrador.dto.history_batch_stock.InBoundOrderHistoryBatchStockDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.InboundOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.*;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.RequestInBoundOrderDTO;
@@ -11,6 +12,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @Component
 @AllArgsConstructor
@@ -22,6 +25,8 @@ public class InBoundOrderFactory {
     private final BatchStockService batchStockService;
     private final ProductService productService;
 
+    private final HistoryBatchStockService historyBatchStockService;
+
     /**
      *
      * @param requestInBoundOrderDTO RequestBody received at controller level
@@ -32,8 +37,19 @@ public class InBoundOrderFactory {
 
         this.validateInboundOrder(requestInBoundOrderDTO);
         this.validateBatchStock(inboundOrderDTO.getBatchStock(), inboundOrderDTO.getSection().getSectionId());
-
         return inBoundOrderService.addInBoundOrder(inboundOrderDTO);
+    }
+
+    public void addHistoryBatchStock(InBoundOrder inBoundOrder, HistoryType historyType){
+        InBoundOrderHistoryBatchStockDTO dto = InBoundOrderHistoryBatchStockDTO.builder()
+                .inBoundOrderId(inBoundOrder.getInBoundOrderNumber())
+                .batchStock(inBoundOrder.getBatchStock())
+                .historyType(historyType)
+                .productId(inBoundOrder.getBatchStock().getProduct().getId())
+                .inBoundOrderDate(inBoundOrder.getInBoundOrderDate())
+                .initialQuantity(inBoundOrder.getBatchStock().getInitialQuantity())
+                .build();
+        historyBatchStockService.createNewHistory(dto.map());
     }
 
     /**

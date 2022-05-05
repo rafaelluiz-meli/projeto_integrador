@@ -1,17 +1,21 @@
 package com.mercadolivre.bootcamp.projeto_integrador.factory;
 
+import com.mercadolivre.bootcamp.projeto_integrador.dto.history_batch_stock.InBoundOrderHistoryBatchStockDTO;
+import com.mercadolivre.bootcamp.projeto_integrador.dto.history_batch_stock.PurchaseOrderHistoryBatchStockDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order.NewPurchaseOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order.PurchaseOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.*;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockService;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BuyerService;
+import com.mercadolivre.bootcamp.projeto_integrador.service.HistoryBatchStockService;
 import com.mercadolivre.bootcamp.projeto_integrador.service.PurchaseOrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +23,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PurchaseOrderFactory {
 
-
+    private final HistoryBatchStockService historyBatchStockService;
     private final BuyerService buyerService;
 
     private final BatchStockService batchStockService;
@@ -38,6 +42,20 @@ public class PurchaseOrderFactory {
         return createdPurchaseOrderDTO;
     }
 
+    private void addHistoryBatchStock(PurchaseOrder purchaseOrder, HistoryType historyType){
+        List<PurchaseOrderItems> list = purchaseOrder.getPurchaseOrderItemsList();
+
+        list.stream().map(x->{
+            PurchaseOrderHistoryBatchStockDTO dto = PurchaseOrderHistoryBatchStockDTO.builder()
+                    .purchaseOrderId(purchaseOrder.getPurchaseOrderNumber())
+
+                    .historyType(historyType)
+                    .purchaseOrderDate(purchaseOrder.getPurchaseOrderDate().atTime(LocalTime.now()))
+                    .build();
+            return historyBatchStockService.createNewHistory(dto.map());
+        });
+    }
+
     public PurchaseOrderDTO updatePurchaseOrder(NewPurchaseOrderDTO newPurchaseOrderDTO){
         // Update batchStock when finishing a purchaseOrder (setting status to closed)
         this.updateBatchStockQuantity(newPurchaseOrderDTO);
@@ -46,7 +64,7 @@ public class PurchaseOrderFactory {
         newPurchaseOrderDTO.setStatusOrder(StatusOrder.CLOSED);
         PurchaseOrder updatedPurchaseOrder = this.convertToPurchaseOrder(newPurchaseOrderDTO);
         updatedPurchaseOrder = purchaseOrderService.update(updatedPurchaseOrder);
-
+        addHistoryBatchStock(updatedPurchaseOrder, HistoryType.EXIT);
         return PurchaseOrderDTO.map(updatedPurchaseOrder);
     }
 
@@ -68,6 +86,7 @@ public class PurchaseOrderFactory {
 
         }).collect(Collectors.toList());
         updatedBatchStockList.forEach(batchStockService::update);
+
     }
 
     public List<PurchaseOrderItems> getPurchaseOrderItems(Long orderNumber) {
