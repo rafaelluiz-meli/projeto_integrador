@@ -14,13 +14,20 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This class is the service implementation of Product entity.
+ */
 @Service
 @AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
-    // METHOD TO CREATE PRODUCT
+    /**
+     * Create a new Product.
+     * @param newProductDto
+     * @return the created Product.
+     */
     @Override
     public Product create(NewProductDTO newProductDto) {
 
@@ -38,8 +45,13 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(product);
     }
 
-    // Method to update product
-
+    /**
+     * Check if Product id exists with productRepository.findById method. <br>
+     * If exists then update InBoundOrder attributes.
+     * @param receivedProduct
+     * @return a updated Product.
+     * @exception InvalidProductException if id is not valid.
+     */
     @Override
     public Product update(Product receivedProduct) {
 
@@ -55,24 +67,47 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    // METHOD TO DELETE PRODUCT
+    /**
+     * Check if Product id exists with {@link #findByProductId(Long) findById} method. <br>
+     * If exists then remove the Product.
+     * @param id
+     * @return void.
+     *
+     */
     @Override
     public void delete(Long id) {
         Product product = findByProductId(id);
         productRepository.delete(product);
     }
 
+    /**
+     * Find a Product by Id.
+     * @param id
+     * @return a Product.
+     * @exception IdNotFoundException if id doesn't found.
+     */
     @Override
     public Product findByProductId(Long id) {
         return productRepository.findById(id).orElseThrow(() -> new IdNotFoundException(id));
     }
 
-    // METHODS TO FIND PRODUCT OR LIST OF PRODUCTS
+    /**
+     * Find a Product by name.
+     * @param productName
+     * @return a Product.
+     * @exception InvalidProductException if product name doesn't found.
+     */
     @Override
     public Product findByProductName(String productName) {
         return productRepository.findByProductName(productName).orElseThrow(() -> new InvalidProductException(productName));
     }
 
+    /**
+     * Get a ProductList by name.
+     * @param productName
+     * @return a Product List.
+     * @exception InvalidProductException if list is empty.
+     */
     @Override
     public List<Product> findAllByProductName(String productName) {
         List<Product> productList = productRepository.findAllByProductName(productName);
@@ -81,6 +116,12 @@ public class ProductServiceImpl implements ProductService {
         return productList;
     }
 
+    /**
+     * Get a ProductList by Category.
+     * @param category
+     * @return a Product List.
+     * @exception InvalidProductException if list is empty.
+     */
     @Override
     public List<Product> findAllByCategory(Category category) {
         List<Product> productList = productRepository.findAllByCategory(category);
@@ -88,6 +129,12 @@ public class ProductServiceImpl implements ProductService {
         return productList;
     }
 
+    /**
+     * FGet a ProductList by SlesmanId.
+     * @param salesmanId
+     * @return a Product List.
+     * @exception InvalidProductException if list is empty.
+     */
     @Override
     public List<Product> findAllBySalesmanId(Long salesmanId) {
         List<Product> productList = productRepository.findAllBySalesman_Id(salesmanId);
@@ -95,6 +142,11 @@ public class ProductServiceImpl implements ProductService {
         return productList;
     }
 
+    /**
+     * Get all products from database.
+     * @return a Product List.
+     * @exception EmptyListException if list is empty.
+     */
     @Override
     public List<Product> findAll() {
         List<Product> productList = productRepository.findAll();
@@ -102,6 +154,11 @@ public class ProductServiceImpl implements ProductService {
         return productList;
     }
 
+    /**
+     * Check if product exists by productId.
+     * @param productID
+     * @return a boolean.
+     */
     @Override
     public Boolean isProductValid(Long productID) {
         Optional<Product> isIdValid = productRepository.findById(productID);

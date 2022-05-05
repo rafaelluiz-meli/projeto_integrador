@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Service
 @AllArgsConstructor
 public class RepresentativeServiceImpl implements RepresentativeService {
@@ -52,8 +53,6 @@ public class RepresentativeServiceImpl implements RepresentativeService {
     public boolean isRepresentativeAssociatedWithSection(Long representativeId, Long sectionId) {
         Representative representative = getRepresentativeById(representativeId);
         if(!representative.getSectionId().equals(sectionId)) throw new RepresentativeNotAssociatedWithSectionException(representativeId, sectionId);
-
-
-        return true;
+            return true;
     }
 }
