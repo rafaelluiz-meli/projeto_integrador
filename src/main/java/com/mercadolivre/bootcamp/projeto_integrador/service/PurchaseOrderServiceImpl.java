@@ -35,19 +35,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
     @Override
     public PurchaseOrder update(PurchaseOrder purchaseOrder) {
         PurchaseOrder updatedPurchaseOrder = findById(purchaseOrder.getPurchaseOrderNumber());
-        if(purchaseOrder.getPurchaseOrderNumber() != null){
             updatedPurchaseOrder.setPurchaseOrderDate(purchaseOrder.getPurchaseOrderDate());
-        }
-        if(purchaseOrder.getStatusOrder() != null) {
             updatedPurchaseOrder.setStatusOrder(purchaseOrder.getStatusOrder());
-        }
-        if(purchaseOrder.getBuyer().getBuyerId() != null) {
             updatedPurchaseOrder.setBuyer(purchaseOrder.getBuyer());
-        }
-        if(purchaseOrder.getPurchaseOrderItemsList() != null) {
             updatedPurchaseOrder.setPurchaseOrderItemsList(purchaseOrder.getPurchaseOrderItemsList());
-        }
-
         return repository.save(updatedPurchaseOrder);
     }
 
