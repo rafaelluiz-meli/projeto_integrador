@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,10 +52,11 @@ public class PurchaseOrderFactory {
                     .productId(product.getProductId())
                     .purchaseQuantity(product.getQuantity())
                     .historyType(HistoryType.EXIT)
-                    .purchaseOrderDate(purchaseOrder.getPurchaseOrderDate().atTime(LocalTime.now()))
+                    .purchaseOrderDate(LocalDateTime.now())
                     .build();
             return dto.map();
         }).collect(Collectors.toList());
+        System.out.println(dtoList);
         dtoList.forEach(historyBatchStockService::createNewHistory);
     }
 
@@ -84,7 +86,7 @@ public class PurchaseOrderFactory {
                     .orElseThrow(EmptyListException::new);
 
             batchStock.setCurrentQuantity(currentQuantity - purchaseOrder.getQuantity());
-            //addHistoryBatchStock(newPurchaseOrderDTO.map(), batchStock);
+            addHistoryBatchStock(newPurchaseOrderDTO.map(), batchStock);
         }).collect(Collectors.toList());
         updatedBatchStockList.forEach(batchStockService::update);
 

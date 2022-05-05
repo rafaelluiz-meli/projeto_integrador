@@ -5,6 +5,8 @@ import com.mercadolivre.bootcamp.projeto_integrador.repository.HistoryBatchStock
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class HistoryBatchStockServiceImpl implements HistoryBatchStockService{
@@ -14,5 +16,10 @@ public class HistoryBatchStockServiceImpl implements HistoryBatchStockService{
     @Override
     public HistoryBatchStock createNewHistory(HistoryBatchStock historyBatchStock) {
         return repository.save(historyBatchStock);
+    }
+
+    @Override
+    public List<HistoryBatchStock> listAllHistoryByBatchStock(Long id) {
+        return repository.findAllHistoryByBatchStockId(id);
     }
 }
