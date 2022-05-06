@@ -9,15 +9,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+/**
+ * This classe represents the Warehouse controller
+ */
 @AllArgsConstructor
 @RestController
 @RequestMapping("api/v1/fresh-products/warehouse")
 public class WarehouseController {
     private final WarehouseService warehouseService;
 
-
-
+    /**
+     *
+     * @param name Name to create a new Warehouse
+     * @return 200 OK
+     */
     @PostMapping()
     public ResponseEntity createWarehouse(@RequestBody String name) {
         Warehouse wh = new Warehouse(name);
@@ -25,6 +30,11 @@ public class WarehouseController {
         return new ResponseEntity(finalWh, HttpStatus.CREATED);
     }
 
+    /**
+     *
+     * @param warehouseId Id of warehouse to be removed.
+     * @return 200 OK or 404 NOT FOUND
+     */
     @DeleteMapping("/{warehouseId}")
     public ResponseEntity deleteWarehouse(@PathVariable Long warehouseId) {
         try{
@@ -36,6 +46,11 @@ public class WarehouseController {
 
     }
 
+    /**
+     *
+     * @param warehouseId Id of the Warehouse to get a Warehouse of the database.
+     * @return 200 OK
+     */
     @GetMapping()
     public ResponseEntity getWarehouse(@RequestParam Long warehouseId) {
         Warehouse wh = warehouseService.findById(warehouseId);
