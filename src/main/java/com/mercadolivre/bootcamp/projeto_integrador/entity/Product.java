@@ -1,14 +1,31 @@
 package com.mercadolivre.bootcamp.projeto_integrador.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
+    private String productName;
+    private BigDecimal volume;
+    private Float minimumTemperature;
+    private Float maxTemperature;
+    @Enumerated(EnumType.STRING)
+    private Category category;
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @JoinColumn(name = "salesman_id")
+    private Salesman salesman;
+
 }
