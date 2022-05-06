@@ -12,12 +12,20 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+/**
+ * This class represents the Section controller
+ */
 @AllArgsConstructor
 @RestController
 @RequestMapping("api/v1/fresh-products")
 public class SectionController {
     private final SectionService sectionService;
 
+    /**
+     *
+     * @param sectionId Id of the section to found the section in database.
+     * @return 200 OK
+     */
     @GetMapping("/section")
     public ResponseEntity<NewSectionDTO> getSectionById(@RequestParam Long sectionId){
         Section sectionExistente = sectionService.getSectionById(sectionId);
@@ -25,12 +33,23 @@ public class SectionController {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     *
+     * @param warehouseId warehouse id to found all sections in this warehouse
+     * @return 200 OK
+     */
     @GetMapping("/section/warehouse")
     public ResponseEntity<List<Section>> getSectionsByWarehouseById(@RequestParam Long warehouseId){
         List<Section> allSectionsByWarehouseId = sectionService.getAllSectionByWarehouseId(warehouseId);
         return ResponseEntity.ok(allSectionsByWarehouseId);
     }
 
+    /**
+     *
+     * @param newSectionDTO Dto in request body to create a new section
+     * @param uriComponentsBuilder uri to insert in response entity
+     * @return 201 CREATED or 400 BAD REQUEST
+     */
     @PostMapping("/section")
     public ResponseEntity<NewSectionDTO> creatingSection(@RequestBody NewSectionDTO newSectionDTO, UriComponentsBuilder uriComponentsBuilder){
         Section section = NewSectionDTO.convert(newSectionDTO);
@@ -47,6 +66,11 @@ public class SectionController {
         return ResponseEntity.badRequest().build();
     }
 
+    /**
+     *
+     * @param sectionId Id of the section to remove from database.
+     * @return 200 OK or 400 BAD REQUEST
+     */
     @DeleteMapping("/section/{sectionId}")
     public ResponseEntity deleteSection (@PathVariable Long sectionId) {
         try{
@@ -57,6 +81,11 @@ public class SectionController {
         }
     }
 
+    /**
+     *
+     * @param section Section object to be updated.
+     * @return 200 OK
+     */
     @PutMapping("/section")
     public ResponseEntity<Section> putSection (@RequestBody Section section){
         Section updatedSection = sectionService.updateSection(section);

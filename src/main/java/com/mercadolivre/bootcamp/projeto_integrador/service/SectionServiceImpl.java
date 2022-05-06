@@ -20,6 +20,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This class is the service implementation of section entity.
+ */
 @Service
 @AllArgsConstructor
 public class SectionServiceImpl implements SectionService {
@@ -27,11 +30,23 @@ public class SectionServiceImpl implements SectionService {
     private final SectionRepository sectionRepository;
     private final WarehouseRepository warehouseRepository;
 
+
+    /**
+     * Is persistence in database by repository
+     * @param section
+     * @return a section object
+     */
     @Override
     public Section addSection(Section section) {
         return sectionRepository.save(section);
     }
 
+
+    /**
+     * Get from database all sections.
+     * @return a section list.
+     * @exception EmptyListException if section list is empty.
+     */
     @Override
     public List<Section> getAllSection() {
         List<Section> sectionList = sectionRepository.findAll();
@@ -39,6 +54,11 @@ public class SectionServiceImpl implements SectionService {
         return sectionList;
     }
 
+    /**
+     * Verify that warehouse is valid.
+     * @return true if warehouse exists or false if not exists.
+     * @exception IdNotFoundException if warehouse id is not exists.
+     */
     public boolean isWarehouseValid(Long warehouseId) {
         Optional<Warehouse> warehouse = warehouseRepository.findById(warehouseId);
         if (warehouse.isPresent()){
@@ -47,6 +67,12 @@ public class SectionServiceImpl implements SectionService {
         throw new IdNotFoundException(warehouseId);
     }
 
+    /**
+     * Get section list filtered by warehouse id
+     * @param warehouseId
+     * @return section list
+     * @exception IdNotFoundException if warehouse id is not exists.
+     */
     @Override
     public List<Section> getAllSectionByWarehouseId(Long warehouseId) {
         if (isWarehouseValid(warehouseId)){
@@ -56,12 +82,25 @@ public class SectionServiceImpl implements SectionService {
         }
     }
 
+    /**
+     * Get section list filtered by sectionId
+     * @param sectionId
+     * @return
+     * @exception IdNotFoundException if section id is not exists.
+     */
     @Override
     public Section getSectionById(Long sectionId) {
         return sectionRepository.findById(sectionId).orElseThrow(() ->
                 new IdNotFoundException(sectionId));
     }
 
+     /**
+     * Check if section id exists with {@link #getSectionById(Long)}  getSectionById} method. <br>
+     * If exists then remove the section.
+     * @param sectionId
+     * @return void.
+     * @exception IdNotFoundException if section id not found.
+     */
     @Override
     public void deleteSection(Long sectionId) {
         try {
@@ -71,6 +110,13 @@ public class SectionServiceImpl implements SectionService {
         }
     }
 
+    /**
+     * Check if section id exists with {@link #getSectionById(Long)}  getSectionId} method. <br>
+     * If exists then update section attributes.
+     * @param section
+     * @return a updated section
+     *
+     */
     @Override
     public Section updateSection(Section section) {
         Section getSectionId = getSectionById(section.getSectionId());
@@ -83,12 +129,24 @@ public class SectionServiceImpl implements SectionService {
         return sectionRepository.save(getSectionId);
     }
 
+    /**
+     * Verify that section is valid.
+     * @return true if section exists or false if not exists.
+     * @exception IdNotFoundException if section id is not exists.
+     */
     @Override
     public boolean isSectionValid(Long sectionID) throws IdNotFoundException {
         sectionRepository.findById(sectionID).orElseThrow(() -> new IdNotFoundException(sectionID));
         return true;
     }
 
+    /**
+     * Verify if exist available capacity in section
+     * @param totalVolume
+     * @param sectionId
+     * @return true if exist capacity or false if not exist.
+     * @exception  SectionDoesNotHaveEnoughCapacityException if section not have capacity.
+     */
     @Override
     public boolean availableSectionCapacity(BigDecimal totalVolume, Long sectionId) throws SectionDoesNotHaveEnoughCapacityException {
         Section getSection = getSectionById(sectionId);
@@ -96,6 +154,16 @@ public class SectionServiceImpl implements SectionService {
         return true;
     }
 
+
+    /**
+     *
+     * Verify if section corresponds product type.
+     * @param sectionId
+     * @param category
+     * @return true if section corresponds product type.
+     * @exception  IdNotFoundException if section id not exists.
+     * @exception SectionNotAppropriateForProductException if section not corresponds product type.
+     */
     @Override
     public boolean sectionCorrespondsProductType(Long sectionId, Category category) throws IdNotFoundException {
         Section getSection = sectionRepository.findById(sectionId).orElseThrow(
