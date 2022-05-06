@@ -35,7 +35,7 @@ public class BatchStockServiceImpl implements BatchStockService {
 
     /**
      * Is persistence in database by repository
-     * @param batchStock
+     * @param batchStock Batchstock object
      * @return a BatchStock object
      */
     @Override
@@ -57,7 +57,7 @@ public class BatchStockServiceImpl implements BatchStockService {
 
     /**
      * Find a Batchstock by Id.
-     * @param id
+     * @param id Batchstock id
      * @return a Batchstock.
      * @exception IdNotFoundException if id doesn't found.
      */
@@ -69,7 +69,7 @@ public class BatchStockServiceImpl implements BatchStockService {
     /**
      * Check if Batchstock id exists with {@link #findById(Long) findById} method. <br>
      * If exists then update Batchstock attributes.
-     * @param batchStock
+     * @param batchStock Batchstock object.
      * @return a updated Batchstock
      *
      */
@@ -87,7 +87,7 @@ public class BatchStockServiceImpl implements BatchStockService {
 
     /**
      * Find all Batchstocks by product id.
-     * @param id
+     * @param id Product id
      * @return a Batchstock list.
      * @exception InvalidProductException if product id is invalid.
      */
@@ -101,7 +101,7 @@ public class BatchStockServiceImpl implements BatchStockService {
     /**
      * Check if Batchstock id exists with {@link #findById(Long) findById} method. <br>
      * If exists then remove the Batchstock.
-     * @param id
+     * @param id Batchstock id
      * @return void.
      *
      */
@@ -114,7 +114,7 @@ public class BatchStockServiceImpl implements BatchStockService {
     /**
      * Calculate total volume from a Batchsotck. <br>
      * Multiply currentQuantity per volumePerProduct to calculate batch total volume
-     * @param batchStock
+     * @param batchStock  Batchstock object
      * @return a Bigdecimal value that represents the total volume calculated.
      */
     @Override
@@ -130,8 +130,8 @@ public class BatchStockServiceImpl implements BatchStockService {
      * C - current quantity <br>
      * L - batchstock number <br>
      * The 'L' way is default
-     * @param orderBy
-     * @param beforeOrderingList
+     * @param orderBy Sorter String
+     * @param beforeOrderingList Batchstock list not sorted
      * @return the ordinated list
      */
     @Override
@@ -150,7 +150,7 @@ public class BatchStockServiceImpl implements BatchStockService {
 
     /**
      * Find the Warehouses that have the product id and sum the total quantity of products. <br>
-     * @param productId
+     * @param productId Product id
      * @return a list of Warehouses
      */
     @Override
@@ -162,8 +162,8 @@ public class BatchStockServiceImpl implements BatchStockService {
     /**
      * ARRUMAR
      * Get a Batchstock list filtered by sectionId and due date  daysFromToday
-     * @param daysFromToday
-     * @param sectionId
+     * @param daysFromToday Quantity of days to sum
+     * @param sectionId Id of the section
      * @return a Batchstock list
      */
     @Override
@@ -176,8 +176,8 @@ public class BatchStockServiceImpl implements BatchStockService {
 
     /**
      * Get a Batchstock list filtered by due date and product category. <br>
-     * @param daysFromToday
-     * @param category
+     * @param daysFromToday Quantity of days to sum
+     * @param category Category object
      * @return a Batchstock list.
      */
     @Override
@@ -191,7 +191,7 @@ public class BatchStockServiceImpl implements BatchStockService {
     /**
      * Get a Section list filtered by product id. <br>
      * If some duplications are found, this method remove them. <br>
-     * @param productId
+     * @param productId Product id
      * @return a Section list.
      */
     @Override
@@ -204,8 +204,8 @@ public class BatchStockServiceImpl implements BatchStockService {
 
     /**
      * Get a Batchstock list filtered by product id and section id. <br>
-     * @param productId
-     * @param sectionId
+     * @param productId Product id
+     * @param sectionId Section id
      * @return a batchstock list.
      */
     @Override
@@ -215,9 +215,9 @@ public class BatchStockServiceImpl implements BatchStockService {
 
     /**
      * Check if there are available stock.
-     * @param productId
-     * @param requestedQuantity
-     * @param filteredProductList
+     * @param productId Product id
+     * @param requestedQuantity int Requested quantity
+     * @param filteredProductList Batchstock list filtered
      * @return true if the quantity is enough or false if does not.
      */
     @Override
@@ -230,7 +230,7 @@ public class BatchStockServiceImpl implements BatchStockService {
     /**
      * Receive a purchaseOrderItem and get a Batchstock of the
      * product that has requested quantity and due date is longer then 21 days.
-     * @param purchaseOrderItems
+     * @param purchaseOrderItems PurchaseOrderitems object
      * @return a unique Batchstock
      * @exception  EmptyListException if no Batchstock is found.
      */
@@ -249,8 +249,8 @@ public class BatchStockServiceImpl implements BatchStockService {
 
     /**
      * Get a Batchstock list filtered by due date that's longer then 21 days and requested quantity
-     * @param productId
-     * @param requestedQuantity
+     * @param productId Product id
+     * @param requestedQuantity Requested quantity
      * @return a Batchstock list
      * @exception  EmptyListException if no Batchstock is found.
      */
@@ -265,7 +265,7 @@ public class BatchStockServiceImpl implements BatchStockService {
 
     /**
      * Sorts the BatchStockList by dueDate
-     * @param batchStockList
+     * @param batchStockList List of Batchstocks
      * @return the sorted Batchstock list
      * @exception EmptyListException if the BatchstockList is empty
      */

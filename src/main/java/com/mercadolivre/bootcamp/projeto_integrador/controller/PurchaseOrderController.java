@@ -26,7 +26,7 @@ public class PurchaseOrderController {
     /**
      *
      * @param newPurchaseOrderDTO Dto received in request body to create a new PurchaseOrder
-     * @return
+     * @return 201 CREATED
      */
     @PostMapping
     public ResponseEntity<PurchaseOrderDTO> createNewPurchaseOrder(@RequestBody NewPurchaseOrderDTO newPurchaseOrderDTO){
