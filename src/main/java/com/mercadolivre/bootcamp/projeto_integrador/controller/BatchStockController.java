@@ -109,10 +109,9 @@ public class BatchStockController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @GetMapping("/batchstock/warehouse/ware")
-    public ResponseEntity<ResponseWarehouseNewDTO> getProductInAllWarehouseQuantity(@RequestParam Long productId) {
-        ResponseWarehouseNewDTO result = ResponseWarehouseNewDTO.convert(productId, batchStockService.groupByWarehouseNew(productId));
-
+    @GetMapping("/batchstock/warehouse/missingProducts")
+    public ResponseEntity<ResponseWarehouseNewDTO> getMissingProductInAllWarehouse(@RequestParam Long productId) {
+        ResponseWarehouseNewDTO result = ResponseWarehouseNewDTO.convert(productId, batchStockService.groupByWarehouseMissingProduct(productId));
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

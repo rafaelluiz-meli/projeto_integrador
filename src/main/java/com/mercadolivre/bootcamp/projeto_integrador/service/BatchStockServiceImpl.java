@@ -105,8 +105,16 @@ public class BatchStockServiceImpl implements BatchStockService {
     }
 
     @Override
-    public List<WarehouseNewDTO> groupByWarehouseNew(Long productId) {
-        return batchStockRepository.findProductQuantityInAllWarehouse(productId);
+    public List<WarehouseNewDTO> groupByWarehouseMissingProduct(Long productId) {
+        List<WarehouseNewDTO> lista = batchStockRepository.findProductQuantityInAllWarehouse(productId);
+        Long initialQuant = 0L;
+        Double currentQuant = 0D;
+        for (int i = 0; i < lista.size(); i++){
+            initialQuant = lista.get(i).getTotalInitialQuantity();
+            currentQuant = Double.valueOf(lista.get(i).getTotalQuantity());
+            lista.get(i).setPercent((long) ((currentQuant/initialQuant)*100));
+        }
+        return lista.stream().filter(i -> i.getPercent() <= 30).collect(Collectors.toList());
     }
 
 

@@ -1,5 +1,6 @@
 package com.mercadolivre.bootcamp.projeto_integrador.service;
 
+import com.mercadolivre.bootcamp.projeto_integrador.dto.warehouse.WarehouseNewDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.BatchStock;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Category;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Section;
@@ -20,11 +21,10 @@ public interface BatchStockService {
     void remove(Long id);
     BigDecimal calculateTotalVolume(BatchStock batchStock);
     List<BatchStock> orderBatchStockList(String orderBy, List<BatchStock> beforeOrderingList);
-    // ESSA AQUI
     List groupByWarehouse(Long productId);
-    List groupByWarehouseNew(Long productId);
     List<BatchStock> isProductWithValidatedDueDateAndQuantity(Long productId, Integer requestedQuantity);
     List<BatchStock> orderBatchStockList(List<BatchStock> unorderedList);
+    List<WarehouseNewDTO> groupByWarehouseMissingProduct(Long productId);
     List<BatchStock> findAllBySectionIdAndDueDate(int daysFromToday, long sectionId);
     List<BatchStock> findAllByDueDateAndProductCategory(int daysFromToday, Category fresh);
     List<Section> findSectionListByProductId(Long productId);

@@ -28,7 +28,8 @@ public interface BatchStockRepository extends JpaRepository<BatchStock, Long> {
             "group by w.warehouseId")
     List<WarehouseDTO> findProductInAllWarehouse(Long productId);
 
-    @Query("select new com.mercadolivre.bootcamp.projeto_integrador.dto.warehouse.WarehouseNewDTO(w.warehouseId, sum(bs.initialQuantity), sum(bs.currentQuantity))\n" +
+    @Query("select new com.mercadolivre.bootcamp.projeto_integrador.dto.warehouse.WarehouseNewDTO(w.warehouseId, sum(bs.initialQuantity), " +
+            "sum(bs.currentQuantity), sum(bs.initialQuantity) )\n" +
             "from Warehouse w\n" +
             "inner join Section s on w.warehouseId = s.warehouseId\n" +
             "inner join BatchStock bs on s.sectionId = bs.section.sectionId\n" +
