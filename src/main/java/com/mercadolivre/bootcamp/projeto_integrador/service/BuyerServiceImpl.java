@@ -16,11 +16,7 @@ public class BuyerServiceImpl implements BuyerService{
     private final BuyerRepository buyerRepository;
 
     @Override
-    public Buyer addBuyer(NewBuyerDTO newBuyerDTO) {
-        Buyer buyer = Buyer.builder()
-                .fullName(newBuyerDTO.getFullName())
-                .build();
-
+    public Buyer addBuyer(Buyer buyer) {
         return buyerRepository.save(buyer);
     }
 
