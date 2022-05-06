@@ -3,6 +3,7 @@ package com.mercadolivre.bootcamp.projeto_integrador.unit;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.Warehouse;
 import com.mercadolivre.bootcamp.projeto_integrador.repository.WarehouseRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.WarehouseServiceImpl;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 
+@Tag("unit")
 @ExtendWith(MockitoExtension.class)
 public class WarehouseServiceTest {
     @Mock

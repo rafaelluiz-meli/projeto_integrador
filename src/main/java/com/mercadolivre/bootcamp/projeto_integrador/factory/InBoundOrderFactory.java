@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
+/**
+ *  This class represents a Inbound order factory
+ */
 @Component
 @AllArgsConstructor
 public class InBoundOrderFactory {
@@ -38,6 +41,7 @@ public class InBoundOrderFactory {
 
     /**
      *
+     * @param id Inbound order id
      * @param requestInBoundOrderDTO RequestBody received at controller level
      * @return The entity updated @ database level
      */
@@ -68,6 +72,7 @@ public class InBoundOrderFactory {
         batchStock.setProduct(productService.findByProductId(requestInBoundOrderDTO.getBatchStock().getProductId()));
 
         Section section = sectionService.getSectionById(requestInBoundOrderDTO.getSection().getSectionId());
+        batchStock.setSection(section);
 
         return InboundOrderDTO.builder()
                 .section(section)
@@ -98,11 +103,13 @@ public class InBoundOrderFactory {
                 .build();
     }
 
+    /**
+     *
+     * @param requestInBoundOrderDTO Inbound Order to be validated
+     * Validate sectiond ID, warehouseId and representativeId in the respectives services.
+     * If some of them are not valid, the inbound order is invalidate and the method returns false.
+     */
     private void validateInboundOrder(RequestInBoundOrderDTO requestInBoundOrderDTO) {
-        /* Faz validação de sectionId, warehouseId e representativeId em seus respectivos
-           services. Caso um deles não seja valido, a inboundOrder é inválida e o método retorna false.
-         */
-
         Long sectionId = requestInBoundOrderDTO.getSection().getSectionId();
         Long warehouseId = requestInBoundOrderDTO.getSection().getWarehouseId();
         Long representativeId = requestInBoundOrderDTO.getRepresentativeId();
@@ -112,6 +119,11 @@ public class InBoundOrderFactory {
         representativeService.isRepresentativeAssociatedWithSection(representativeId, sectionId);
     }
 
+    /**
+     *
+     * @param batchStock
+     * @param sectionId
+     */
     private void validateBatchStock(BatchStock batchStock, Long sectionId) {
         Category productCategory = batchStock.getProduct().getCategory();
         BigDecimal totalVolume = batchStockService.calculateTotalVolume(batchStock);

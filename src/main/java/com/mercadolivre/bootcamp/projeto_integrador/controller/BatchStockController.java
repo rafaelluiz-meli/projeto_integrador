@@ -16,13 +16,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This class represents Batchstock controller
+ */
 @RestController
 @RequestMapping("/api/v1/fresh-products")
 @AllArgsConstructor
 public class BatchStockController {
 
     private final BatchStockService batchStockService;
-    // START DUE-DATE ENDPOINTS
 
     /**
      * @param numberOfDays Number of days until product is due
@@ -47,8 +49,12 @@ public class BatchStockController {
         List<ResponseBatchStockDTO> responseBatchStockDTOList = ResponseBatchStockDTO.map(batchStockList);
         return ResponseEntity.ok().body(responseBatchStockDTOList);
     }
-    // END DUE-DATE ENDPOINTS
 
+    /**
+     *
+     * @param batchStockDTO Dto received in request body to create a new Batchstock
+     * @return 201 CREATED
+     */
     @PostMapping("/batchstock")
     public ResponseEntity<NewBatchStockDTO> newBatchStock(@RequestBody NewBatchStockDTO batchStockDTO){
         BatchStock createdBatchStock = batchStockService.create(batchStockDTO.map());
@@ -56,6 +62,11 @@ public class BatchStockController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseCreatedBatchStock);
     }
 
+    /**
+     *
+     * @param updateBatchStockDTO Dto received in request body to update a Batchstock
+     * @return 200 OK
+     */
     @PutMapping("/batchstock")
     public ResponseEntity<UpdateBatchStockDTO> updateBatchStock(@RequestBody UpdateBatchStockDTO updateBatchStockDTO){
         BatchStock batchStock = updateBatchStockDTO.map();
@@ -63,6 +74,10 @@ public class BatchStockController {
         return ResponseEntity.ok(UpdateBatchStockDTO.map(updatedBatchStock));
     }
 
+    /**
+     *
+     * @return 200 OK
+     */
     @GetMapping("/batchstock/list")
     public ResponseEntity<List<NewBatchStockDTO>> listAllBatchStocks(){
         List<BatchStock> batchStockList = batchStockService.findAll();
@@ -70,6 +85,12 @@ public class BatchStockController {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     *
+     * @param productId Product Id to search
+     * @param orderBy value to sort the BatchStockWithSectionDTO list
+     * @return 200 OK
+     */
     @GetMapping("/list")
     public ResponseEntity<List<BatchStockWithSectionDTO>> getAllBatchStockByProductId(@RequestParam Long productId,
                                                                               @RequestParam(required = false,
@@ -102,6 +123,11 @@ public class BatchStockController {
         return ResponseEntity.ok().body(batchStockWithSectionDTOS);
     }
 
+    /**
+     *
+     * @param productId Id of the product to group by Warehouse
+     * @return 200 OK
+     */
     @GetMapping("/batchstock/warehouse")
     public ResponseEntity<ResponseWarehouseDTO> getProductInAllWarehouse(@RequestParam Long productId) {
         ResponseWarehouseDTO result = ResponseWarehouseDTO.convert(productId, batchStockService.groupByWarehouse(productId));
@@ -109,11 +135,19 @@ public class BatchStockController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+
     @GetMapping("/batchstock/warehouse/missingProducts")
     public ResponseEntity<ResponseWarehouseNewDTO> getMissingProductInAllWarehouse(@RequestParam Long productId) {
         ResponseWarehouseNewDTO result = ResponseWarehouseNewDTO.convert(productId, batchStockService.groupByWarehouseMissingProduct(productId));
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
+
+    /**
+     *
+     * @param id Id of Batchstock to be fund.
+     * @return 200 OK
+     */
 
     @GetMapping("{batchNumber}")
     public ResponseEntity<NewBatchStockDTO> getBatchStockById(@RequestParam(value = "batchNumber") Long id){
@@ -122,6 +156,11 @@ public class BatchStockController {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     *
+     * @param id Id of Batchstock to be removed.
+     * @return 200 OK
+     */
     @DeleteMapping("/{batchStockNumber}")
     public ResponseEntity<Long> deleteBatchStock(@PathVariable(value = "batchStockNumber") Long id){
         batchStockService.remove(id);

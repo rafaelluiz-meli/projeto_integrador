@@ -10,6 +10,7 @@ import com.mercadolivre.bootcamp.projeto_integrador.exception.product.InvalidPro
 import com.mercadolivre.bootcamp.projeto_integrador.repository.ProductRepository;
 import com.mercadolivre.bootcamp.projeto_integrador.service.ProductServiceImpl;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,6 +26,7 @@ import static org.mockito.Mockito.doNothing;
 import java.math.BigDecimal;
 import java.util.*;
 
+@Tag("unit")
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceTest {
 
