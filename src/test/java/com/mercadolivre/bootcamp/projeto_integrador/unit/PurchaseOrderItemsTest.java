@@ -8,6 +8,7 @@ import com.mercadolivre.bootcamp.projeto_integrador.repository.PurchaseOrderItem
 import com.mercadolivre.bootcamp.projeto_integrador.service.PurchaseOrderItemsServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,7 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
-
+@Tag("unit")
 @ExtendWith(MockitoExtension.class)
 public class PurchaseOrderItemsTest {
 

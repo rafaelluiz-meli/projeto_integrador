@@ -15,6 +15,7 @@ import com.mercadolivre.bootcamp.projeto_integrador.service.SectionServiceImpl;
 import com.mercadolivre.bootcamp.projeto_integrador.service.WarehouseServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -34,6 +35,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+@Tag("unit")
 @ExtendWith(MockitoExtension.class)
 public class SectionServiceTest {
 
