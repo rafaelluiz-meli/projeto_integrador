@@ -1,5 +1,6 @@
 package com.mercadolivre.bootcamp.projeto_integrador.factory;
 
+import com.mercadolivre.bootcamp.projeto_integrador.dto.history_batch_stock.InBoundOrderHistoryBatchStockDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.InboundOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.*;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.inbound_order.RequestInBoundOrderDTO;
@@ -18,6 +19,7 @@ import java.math.BigDecimal;
 @Component
 @AllArgsConstructor
 public class InBoundOrderFactory {
+    private final HistoryBatchStockService historyBatchStockService;
     private final InBoundOrderService inBoundOrderService;
     private final SectionService sectionService;
     private final WarehouseService warehouseService;
@@ -130,5 +132,16 @@ public class InBoundOrderFactory {
 
         sectionService.sectionCorrespondsProductType(sectionId, productCategory);
         sectionService.availableSectionCapacity(totalVolume, sectionId);
+    }
+    public void addHistoryBatchStock(InBoundOrder inBoundOrder, HistoryType historyType){
+        InBoundOrderHistoryBatchStockDTO dto = InBoundOrderHistoryBatchStockDTO.builder()
+                .inBoundOrderId(inBoundOrder.getInBoundOrderNumber())
+                .batchStock(inBoundOrder.getBatchStock())
+                .historyType(historyType)
+                .productId(inBoundOrder.getBatchStock().getProduct().getId())
+                .inBoundOrderDate(inBoundOrder.getInBoundOrderDate())
+                .initialQuantity(inBoundOrder.getBatchStock().getInitialQuantity())
+                .build();
+        historyBatchStockService.createNewHistory(dto.map());
     }
 }

@@ -1,0 +1,121 @@
+{
+	"info": {
+		"_postman_id": "667e8a6e-f65d-46ac-893a-a4bcf305517e",
+		"name": "REQ6",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "created PurchaseOrder",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"buyerDTO\": {\n        \"buyerId\" : 1\n    },\n    \"purchaseOrderItemsList\" : [\n        {\n            \"productId\": 1,\n            \"quantity\": 5\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{$server}}/api/v1/fresh-products/purchaseOrder",
+					"host": [
+						"{{$server}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"fresh-products",
+						"purchaseOrder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update purchase order to CLOSED",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"purchaseOrderNumber\": 1,\n    \"buyerDTO\": {\n        \"buyerId\" : 1\n    },\n    \"purchaseOrderItemsList\": [\n        {\n            \"productId\": 1,\n            \"quantity\": 5,\n            \"purchaseOrderItemsId\": 1\n        }\n    ],\n    \"statusOrder\": \"CLOSED\",\n    \"purchaseOrderDate\": \"2022-05-05\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{$server}}/api/v1/fresh-products/purchaseOrder",
+					"host": [
+						"{{$server}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"fresh-products",
+						"purchaseOrder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get history by batchstock id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/fresh-products/history?id=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"fresh-products",
+						"history"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "$server",
+			"value": "http://localhost:8080"
+		}
+	]
+}

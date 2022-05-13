@@ -1,29 +1,29 @@
 package com.mercadolivre.bootcamp.projeto_integrador.factory;
 
+import com.mercadolivre.bootcamp.projeto_integrador.dto.history_batch_stock.PurchaseOrderHistoryBatchStockDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order.NewPurchaseOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.dto.purchase_order.PurchaseOrderDTO;
 import com.mercadolivre.bootcamp.projeto_integrador.entity.*;
 import com.mercadolivre.bootcamp.projeto_integrador.exception.generics.EmptyListException;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BatchStockService;
 import com.mercadolivre.bootcamp.projeto_integrador.service.BuyerService;
+import com.mercadolivre.bootcamp.projeto_integrador.service.HistoryBatchStockService;
 import com.mercadolivre.bootcamp.projeto_integrador.service.PurchaseOrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
 public class PurchaseOrderFactory {
-
-
+    private final HistoryBatchStockService historyBatchStockService;
     private final BuyerService buyerService;
-
     private final BatchStockService batchStockService;
-
     private final PurchaseOrderService purchaseOrderService;
 
     public PurchaseOrderDTO createNewPurchaseOrder(NewPurchaseOrderDTO newPurchaseOrderDTO){
@@ -65,7 +65,7 @@ public class PurchaseOrderFactory {
                     .orElseThrow(EmptyListException::new);
 
             batchStock.setCurrentQuantity(currentQuantity - purchaseOrder.getQuantity());
-
+            addHistoryBatchStock(newPurchaseOrderDTO.map(), batchStock);
         }).collect(Collectors.toList());
         updatedBatchStockList.forEach(batchStockService::update);
     }
@@ -138,6 +138,24 @@ public class PurchaseOrderFactory {
         purchaseOrderItemsList.forEach(product ->
                 batchStockService.isProductWithValidatedDueDateAndQuantity(
                         product.getProductId(),product.getQuantity()));
+    }
+
+    private void addHistoryBatchStock(PurchaseOrder purchaseOrder, BatchStock batchStock){
+        List<PurchaseOrderItems> productsOfPurchaseOrder = purchaseOrder.getPurchaseOrderItemsList();
+        List<HistoryBatchStock> dtoList = productsOfPurchaseOrder.stream().map(product ->
+        {
+            PurchaseOrderHistoryBatchStockDTO dto = PurchaseOrderHistoryBatchStockDTO.builder()
+                    .purchaseOrderId(purchaseOrder.getPurchaseOrderNumber())
+                    .batchStock(batchStock)
+                    .productId(product.getProductId())
+                    .purchaseQuantity(product.getQuantity())
+                    .historyType(HistoryType.EXIT)
+                    .purchaseOrderDate(LocalDateTime.now())
+                    .build();
+            return dto.map();
+        }).collect(Collectors.toList());
+        System.out.println(dtoList);
+        dtoList.forEach(historyBatchStockService::createNewHistory);
     }
 
 }
